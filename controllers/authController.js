@@ -241,11 +241,11 @@ const sendEditVerificationCode = async (req, res) => {
 
 const checkVerificationCode = async (req, res) => {
   const { email, phone, emailVerify, phoneVerify } = req.body;
-  const phoneExists = await VerificationSessions.exists({
+  const phoneExists = await VerificationSessions.findOne({
     phone: phone,
     code: phoneVerify,
   });
-  const emailExists = await VerificationSessions.exists({
+  const emailExists = await VerificationSessions.findOne({
     email: email,
     code: emailVerify,
   });
