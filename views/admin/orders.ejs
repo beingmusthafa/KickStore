@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/orders.css" />
+        <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+        <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <!-- sidebar -->
+
+    <%- include('../partials/adminSidebar.ejs') %>
+
+        <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+        <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 2rem;">
+          <input type="text" id="search" placeholder="Search orders">
+          <div class="d-flex flex-column">
+            <div><input type="checkbox" id="excludeCancelled" value="exclude">
+            <label for="excludeCancelled">Exclude cancelled</label></div>
+            <button>Search</button>
+          </div>
+        </div> -->
+        <div id="confirm-cancel" class=" popup d-none">
+          <div class="dialog">Do you want to cancel this order?</div>
+          <div>
+            <button onclick="closeCancelConfirm()" class="confirm-button">No</button>
+          <button onclick="cancelOrder()" class="confirm-button" style="background-color: red;">Cancel</button>
+          </div>
+        </div>
+        <div id="update-status" class="popup d-none">
+          <div class="dialog">Select status to update to</div>
+          <select name="status" id="status-select">
+            <option value="Placed">Placed</option>
+            <option value="Packed">Packed</option>
+            <option value="Shipped">Shipped</option>
+            <option value="In hold">In hold</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+          <div>
+            <button onclick="closeStatusSelect()" class="confirm-button">Cancel</button>
+          <button onclick="updateStatus()" class="confirm-button">Update</button>
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-evenly">
+            <% if(orders.length > 0){ %>
+            <% orders.forEach((order)=>{ %>
+              <div class="order col-12">
+              <img loading="lazy" class="orderImage" src="<%= order.product.image %>" alt="">
+              <div class="orderDetails">
+                <div class="orderBrand"><%= order.product.brand %></div>
+                <div class="orderName"><%= order.product.name %></div>
+                <div style="margin: 0.5rem 0;">Status: <span class="orderStatus"><%= order.status %></span></div>
+                <div class="orderDate">Placed on: <span class="fw-bold"><%= order.date %></span></div>
+                <div class="orderDate">Delivery by: <span class="fw-bold"><%= order.delivery %></span></div>
+                <div>Quantity: <span class="fw-bold"><%= order.quantity %></span></div>
+                <div>Size: <span class="fw-bold"><%= order.size %></span></div>
+              </div>
+              <div class="orderActions">
+                
+                <div class="orderPrice">&#8377 <%= order.total %></div>
+                <div class="orderDate"><i class='bx bxs-user'></i> <span class="fw-bold"><%= order.user.name %></span></div>
+                <% if(order.status === "Cancelled"){ %>
+                  <div class="fw-bold text-danger" style="font-size: 2rem;">Cancelled</div>
+                <%} else if(order.status === "Delivered"){ %>
+                  <div class="fw-bold text-success" style="font-size: 2rem;">Delivered</div>
+                <% }else if(order.status === "Returned"){ %>
+                  <div class="fw-bold text-primary" style="font-size: 2rem;">Returned</div>
+                  <div><span class="fw-bold">Reason:</span> <%= order.returnReason %></div>
+                <% } else { %>
+                  <div class="d-flex flex-nowrap">
+                    <button onclick="openStatusSelect('<%= order._id %>')" style="margin-top: 1rem; margin-right: 1rem;">Update status</button> 
+                  <button onclick="openCancelConfirm('<%= order._id %>')" style="background-color: red; margin-top: 1rem;">Cancel</button>
+                  </div>
+                  
+                <% } %>
+              </div>
+            </div>
+            <% }) %> 
+           <% } else { %>
+            <div class="empty-message">No orders yet...</div>
+           <% } %>     
+          </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/admin/orders.js"></script>
+
+  </body>
+</html>

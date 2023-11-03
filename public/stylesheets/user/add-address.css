@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+input {
+  width: 20rem;
+}
+label {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+.action {
+  width: 7rem;
+}
+.warning {
+  margin: 0.5rem 0;
+  color: rgb(255, 61, 61);
+}
+
+@media only screen and (max-width: 980px) {
+}

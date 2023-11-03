@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/authentication.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div id="loading" class="d-none">
+      <div>
+        <img id="loading-gif" src="https://i.gifer.com/ZKZx.gif" alt="" />
+      </div>
+    </div>
+    <div class="link">
+      Don't have an account?<br /><a class="fw-bold" href="/signup"
+        >Create account</a
+      >
+    </div>
+    <a
+      class="fw-bold"
+      style="margin: 0.5rem; position: absolute; top: 0; right: 0"
+      href="/admin-login"
+      >Admin login</a
+    >
+    <div class="form-container d-flex flex-column align-items-center">
+      <form action="/login" method="post" class="login-form">
+        <div class="form-title">Login</div>
+        <div class="message"><%= message %></div>
+
+        <div class="d-flex flex-column align-items-start">
+          <label for="email">Email address</label>
+          <input type="email" name="email" class="text-input" id="email" />
+
+          <div class="warning" id="email-warning"></div>
+        </div>
+        <div class="d-flex flex-column align-items-start">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="text-input"
+            id="password"
+          />
+
+          <div class="warning" id="password-warning"></div>
+        </div>
+        <a href="/forgot-password">Forgot password?</a>
+      </form>
+
+      <button onclick="login()" id="loginButton">Login</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="/scripts/user-login.js"></script>
+  </body>
+</html>

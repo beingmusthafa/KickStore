@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/authentication.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="form-container d-flex flex-column align-items-center">
+      <form
+        action="/profile/edit-profile"
+        method="post"
+        class="login-form"
+        id="details-form"
+        enctype="multipart/form-data"
+      >
+        <div class="form-title">Edit Details</div>
+        <div class="d-flex flex-column align-items-center">
+          <label for="image">Profile photo (optional)</label>
+          <input type="file" name="image" id="image" />
+        </div>
+
+        <div>
+          <label for="name">Full name</label>
+          <input
+            type="text"
+            name="name"
+            class="form-control text-input"
+            id="name"
+            value="<%= user.name %>"
+          />
+          <div class="warning" id="name-warning"></div>
+        </div>
+
+        <div>
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control text-input"
+            id="email"
+            value="<%= user.email %>"
+          />
+
+          <div class="warning" id="email-warning"><%= emailWarning %></div>
+        </div>
+
+        <div>
+          <label for="phone">Phone number</label>
+          <input
+            type="number"
+            name="phone"
+            class="form-control text-input"
+            id="phone"
+            value="<%= user.phone %>"
+          />
+
+          <div class="warning" id="phone-warning"><%= phoneWarning %></div>
+        </div>
+      </form>
+      <br />
+      <a href="/profile/change-password">Change password</a>
+      <br />
+      <button id="details-form-button" onclick="sendCode()" id="loginButton">
+        Apply
+      </button>
+    </div>
+
+    <div class="form-container d-flex flex-column align-items-center">
+      <form
+        method="post"
+        class="login-form d-none"
+        id="verify-form"
+        enctype="multipart/form-data"
+      >
+        <div class="form-title">Edit details</div>
+        <div>Verification codes have been sent to your phone and email.</div>
+
+        <div>
+          <label for="emailVerify">Email verification code</label>
+          <input
+            type="number"
+            name="emailVerify"
+            class="form-control text-input"
+            id="emailVerify"
+          />
+          <div class="warning" id="emailVerify-warning"></div>
+        </div>
+
+        <div>
+          <label for="phoneVerify">Phone verification code</label>
+          <input
+            type="number"
+            name="phoneVerify"
+            class="form-control text-input"
+            id="phoneVerify"
+          />
+
+          <div class="warning" id="phoneVerify-warning"></div>
+        </div>
+      </form>
+      <button
+        class="d-none"
+        id="verify-form-button"
+        onclick="checkCode()"
+        id="loginButton"
+      >
+        Verify
+      </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="/scripts/user/edit-profile.js"></script>
+  </body>
+</html>

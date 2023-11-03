@@ -1,0 +1,112 @@
+.emptyMessage {
+  display: block;
+  margin: 30vh 0;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: grey;
+}
+.card-container {
+  padding: 1rem 1rem 0 1rem;
+  width: fit-content;
+}
+
+.categoryCard {
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 0.7rem 1rem;
+  width: fit-content;
+  transition: 0.4s;
+  z-index: 9;
+}
+.categoryCard:hover {
+  border: 1px solid var(--dark);
+}
+.categoryCard:active {
+  transform: scale(0.95);
+  background-color: var(--light);
+}
+.categoryImage {
+  width: 13rem;
+  height: 13rem;
+  background-color: black;
+  background-size: contain;
+}
+.categoryName {
+  font-size: 1.3rem;
+}
+
+.productCard {
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 0.7rem 1rem;
+  width: fit-content;
+  transition: 0.4s;
+  z-index: 9;
+}
+.productCard:hover {
+  border: 1px solid var(--dark);
+}
+.productCard:active {
+  transform: scale(0.95);
+  background-color: var(--light);
+}
+.productImage {
+  width: 10rem;
+  height: 10rem;
+  background-color: black;
+  background-size: cover;
+}
+.productName {
+  width: 10rem;
+  color: black;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+}
+.space {
+  height: 30vh;
+  width: 100%;
+}
+.warning {
+  margin: 0.5rem 0;
+  color: rgb(255, 61, 61);
+}
+@media only screen and (max-width: 980px) {
+  .form,
+  .inputField {
+    width: 80vw;
+  }
+
+  .categoryImage {
+    width: 7rem;
+    height: 7rem;
+    background-color: black;
+    background-size: contain;
+  }
+  .categoryName {
+    font-size: 1rem;
+  }
+
+  .productCard {
+    border: 1px solid white;
+    border-radius: 1rem;
+    padding: 0.5rem 0.5rem;
+    width: fit-content;
+    transition: 0.4s;
+  }
+  .productImage {
+    width: 8rem;
+    height: 8rem;
+    background-color: black;
+    background-size: cover;
+  }
+  .productName {
+    width: 8rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+}

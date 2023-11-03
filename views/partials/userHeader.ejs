@@ -1,0 +1,28 @@
+<div id="loading" class="d-none">
+  <div><img id="loading-gif" src="https://i.gifer.com/ZKZx.gif" alt="" /></div>
+</div>
+<div id="overlay" class="d-none"></div>
+<header id="header">
+  <div class="d-flex align-items-center gap-2">
+    <img
+      onclick="route('/')"
+      class="brand-logo"
+      src="https://res.cloudinary.com/dfezowkdc/image/upload/v1697033476/letter-k-white_npzdd9.png"
+      alt=""
+    />
+    <div onclick="route('/')" class="brand">KickStore</div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between">
+    <div onclick="route('/wishlist')" class="icons">
+      <i class="bx bx-heart"></i>
+    </div>
+    <div onclick="route('/cart')" class="icons">
+      <i class="bx bx-cart-alt"></i>
+    </div>
+    <div onclick="route('/profile')" class="icons">
+      <i class="bx bx-user-circle"></i>
+    </div>
+  </div>
+  <script src="/scripts/partials/userHeader.js"></script>
+</header>

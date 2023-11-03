@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/offers.css" />
+    <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+    <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <%- include('../partials/adminSidebar.ejs') %>
+<!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+
+        <div id="offer-form" class="d-none">
+          <div class="form-title">Add coupon</div>
+          <form
+            method="post"
+            id="add-coupon"
+            action="/admin/products/manage-categories/edit"
+            class="form d-flex flex-column align-items-start"
+          >
+
+            <div class="d-flex gap-5">
+              <div class="d-flex flex-column">
+                <label class="label">Code</label>
+                <input
+                  class="inputField"
+                  name="code"
+                  type="text"
+                  value=""
+                />
+                <div class="warning" id="code-warning"></div>
+              </div>
+
+                <div class="d-flex flex-column">
+                  <label class="label">Type</label>
+                <select name="type" id="type">
+                  <option selected value="General">General</option>
+                  <option value="Brand">Brand</option>
+                  <option value="Category">Category</option>
+                </select>
+                <div class="warning" id="type-warning"></div>
+                </div>
+            </div>
+
+            <div id="eligibility-field" class="d-flex flex-column">
+              
+            </div>
+
+            <label class="label">Min. price (optional)</label>
+            <input
+              class="inputField"
+              name="minPrice"
+              type="number"
+              value=""
+            />
+            <div class="warning" id="minPrice-warning"></div>
+
+            <label class="label">Max. price (optional)</label>
+            <input
+              class="inputField"
+              name="maxPrice"
+              type="number"
+              value=""
+            />
+            <div class="warning" id="maxPrice-warning"></div>
+
+            <div class="d-flex gap-5">
+              <div class="d-flex flex-column">
+                <label class="label">Discount type</label>
+                <select name="discountType" id="">
+                  <option value="Percentage">Percentage</option>
+                  <option value="Amount">Amount</option>
+                </select>
+                <div class="warning" id="discountType-warning"></div>
+              </div>
+
+              <div class="d-flex flex-column">
+                <label class="label">Discount</label>
+                <input
+                  class="inputField"
+                  name="discount"
+                  type="number"
+                  value=""
+                />
+                <div class="warning" id="discount-warning"></div>
+              </div>
+            </div>
+            
+          </form>
+          <div class="edit-actions">
+              <button onclick="closeAddCouponForm()">Cancel</button>
+              <button onclick="submit()" style="margin-left: 3rem">Add</button>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-start w-100">
+          <button onclick="redirect('category-offers')" class="title-buttons">Category offers</button>
+          <button onclick="redirect('product-offers')" class="title-buttons">Product offers</button>
+        </div>
+
+        <div class="title-with-button">
+          <div>Active coupons</div>
+          <button onclick="openAddCouponForm()" style=" height: fit-content; margin-right: 1rem;">+ Coupon</button>
+        </div>
+        <div class="row coupon-row">
+
+          <% if(coupons.length > 0){ %>
+            <% coupons.forEach(coupon => { %>
+            <% if(coupon.isActive === true){ %>
+
+              <div class="coupon">
+            <div class="coupon-name"><%= coupon.code %></div>
+            <div class="coupon-details">
+              <div class="coupon-detail-field">
+                <div>Type:</div>
+                <div><%= coupon.type %></div>
+              </div>
+              <% if(coupon.type !== "General"){ %>
+                <div class="coupon-detail-field">
+                <div>Eligiblity:</div>
+                <div><%= coupon.eligibility %></div>
+              </div>
+              <% } %>
+              <div class="coupon-detail-field">
+                <div>Min price:</div>
+                <div><%= coupon.minPrice %></div>
+              </div>
+              <div class="coupon-detail-field">
+                <div>Max price:</div>
+                <div><%= coupon.maxPrice %></div>
+              </div>
+              <div class="coupon-detail-field">
+                <div>Dis. type:</div>
+                <div><%= coupon.discountType %></div>
+              </div>
+              <div class="coupon-detail-field">
+                <div>Discount:</div>
+                <div><%= coupon.discount %></div>
+              </div>
+            </div>
+            <div class="coupon-actions">
+                <button onclick="deleteCoupon('<%= coupon._id %>')"><i class='bx bx-trash'></i></button>
+                  <!-- <button><i class='bx bxs-edit'></i></button> -->
+                  <button onclick="disableCoupon('<%= coupon._id %>')">Disable</button>
+              </div>
+          </div>
+
+           <% } %>
+          <% }) %>
+          <% } else { %>
+            <div class="empty-message">No enabled coupons</div>
+          <% } %>
+
+        </div>
+        <div class="title-without-button">Disabled coupons</div>
+        <div class="row coupon-row">
+          <% if(coupons.length > 0){ %>
+          <% coupons.forEach(coupon => { %>
+            <% if(coupon.isActive === false){ %>
+
+              <div class="coupon">
+            <div class="coupon-name"><%= coupon.code %></div>
+            <div class="coupon-details">
+              <div class="coupon-detail-field">
+                <div>Type:</div>
+                <div><%= coupon.type %></div>
+              </div>
+              <% if(coupon.type !== "General"){ %>
+                <div class="coupon-detail-field">
+                <div>Eligiblity:</div>
+                <div><%= coupon.eligibility %></div>
+              </div>
+              <% } %>
+              <div class="coupon-detail-field">
+                <div>Min price:</div>
+                <div><%= coupon.minPrice %></div>
+              </div>
+              <div class="coupon-detail-field">
+                <div>Max price:</div>
+                <div><%= coupon.maxPrice %></div>
+              </div>
+              <div class="coupon-detail-field">
+                <div>Dis. type:</div>
+                <div><%= coupon.discountType %></div>
+              </div>
+              <div class="coupon-detail-field">
+                <div>Discount:</div>
+                <div><%= coupon.discount %></div>
+              </div>
+            </div>
+            <div class="coupon-actions">
+                <button onclick="deleteCoupon('<%= coupon._id %>')"><i class='bx bx-trash'></i></button>
+                  <!-- <button><i class='bx bxs-edit'></i></button> -->
+                  <button onclick="enableCoupon('<%= coupon._id %>')">Enable</button>
+              </div>
+          </div>
+
+           <% } %>
+          <% }) %>
+          <% } else { %>
+            <div class="empty-message">No disabled coupons</div>
+          <% } %>
+
+        </div>
+
+          <div class="space"></div>
+        </div>
+      </div>
+    </main>
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/admin/offers.js"></script>
+
+  </body>
+</html>

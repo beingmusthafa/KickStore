@@ -1,0 +1,139 @@
+body {
+  background-color: var(--grey);
+}
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 500;
+}
+#emptyMessage {
+  display: block;
+  margin: 30vh 0;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: grey;
+}
+.cart-summary {
+  border-right: 1px solid lightblue;
+  width: 60vw;
+  height: 88vh;
+}
+.order {
+  margin: 1rem 0;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: var(--light-shadow);
+  padding: 1rem;
+  width: fit-content;
+  transition: 0.5s;
+  background-color: white;
+}
+
+.orderImage {
+  height: 8rem;
+  width: 8rem;
+  cursor: pointer;
+}
+.orderDetails {
+  margin: 0 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-between;
+}
+.orderActions {
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  justify-content: space-between;
+}
+.orderBrand {
+  font-size: 1.3rem;
+  color: rgb(46, 46, 46);
+  font-weight: bold;
+}
+.orderName {
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgb(71, 71, 71);
+}
+.orderStatus {
+  padding: 5px;
+  background-color: var(--dark);
+  color: white;
+  font-weight: bold;
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+}
+.order-mrp {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: grey;
+  text-decoration: line-through;
+}
+.order-total {
+  font-size: 1.7rem;
+  font-weight: 400;
+}
+.cartCount {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0 1rem;
+  padding: 0 0.5rem;
+  color: white;
+  background-color: black;
+}
+.price-summary {
+  width: 39vw;
+}
+.price-box {
+  width: 30vw;
+  padding: 1rem;
+  border: 2px solid var(--light);
+  margin: 0 auto;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.price-total {
+  border-top: 2px solid var(--light);
+  padding-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+#checkoutButton {
+  margin: 0 auto;
+  width: 20vw;
+}
+
+@media only screen and (max-width: 980px) {
+  .cart-summary {
+    width: 100vw;
+    border: 0;
+  }
+  .price-summary {
+    margin-top: 10vh;
+    width: 100vw;
+  }
+  .price-box {
+    width: 70vw;
+  }
+
+  #checkoutButton {
+    width: 40vw;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .order {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      header {
+        height: fit-content;
+        padding: 1rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid black;
+      }
+      .title {
+        font-size: 2rem;
+        text-transform: capitalize;
+      }
+      #logo {
+        height: 5rem;
+      }
+      .header-details {
+        display: flex;
+        flex-direction: column;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      th {
+        width: fit-content;
+      }
+      th,
+      td {
+        padding: 0.5rem 1rem;
+        text-align: center;
+        min-width: 7rem;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+      table {
+        margin: 0 auto;
+        margin-top: 5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <img
+        src="https://res.cloudinary.com/dfezowkdc/image/upload/v1697033482/letter-k-dark_tkldpa.png"
+        id="logo"
+        alt=""
+      />
+      <div class="title"><%= type %> Sales Report <br /></div>
+      <div class="header-details">
+        <div id="company-name"><%= date %></div>
+      </div>
+    </header>
+    <main>
+      <table>
+        <tr>
+          <th>Product name</th>
+          <th>Initial stock</th>
+          <th>Sales</th>
+          <th>Return/Cancellation</th>
+          <th>Stock Balance</th>
+        </tr>
+        <% products.forEach((product) => { %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.total %></td>
+          <td><%= product.sales %></td>
+          <td><%= product.cancels %></td>
+          <td><%= product.balance %></td>
+        </tr>
+        <% }); %>
+      </table>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

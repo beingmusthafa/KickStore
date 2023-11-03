@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/add-address.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('../partials/userHeader.ejs') %>
+
+    <main>
+      <div class="container">
+        <form action="">
+          <label for="line1">Line 1</label>
+          <input id="line1" name="line1" type="text" />
+          <div class="warning" id="line1-warning"></div>
+          <label for="line2">Line 2</label>
+          <input id="line2" name="line2" type="text" />
+          <div class="warning" id="line2-warning"></div>
+          <label for="pin">PIN code</label>
+          <input id="pin" name="pin" type="number" />
+          <div class="warning" id="pin-warning"></div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="number" />
+          <div class="warning" id="phone-warning"></div>
+        </form>
+        <div
+          class="d-flex justify-content-between"
+          style="width: 15rem; margin: 2rem 0"
+        >
+          <button onclick="back()" class="action">Cancel</button>
+          <button onclick="submit()" class="action">Add</button>
+        </div>
+      </div>
+    </main>
+    <%- include('../partials/userFooter.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/scripts/user/add-address-checkout.js"></script>
+  </body>
+</html>

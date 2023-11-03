@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/authentication.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="link">
+      Remember password?<br /><a class="fw-bold" href="/login"
+        >Return to login</a
+      >
+    </div>
+    <div class="form-container d-flex flex-column align-items-center">
+      <form
+        action="/forgot-password/recovery-code?email=<%= email %>"
+        method="post"
+        class="login-form"
+      >
+        <div style="width: 20rem; text-align: center">
+          We have sent you a recovery code. Kindly check your email inbox.
+        </div>
+        <br />
+        <div>
+          <label for="email">Recovery code</label>
+          <input type="number" name="code" class="form-control" id="code" />
+          <div class="warning" id="code-warning"><%= codeWarning %></div>
+        </div>
+      </form>
+      <br />
+      <button onclick="submit()" id="loginButton">Verify</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="/scripts/recovery-code.js"></script>
+  </body>
+</html>

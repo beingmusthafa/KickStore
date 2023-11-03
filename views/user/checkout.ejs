@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/checkout.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('../partials/userHeader.ejs') %>
+
+    <main class="d-flex ">
+ <div class="container-fluid">
+        <div class="row">
+          <div class=" address-list">
+        <p class="section-title">DELIVERY ADDRESS</p>
+
+        <div class="delivery-address-container ">
+          <% if(selectedAddress === "none" ){ %>
+          <div class="emptyMessage" style=" margin:0 5rem; font-size: 1.5rem;">No address <br> selected</div>
+        <% } else { %>
+            <div class="address-container ">
+            <div class="address-field">
+              <span class="fw-bold">LINE 1: </span><%= selectedAddress?.line1 %>
+            </div>
+            <div class="address-field">
+              <span class="fw-bold">LINE 2: </span><%= selectedAddress?.line2 %>
+            </div>
+            <div class="address-field">
+              <span class="fw-bold">PIN: </span><%= selectedAddress?.pin %>
+            </div>
+            <div class="address-field">
+              <span class="fw-bold">PHONE: </span><%= selectedAddress?.phone %>
+            </div>   
+          </div>
+        <% } %>
+        
+        <button onclick="addAddress()" id="addAddress">ADD ADDRESS</button>
+        </div>
+
+        <p class="section-title saved-address-title ">SAVED ADDRESSES</p>
+        <div class="saved-addresses-container">
+          <% if(addresses?.length > 0){ %> 
+            <% addresses?.forEach((address)=>{ %>
+          <% if(address?._id !== selectedAddress?._id){ %>
+            <div class="address-container">
+            <div class="address-field">
+              <span class="fw-bold">LINE 1: </span><%= address?.line1 %>
+            </div>
+            <div class="address-field">
+              <span class="fw-bold">LINE 2: </span><%= address?.line2 %>
+            </div>
+            <div class="address-field">
+              <span class="fw-bold">PIN: </span><%= address?.pin %>
+            </div>
+            <div class="address-field">
+              <span class="fw-bold">PHONE: </span><%= address?.phone %>
+            </div>
+            <div class="address-actions">
+              <button onclick="selectAddress('<%= address?._id %>')">Select</button>
+            </div>
+            
+          </div>
+          <% } %>
+          <% }) %>
+           <% } else { %>
+          <div class="emptyMessage">No saved addresses...</div>
+          <% } %>
+          
+        </div>
+        
+        <br>
+        
+        
+        </div>
+        <div class="price-summary">
+            <div class="price-box">
+              <div class="d-flex justify-content-evenly flex-nowrap">
+                <input type="text" name="coupon" placeholder="COUPON CODE" >
+                <button onclick="applyCoupon()">Apply</button>
+              </div>
+              <% if(coupon){ %>
+                <% if(couponDiscount === 0){ %>
+                  <div class="text-danger" id="coupon-warning">Coupon not eligible!</div>
+                <% } else { %>
+                <div class="d-flex justify-content-between my-2">
+                  <div><span class="text-success fw-bold"><%= coupon.code %></span> applied!</div>
+                  <div onclick="removeCoupon()" class="fw-bold text-danger">Remove</div>
+                </div> 
+                <% } %>
+              <% } else { %>
+                <div class="text-danger" id="coupon-warning"></div>
+              <% } %>
+              <% if(!wallet.applied){ %>
+                <div class="d-flex align-items-center justify-content-between my-2">
+                <div class="fw-bold"><i class='bx bxs-wallet' style="font-size: 1.4rem;"></i> Balance : &#8377 <%= wallet.balance %></div>
+                <button onclick="useWallet()" class="btn-success">Use</button>
+              </div>
+              <% } %>
+
+              <div class="fw-bold d-block my-4">PRICE DETAILS</div>
+              <div class="d-flex justify-content-between">
+                <div class="detail-field">Total MRP</div>
+                <div class="detail-field">&#8377 <%= totalMrp %></div>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <div class="detail-field">Discount on MRP</div>
+                <div class="detail-field text-success">- &#8377 <%= discount %></div>
+              </div>
+
+              <div class="d-flex justify-content-between" id="coupon-discount">
+                <% if(coupon && couponDiscount){ %>
+                <div class="detail-field">Coupon discount</div>
+                <div class="detail-field text-success">- &#8377 <%= couponDiscount %></div>
+                <% } else { %>
+                <div class="detail-field">Coupon discount</div>
+                <div class="detail-field">No coupon applied</div>
+                <% } %>
+              </div>
+
+              <div class="d-flex justify-content-between" id="coupon-discount">
+                <% if(wallet.applied){ %>
+                <div class="detail-field">Wallet payment</div>
+                <div class="detail-field text-success">- &#8377 <%= wallet.discount %></div>
+                <% } %>
+              </div>
+
+              <div class="d-flex justify-content-between price-total">
+                <div class="detail-field">Total</div>
+                <div class="detail-field">&#8377 <%= total %></div>
+              </div>
+
+          <% if(selectedAddress === "none" || selectedAddress === ""){ %>
+            <div class="d-flex flex-column align-items-center">
+              <div style="font-weight: bold; color: red">Select an address or add one to proceed!</div>
+            <button class="checkoutButton" disabled type="submit">Go to payment</button>
+            </div>
+          <% } else { %>
+            <% if(total > 0){ %>
+              <form method="post" action="/checkout/place-order" id="payment-methods">
+              <div>
+                <input class="mx-2" type="radio" name="method" value="online" ><i class='bx bx-credit-card'></i> Pay online
+              </div>
+              <div>
+                <input class="mx-2" type="radio" name="method" value="cod"><i class='bx bx-money'></i> Pay on delivery
+              </div>
+            </form>
+             <% } %>
+              <div class="text-danger my-2" id="pay-warning"></div>
+            <button id="checkoutButton" onclick="placeOrder('<%= total %>')">Place order</button>
+          <% } %>
+
+        </form>
+
+            </div>
+          </div>
+        
+
+      </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script src="/scripts/user/checkout.js"></script>
+
+  </body>
+</html>
+

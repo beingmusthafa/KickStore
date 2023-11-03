@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/list-products.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css">
+    <title>KickStore</title>
+  </head>
+  <body>
+        <%- include('../partials/userHeader.ejs') %>
+   
+    <main class="site-body">
+        <div class="filter-tab">
+          <div onclick="closeFilters()" id="closeFilters"><i class='bx bxs-x-square'></i></div>
+            
+              <label for="min">Min. price: </label>
+              <input name="minPrice" class="priceInput" id="min" type="number">
+            
+              <label for="max">Max. price: </label>
+              <input name="maxPrice" class="priceInput" id="max" type="number">
+             
+              <label for="category">Category:</label>
+              <select name="category" id="category">
+                <option value="">All</option>
+                <% categories.forEach((category)=>{ %>
+                  <option value="<%= category.name %>"><%= category.name %></option>
+                <% }) %>
+              </select>
+
+              <label for="gender">Gender:</label>
+              <select name="gender" id="gender">
+                <option value="">All</option>
+                <% genders.forEach((gender)=>{ %>
+                  <option value="<%= gender.gender %>"><%= gender.gender %></option>
+                <% }) %>
+              </select>
+            
+              <label for="sort">Sort:</label>
+              <select name="sort" id="sort">
+                <option value="low">Price: low to high</option>
+                <option value="high">Price: high to low</option>
+              </select>
+
+          <div class="filterButtons">
+            <button onclick="clearFilters()">Clear</button>
+            <button onclick="applyFilters()">Apply</button>
+          </div>
+        </div> 
+          
+
+        <div class="content-body">
+          <form action="/search" method="get" class="searchBar">
+            <input class="searchField" placeholder="Search products, brands etc." name="search" type="text">
+            <button type="submit"><i class="bx bx-search"></i></button>
+          </form>
+          <p class="result-count"><%= result.totalDocs %> Products found</p>
+          <button onclick="openFilters()" id="openFilters"><i class='bx bx-filter-alt'></i> FILTERS</button>
+          <div class="container-fluid">
+           <div class="row d-flex justify-content-evenly">
+             <% result.docs.forEach((product)=>{ %>
+              <div
+                onclick="viewProductDetails('<%= product._id %>')"
+                class="productCard flex-wrap d-flex flex-column align-items-center"
+              >
+                <img class="productImage" loading="lazy" src="<%= product.image %>" />
+
+                <div class="productName fw-bold"><%= product.brand %></div>
+                <div class="productName flex-wrap"><%= product.name %></div>
+                <% if(product.price === product.finalPrice){ %>
+                  <div class="d-flex justify-content-center"> 
+                  <div class="price fw-bold" style=" font-size: 1.2rem;">&#8377 <%= product.price %></div>
+                  </div>
+                  <% } else { %>
+                <div class="d-flex justify-content-start gap-2 w-100 align-items-start">
+                    <div class="price fw-bold text-success" style="font-size: 1.2rem;">&#8377 <%= product.finalPrice %></div>
+                  <div class="price fw-bold" style="text-decoration: line-through; color: grey; font-size: 0.9rem;">&#8377 <%= product.price %></div>
+                </div>
+                   <% } %>
+               </div>
+             <% }) %>
+              </div>
+            </div>
+            <div class="page-controls">
+              <% if (result.hasPrevPage) { %>
+               <div onclick="prevPage('<%= result.prevPage %>')" class="page-button"><i class='bx bxs-caret-left-square'></i></div>
+              <% } %>
+              <div class="page-number">Page <span class="fw-bold"><%= result.page %></span> of <%= result.totalPages %></div>
+              <% if (result.hasNextPage) { %>
+               <div onclick="nextPage('<%= result.nextPage %>')" class="page-button"><i class='bx bxs-caret-right-square'></i></div>
+              <% } %>
+            </div>
+          </div> 
+  </main>
+    
+        <%- include('../partials/userFooter.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/user/list-products.js"></script>
+
+  </body>
+</html>
+
+    

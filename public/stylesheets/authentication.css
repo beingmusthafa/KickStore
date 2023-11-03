@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap");
+:root {
+  --light: rgb(225, 242, 255);
+  --dark: rgb(0, 44, 75);
+  --white: rgb(255, 255, 255);
+}
+
+body {
+  font-family: "Rubik";
+  background-image: url(https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80);
+  background-size: cover;
+  color: var(--dark);
+}
+#bg-image {
+  position: absolute;
+}
+#loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--dark);
+  opacity: 0.7;
+  z-index: 12;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+#loading-gif {
+  width: 50px;
+  height: 50px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 1;
+}
+button {
+  padding: 0.4rem 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  background-color: var(--dark);
+  color: white;
+  border: 2px solid white;
+  border-radius: 1.5rem;
+  transition: 0.6s;
+}
+button:hover {
+  background-color: white;
+  color: var(--dark);
+}
+button:active {
+  background-color: var(--dark);
+  color: white;
+  transform: scale(0.9);
+}
+label {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+a {
+  color: var(--dark);
+}
+.message {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: red;
+}
+
+.link {
+  position: absolute;
+  margin: 0.5rem;
+  top: 0;
+  left: 0;
+}
+
+.form-container {
+  color: white;
+  padding: 1rem;
+  margin: 15vh auto;
+}
+.form-container a {
+  color: white;
+}
+
+.login-form {
+  background-color: var(--dark);
+  padding: 1.2rem;
+  border-radius: 1rem;
+  width: 22rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.text-input {
+  margin-bottom: 1rem;
+  height: 2.5rem;
+  width: 18rem;
+}
+#image {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: 3rem;
+  max-width: 15rem;
+}
+#image::file-selector-button {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: var(--dark);
+  color: white;
+  border: 2px solid white;
+  border-radius: 1.5rem;
+  transition: 0.6s;
+}
+.warning {
+  margin-bottom: 0.5rem;
+  color: rgb(255, 61, 61);
+}
+#loginButton {
+  margin: 1rem auto;
+}
+
+@media only screen and (max-width: 980px) {
+  .form-title {
+    font-size: 1.5rem;
+  }
+  .login-form {
+    padding: 1rem;
+    width: 95%;
+  }
+  .text-input {
+    max-width: 70vw;
+  }
+}

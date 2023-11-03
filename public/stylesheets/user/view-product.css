@@ -1,0 +1,118 @@
+.userImageCon {
+  margin-left: 1rem;
+  width: 45vw;
+  height: 45vw;
+  margin-top: 1rem;
+}
+.userImage {
+  width: 20vw;
+  height: 20vw;
+  margin: 0.5rem;
+}
+
+.info-table {
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  margin-top: 3rem;
+}
+.brandName {
+  font-size: 1.5rem;
+  color: grey;
+  font-weight: bold;
+}
+.productName {
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: rgb(47, 47, 47);
+}
+.sizesCon {
+  margin: 1rem 0;
+}
+
+.size {
+  border-radius: 0;
+  background-color: black;
+  color: white;
+  height: 3rem;
+  width: 3rem;
+  margin: 0 0.2rem;
+}
+.sizesCon .size.active {
+  background-color: white;
+  color: white;
+}
+.description {
+  margin-top: 1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.offers {
+  border: 2px solid var(--light);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 30rem;
+  min-height: 15rem;
+  margin-left: 2rem;
+}
+.offers-title {
+  font-size: 1.4rem;
+  color: var(--dark);
+  text-align: start;
+}
+.offer-field {
+  border-bottom: 1px solid grey;
+}
+
+@media only screen and (max-width: 980px) {
+  .userImageCon {
+    width: 90vw;
+    height: 50vw;
+    overflow: auto;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .brandName {
+    font-size: 1.1rem;
+  }
+  .productName {
+    font-size: 1.3rem;
+  }
+  .userImageCon::-webkit-scrollbar {
+    height: 4px;
+  }
+  .userImage {
+    width: 44vw;
+    height: 44vw;
+    margin: 0.5rem;
+  }
+  .info-table {
+    margin: 0 auto;
+    padding: 1rem;
+    width: 90vw;
+  }
+  .sizesCon {
+    margin-top: 2rem;
+  }
+  .buttons {
+    justify-content: space-evenly;
+  }
+  .actionButton {
+    height: 4rem;
+    margin: 0 1rem;
+    width: auto;
+    white-space: nowrap;
+  }
+}

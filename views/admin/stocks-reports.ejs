@@ -1,0 +1,66 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/reports.css" />
+    <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+    <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>KickStore - Admin</title>
+  </head>
+  <body>
+
+    <%- include('../partials/adminSidebar.ejs') %>
+ <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+       <div class="title-with-button">
+        <div class="">STOCKS REPORTS</div>
+        <div class="title-select">
+          <select name="type" id="type">
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+       </div>
+
+        <!-- <div class="search-container">
+          <div id="search">
+          <input id="date-input" type="date" style="width: 10rem;">
+          </div>
+          <button onclick="submitDate()">Find</button>
+        </div> -->
+
+       <div id="report-list">
+
+       </div>
+          
+          <div class="space"></div>
+        </div>
+      </div>
+    </main>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+        <script src="/scripts/admin/stocks-reports.js"></script>
+
+  </body>
+</html>

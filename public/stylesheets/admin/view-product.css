@@ -1,0 +1,93 @@
+:root {
+  --light: rgb(225, 242, 255);
+  --dark: rgb(0, 44, 75);
+  --white: rgb(255, 255, 255);
+}
+
+/*===== CONTENT ===== */
+.content {
+  position: relative;
+}
+
+.userImageCon {
+  width: 45vw;
+  height: 45vw;
+  margin-top: 1rem;
+}
+.userImage {
+  width: 20vw;
+  height: 20vw;
+  margin: 0.5rem;
+}
+
+.info-table {
+  width: 30vw;
+  margin-top: 3rem;
+}
+.brandName {
+  font-size: 1.5rem;
+  color: grey;
+  font-weight: bold;
+}
+.productName {
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: rgb(47, 47, 47);
+}
+.sizesCon {
+  margin: 1rem 0;
+}
+
+.size {
+  border-radius: 0;
+  background-color: black;
+  color: white;
+  height: 3rem;
+  width: 3rem;
+  margin: 0 0.2rem;
+}
+.description {
+  margin-top: 1rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+@media only screen and (max-width: 980px) {
+  .userImageCon {
+    width: 90vw;
+    height: 50vw;
+    overflow: auto;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .userImage {
+    width: 45vw;
+    height: 45vw;
+    margin: 0.5rem;
+  }
+  .info-table {
+    margin: 0 auto;
+    padding: 1rem;
+    width: 90vw;
+  }
+  .actions {
+    justify-content: center;
+  }
+  .actionButton {
+    height: 4rem;
+    margin: 0 1rem;
+    width: auto;
+    white-space: nowrap;
+  }
+}

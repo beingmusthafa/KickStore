@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/cart.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css">
+    <title>Wishlist - Cart</title>
+  </head>
+  <body>
+
+        <%- include('../partials/userHeader.ejs') %>
+
+    <main>
+        <!-- content body -->
+        <div id="confirm-delete" class="popup d-none">
+          <div class="dialog">Delete this item from cart?</div>
+          <div>
+            <button onclick="closeDeleteConfirm()" class="confirm-button">No</button>
+          <button onclick="deleteFromCart()" class="confirm-button" style="background-color: red;">Delete</button>
+          </div>
+        </div>
+
+        <div
+          class=" container-fluid"
+        >
+        <div class="row">
+          <div class="cart-summary">
+            <% if (lists.length > 0){ %>
+          <% lists.forEach((list)=>{ %>
+          <div class="row d-flex justify-content-evenly">
+              <div class="order col-12">
+              <img loading="lazy"  onclick="viewProductDetails('<%= list.product._id %>')" class="orderImage" src="<%= list.product.image %>" alt="">
+              <div class="orderDetails">
+                <div class="orderBrand"><%= list.product.brand %></div>
+                <div class="orderName"><%= list.product.name %></div>
+                <div>Quantity: <button onclick="incCartCount('<%= list._id %>')" class="cartCount">+</button><span id="<%= list._id %>" class="fw-bold"> <%= list.quantity %> </span><button onclick="decCartCount('<%= list._id %>')" class="cartCount">-</button></div>
+                <div>Size: <span class="fw-bold"><%= list.size %></span></div>
+              </div>
+              <div class="orderActions">  
+                <% if(list.totalMrp === list.total){ %>
+                <div class="order-total">&#8377 <%= list.total %></div>
+                <% } else { %>
+                  <div class="order-mrp">&#8377 <%= list.totalMrp %></div>
+                <div class="order-total">&#8377 <%= list.total %></div>
+                <% } %>
+                <button onclick="openDeleteConfirm('<%= list._id %>')">Delete</button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+        <div class="space"></div>
+        </div>
+        
+        <div class="price-summary ">
+            <div class="price-box">
+              
+              <div class="fw-bold d-block my-4">PRICE DETAILS</div>
+              <div class="d-flex justify-content-between">
+                <div class="detail-field">Total MRP</div>
+                <div class="detail-field">&#8377 <%= totalMrp %></div>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <div class="detail-field">Discount on MRP</div>
+                <div class="detail-field text-success">- &#8377 <%= discount %></div>
+              </div>
+
+              <div class="d-flex justify-content-between price-total">
+                <div class="detail-field">Total</div>
+                <div class="detail-field ">&#8377 <%= total %></div>
+              </div>
+
+              <button onclick="checkout()" id="checkoutButton">Checkout</button>
+
+            </div>
+          </div>         
+        <% } else { %>
+          <div id="emptyMessage"><i class="bx bx-cart-alt"></i> Your cart is empty...</div>
+        <% } %>
+          
+          
+
+          
+        </div>
+        </div>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/scripts/user/cart.js"></script>
+  </body>
+</html>

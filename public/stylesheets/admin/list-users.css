@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+
+.searchField {
+  height: 2rem;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 0.3rem;
+  max-width: 70vw;
+  border: 1px solid var(--dark);
+  margin-right: 0.5rem;
+}
+
+.card-container {
+  padding: 1em 1rem 0 1rem;
+  max-width: fit-content;
+}
+
+.userCard {
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  width: fit-content;
+  transition: 0.4s;
+  z-index: 9;
+}
+.userCard:hover {
+  border: 1px solid var(--dark);
+}
+.userCard:active {
+  transform: scale(0.95);
+  background-color: var(--light);
+}
+.userImage {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 4rem;
+  background-color: black;
+  background-size: cover;
+}
+.userName {
+  color: black;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  width: fit-content;
+  max-width: 7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.space {
+  height: 30vh;
+  width: 100%;
+}
+
+@media only screen and (max-width: 980px) {
+  .card-container {
+    padding: 1rem 1rem 0 1rem;
+    margin-top: 0.5rem;
+  }
+  .userCard {
+    border: 1px solid lightgray;
+    border-radius: 1rem;
+    padding: 0.5rem 0.5rem;
+    width: fit-content;
+    transition: 0.4s;
+  }
+  .userImage {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 4rem;
+    background-color: black;
+    background-size: cover;
+  }
+  .userName {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    width: 10rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/add-product.css" />
+    <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+    <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <!-- sidebar -->
+    <%- include('../partials/adminSidebar.ejs') %>
+
+        <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+          <form
+          id="add-form"
+            method="post"
+            action="add-product/save"
+            class="form d-flex flex-column align-items-start"
+            enctype="multipart/form-data"
+          >
+            <label class="label">Main image</label>
+            <input class="inputField" required name="images" type="file" />
+            <label class="label">Sub image 1</label>
+            <input class="inputField" required name="images" type="file" />
+            <label class="label">Sub image 2</label>
+            <input class="inputField" required name="images" type="file" />
+            <label class="label">Sub image 3</label>
+            <input class="inputField" required name="images" type="file" />
+            <div class="warning" id="images-warning"></div>
+            <label class="label">Name</label>
+            <input class="inputField" name="name" type="text" />
+            <div class="warning" id="name-warning"></div>
+            <label class="label">Brand</label>
+            <input class="inputField" name="brand" type="text" />
+            <div class="warning" id="brand-warning"></div>
+            <label class="label">Price</label>
+            <input class="inputField" name="price" type="number" />
+            <div class="warning" id="price-warning"></div>
+            <label class="label">Description</label>
+            <textarea name="description" rows="4" cols="50"></textarea>
+            <div class="warning" id="description-warning"></div>
+            <label class="label">Gender</label>
+            <select required class="select category" name="gender">
+              <option value="" selected>Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <div class="warning" id="gender-warning"></div>
+            <label class="label">Category</label>
+            <select required class="select category" name="category">
+              <option value="" selected>Select</option>
+              <% categories.forEach(function(category){ %>
+              <option value="<%= category.name %>"><%= category.name %></option>
+              <% }) %>
+            </select>
+            <div class="warning" id="category-warning"></div>
+
+           
+          </form>
+           <div class="actions">
+              <button onclick="back()">Cancel</button>
+              <button onclick="submit()" style="margin-left: 3rem">Add</button>
+            </div>
+          <div class="space"></div>
+        </div>
+      </div>
+    </main>
+    <script defer src="https://cdn.crop.guide/loader/l.js?c=123ABC"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/admin/add-product.js"></script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/view-user.css" />
+        <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+        <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <!-- sidebar -->
+
+    <%- include('../partials/adminSidebar.ejs') %>
+
+        <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+        <div class="popup d-none">
+          <div class="dialog">Block this user?</div>
+          <div>
+            <button onclick="closeConfirm()" class="confirm-button">Cancel</button>
+          <button onclick="blockAndChange('<%= user._id %>')" class="confirm-button">Yes</button>
+          </div>
+        </div>
+
+          <div class="row">
+            <div class="userImageCon col-12 col-md-4">
+            <img loading="lazy"  class="userImage" src="<%= user.image %>" alt="">
+            </div>
+            <div class="info-table col-12 col-md-8">
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">Name</div>
+                <div class="value"><%= user.name %></div>
+              </div>
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">User Id</div>
+                <div class="value"><%= user._id %></div>
+              </div>
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">Email</div>
+                <div class="value"><%= user.email %></div>
+              </div>
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">Phone</div>
+                <div class="value"><%= user.phone %></div>
+              </div>
+              <div class="user-details d-flex flex-wrap justify-content-between">
+                <div class="field">Default Address</div>
+                <% if(user.address){ %>
+                  <div class="value"><%= user.address.line1 %><br><%= user.address.line2 %><br><%= user.address.pin %> <br><%= user.address.phone %></div>
+                <% } else { %>
+                  <div class="value">--Not set--</div>
+                <% } %>
+              </div>
+              <div class="actions d-flex justify-content-center">
+                <button style="margin-right: 1rem;">Notify</button>
+                <% if(user.isBlocked) { %>
+                <button onclick="openConfirm()" id="block" style="margin-left: 1rem; background-color: green; color: white;">Unblock</button>
+                <% } else { %>
+                <button onclick="openConfirm()" id="block" style="margin-left: 1rem; background-color: red; color: white;">Block</button>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/admin/view-user.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,60 @@
+/*===== CONTENT ===== */
+.content {
+  position: relative;
+}
+
+.userImageCon {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+  margin-top: 3rem;
+}
+.userImage {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+  border: 5px solid var(--dark);
+}
+
+.info-table {
+  width: 40vw;
+  margin-left: 3rem;
+  margin-top: 3rem;
+}
+.user-details {
+  margin: 1rem 0;
+}
+
+.field {
+  font-size: 1.5rem;
+  font-weight: 450;
+}
+.value {
+  font-size: 1.3rem;
+}
+.actions {
+  margin-top: 2rem;
+}
+
+@media only screen and (max-width: 980px) {
+  .userImageCon {
+    margin: 0 auto;
+    margin-bottom: 3rem;
+  }
+  .userImage {
+    margin: 0 auto;
+    margin-bottom: 3rem;
+  }
+  .info-table {
+    margin: 0 auto;
+    padding: 1rem;
+    width: 100%;
+  }
+  .field {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .value {
+    font-size: 0.9rem;
+  }
+}

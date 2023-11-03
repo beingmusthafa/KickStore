@@ -1,0 +1,77 @@
+<div id="loading" class="d-none">
+  <div ><img id="loading-gif" src="https://i.gifer.com/ZKZx.gif" alt=""></div>
+</div>
+<div id="overlay" class="d-none"></div>
+    <nav id="sidebar">
+
+      <i id="close-nav" onclick="closeNav()" class=' bx bx-x nav-toggle'></i>
+
+      <div class="profile">
+        <img src="<%= admin.image %>" id="adminPic"></img src="">
+        <div class="d-flex flex-column">
+          <div class="adminName" style="font-weight: bold;"><%= admin.name %></div>
+          <div class="adminName">Admin</div>
+        </div>
+      </div>
+      </div>
+      <div class="nav-list">
+        
+        <div class="nav-item">
+           <div onclick="page('stats')" class="nav-icon">
+            <i class="bx bx-bar-chart-alt-2"></i>
+          </div>
+          <div onclick="page('stats')" class="nav-text">Sales & stats</div>
+        </div>
+
+        <div onclick="page('users')" class="nav-item">
+          <div onclick="page('users')" class="nav-icon">
+            <i class="bx bxs-user-detail"></i>
+          </div>
+          <div onclick="page('users')" class="nav-text">Users</div>
+        </div>
+
+        <div class="nav-item">
+          <div onclick="page('products')" class="nav-icon">
+            <i class="bx bx-purchase-tag-alt"></i>
+          </div>
+          <div onclick="page('products')" class="nav-text">Products</div>
+        </div>
+
+        <div class="nav-item">
+          <div onclick="page('orders')" class="nav-icon">
+            <i class="bx bx-package"></i>
+          </div>
+          <div onclick="page('orders')" class="nav-text">Orders</div>
+        </div>
+        
+        <div class="nav-item">
+          <div onclick="page('offers')" class="nav-icon">
+            <i class='bx bxs-discount'></i>
+          </div>
+          <div onclick="page('offers')" class="nav-text">Offers</div>
+        </div>
+
+        <div class="nav-item">
+          <div onclick="page('banners')" class="nav-icon">
+            <i class='bx bxs-image'></i>
+          </div>
+          <div onclick="page('banners')" class="nav-text">Banners</div>
+        </div>
+
+      </div>
+      
+    </nav>
+        <main>
+      <div class="main-body">
+        <!-- header -->
+        <div class="header">
+          <div id="nav-toggler"><i id="nav-open" onclick="openNav()" class='bx bx-menu nav-toggle'></i></div>
+          <div class="tab"><%= page %></div>
+          <div class="head-brand">
+            <div class="head-brand-name text-nowrap"><%= page %></div>
+          </div>
+          <button onclick="logout()" class="logout">
+            Logout
+          </button>
+        <script src="/scripts/partials/adminSidebar.js"></script>
+        </div>

@@ -1,0 +1,310 @@
+body {
+  background-color: var(--grey);
+}
+label {
+  margin-top: 0.5rem;
+}
+#user-details-container {
+  border: 2px solid var(--light);
+  margin: 0 3rem;
+  background-color: white;
+  padding-bottom: 2rem;
+}
+.userImageCon {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+  margin-top: 1rem;
+}
+.userImage {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+  border: 5px solid var(--dark);
+}
+
+.wallet-container {
+  width: fit-content;
+  border: 2px solid var(--light);
+  border-radius: 0.5rem;
+  row-gap: 0.5rem;
+  margin: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+}
+.wallet {
+  font-weight: 500;
+  color: var(--dark);
+}
+.view-wallet {
+  width: fit-content;
+}
+#transactions {
+  width: 25rem;
+  min-height: 20rem;
+  max-height: 20rem;
+  z-index: 8;
+  background-color: white;
+  border: 4px solid var(--dark);
+  border-radius: 1rem;
+  padding: 1rem;
+  padding-top: 3rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+.transactions-close {
+  background-color: var(--dark);
+  position: absolute;
+  z-index: 9;
+  top: 0.2rem;
+  right: 0.2rem;
+  font-size: 2rem;
+  color: white;
+}
+.transaction-field {
+  display: flex;
+  white-space: nowrap;
+  padding: 0.3rem;
+  border-bottom: 1px solid grey;
+}
+.empty-transactions {
+  font-size: 1.5rem;
+  color: grey;
+  margin: 0 auto;
+}
+input[type="file"]::file-selector-button {
+  padding: 0.4rem 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  background-color: var(--dark);
+  color: white;
+  border: 2px solid var(--dark);
+  border-radius: 1.5rem;
+  transition: 0.6s;
+}
+input[type="file"]::file-selector-button:hover {
+  background-color: white;
+  color: var(--dark);
+}
+input[type="file"]::file-selector-button:active {
+  background-color: var(--dark);
+  color: white;
+  transform: scale(0.95);
+}
+#image-edit-button {
+  position: absolute;
+  font-size: 5rem;
+  z-index: 2;
+  left: 3.5rem;
+  top: 3.5rem;
+  color: var(--dark);
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.info-table {
+  width: 50vw;
+  margin-left: 3rem;
+  margin-top: 1rem;
+}
+.user-details {
+  margin: 1rem 0;
+}
+
+.field {
+  font-size: 1.2rem;
+  font-weight: 450;
+}
+.value {
+  font-size: 1.2rem;
+}
+.address-profile {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+.address-profile-data {
+  text-align: right;
+  text-wrap: nowrap;
+  max-width: 25vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#editButton {
+  width: fit-content;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.address-container {
+  margin: 1rem;
+  padding: 1rem;
+  width: 22rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  height: fit-content;
+  background-color: white;
+  box-shadow: var(--light-shadow);
+  transition: 0.5s;
+}
+
+.address-field {
+  width: 20rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.address-actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 1rem 0 0 0;
+}
+#addAddress {
+  margin: 0 auto;
+  display: block;
+}
+.emptyMessage {
+  display: block;
+  margin: 10vh 0;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: grey;
+}
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.order {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 1rem;
+  width: 70vw;
+  transition: 0.5s;
+  box-shadow: var(--light-shadow);
+  background-color: white;
+}
+.order:hover {
+  box-shadow: var(--dark-shadow);
+}
+.order-details-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.order-actions {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 2rem;
+  margin: 1rem auto 0 auto;
+}
+.order-image {
+  height: 8rem;
+  width: 8rem;
+}
+.order-details {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-between;
+  width: fit-content;
+}
+.order-brand {
+  font-size: 1.3rem;
+  color: rgb(71, 71, 71);
+  font-weight: 500;
+}
+.order-name {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgb(46, 46, 46);
+}
+.order-price {
+  font-size: 2rem;
+  font-weight: 500;
+}
+.order-status {
+  font-size: 1.5rem;
+}
+.invoice-button {
+  background-color: white;
+  border-color: var(--dark);
+  color: var(--dark);
+  width: fit-content;
+}
+.invoice-button:hover {
+  background-color: white;
+}
+
+@media only screen and (max-width: 980px) {
+  .userImageCon {
+    margin: 2rem auto;
+  }
+  .userImage {
+    margin: 0 auto;
+    margin-bottom: 3rem;
+  }
+  .info-table {
+    margin: 0 auto;
+    padding: 1rem;
+    width: 100%;
+  }
+  .field {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .value {
+    font-size: 0.9rem;
+  }
+  .address-profile {
+    font-size: 0.9rem;
+  }
+  .order {
+    margin: 1rem 0;
+    width: 90vw;
+    font-size: 0.7rem;
+  }
+  .order-status {
+    font-size: 1.5rem;
+  }
+
+  .order-image {
+    height: 5rem;
+    width: 5rem;
+  }
+  .order-brand {
+    font-size: 0.8rem;
+  }
+  .order-name {
+    font-size: 0.8rem;
+  }
+  .order-status {
+    font-size: 1rem;
+  }
+  .order-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  .invoice-button {
+    background-color: white;
+    border-color: var(--dark);
+    color: var(--dark);
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+  }
+  .invoice-button:hover {
+    background-color: white;
+  }
+}

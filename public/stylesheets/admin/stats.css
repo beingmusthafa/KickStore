@@ -1,0 +1,118 @@
+.content #browse-reports {
+  position: absolute;
+  top: 11vh;
+  left: 22vw;
+}
+#select-reports {
+  position: absolute;
+  top: 20vh;
+  left: 22vw;
+  border: 1px solid var(--dark);
+  background-color: white;
+  width: 10rem;
+}
+.report-option {
+  border-bottom: 2px solid var(--light);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.report-option:hover {
+  background-color: var(--light);
+}
+#chart {
+  width: 100%;
+  max-width: 35rem;
+  max-height: 280px;
+  margin-top: 3rem;
+}
+.stat-cards-con {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1rem;
+  margin-top: 3rem;
+  width: 13rem;
+  height: 6rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 10px 0 rgba(0, 0, 0, 0.19);
+  text-align: start;
+  border-radius: 1rem;
+}
+.stat-name {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-weight: 500;
+  color: var(--dark);
+}
+.stat-value {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  color: darkturquoise;
+}
+
+.section-row {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  white-space: nowrap;
+}
+.section-row::-webkit-scrollbar {
+  height: 4px;
+}
+.section {
+  padding: 0.5rem 1rem;
+}
+.section-image {
+  height: 11rem;
+}
+.section-text {
+  color: rgb(45, 45, 45);
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.product-image {
+  height: 10rem;
+}
+.product-text {
+  color: rgb(55, 55, 55);
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.product-name {
+  font-size: 1rem;
+  width: 10rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media only screen and (max-width: 980px) {
+  #chart {
+    margin-bottom: 2rem;
+  }
+  .stat-cards-con {
+    flex-direction: row;
+    row-gap: 1rem;
+  }
+  .stat-card {
+    margin: 0;
+    border-radius: 0.5rem;
+  }
+  .stat-name {
+    flex-direction: column;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .stat-value {
+    font-size: 1.2rem;
+  }
+}

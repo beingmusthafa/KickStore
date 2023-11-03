@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/profile.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css" />
+
+    <title>Document</title>
+  </head>
+  <body>
+        <%- include('../partials/userHeader.ejs') %>
+
+    <main>
+      <div class="container-fluid">
+        <div class="row d-flex justify-content-between ">
+          <div class="d-flex flex-column wallet-container">
+            <div class="wallet d-flex gap-1 align-items-center"><i class='bx bxs-wallet' style="font-size: 1.4rem;"></i> Balance : &#8377 <%= wallet.balance %></div>
+            <button onclick="openTransactions()" class="view-wallet d-flex gap-1 align-items-center"><i class='bx bx-history' style="font-size: 1.2rem;"></i> View transactions</button>
+          </div>
+           <button onclick="logout()" style="margin: 1rem; height: fit-content; width: fit-content;">Logout</button>
+        </div>
+
+        <div id="transactions" class="d-none">
+          <i onclick="closeTransactions()" class='bx bx-x transactions-close'></i>
+          <% if (transactions.length > 0){ %>
+            <% transactions.forEach((transaction)=>{ %>
+              <div class="transaction-field">
+              <div class="transaction-note text-wrap"><%= transaction.note %></div>
+              <% if(transaction.type === "credit"){ %>
+                <div class="transaction-amount text-success fw-bold">+ &#8377 <%= transaction.amount %> </div>
+              <% } else { %>
+                <div class="transaction-amount text-danger fw-bold">- &#8377 <%= transaction.amount %> </div>
+              <% } %>
+            </div>
+            <% }) %>
+          <% } else { %>
+            <div class="empty-transactions d-flex align-items-center"> <i class='bx bx-history' style="font-size: 2rem;"></i> No transactions yet</div>
+          <% } %>
+        </div>
+
+        <div id="confirm-profile" class=" popup d-none">
+          <div class="dialog">Choose a profile photo</div>
+          <form id="image-form" action="" enctype="multipart/form-data">
+            <input class="d-none" type="text" name="id" value="<%= user._id %>">
+            <input type="file" name="image">
+          </form>
+          <div>
+            <button onclick="closeProfileConfirm()" class="confirm-button">Cancel</button>
+          <button onclick="changeProfile()" class="confirm-button">Apply</button>
+          </div>
+        </div>
+
+        <div id="confirm-cancel" class=" popup d-none">
+          <div class="dialog">Do you want to cancel this order?</div>
+          <div>
+            <button onclick="closeCancelConfirm()" class="confirm-button">No</button>
+          <button onclick="cancelOrder()" class="confirm-button" style="background-color: red;">Cancel</button>
+          </div>
+        </div>
+
+        <div id="confirm-return" class=" popup d-none">
+          <div class="dialog">Do you want to return this order?</div>
+          <label for="reason">Reason:</label>
+          <select name="reason" id="reason">
+            <option value="Not fitting properly">Not fitting properly</option>
+            <option value="Product is different from photos">Product is different from photos</option>
+            <option value="Did not like the product">Did not like the product</option>
+            <option value="Not satisfied with the quality">Not satisfied with the quality</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="warning" id="return-warning"></div>
+          <label for="feedback">Additional Feedback (optional):</label>
+          <textarea name="feedback" id="feedback" cols="25" rows="2"></textarea>
+          <div>
+            <button onclick="closeReturnConfirm()" class="confirm-button">No</button>
+          <button onclick="returnOrder()" class="confirm-button">Return</button>
+          </div>
+        </div>
+          <div id="user-details-container" class="row d-flex justify-content-center ">
+
+            <div class="userImageCon col-12 col-md-4">
+              <i onclick="openProfileConfirm()" id="image-edit-button" class='bx bxs-image-add'></i>
+            <img  class="userImage" loading="lazy" src="<%= user.image %>" alt="">
+            </div>
+            <div class="info-table col-12 col-md-8">
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">Name</div>
+                <div class="value"><%= user.name %></div>
+              </div>
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">Email</div>
+                <div class="value"><%= user.email %></div>
+              </div>
+              <div class="user-details d-flex justify-content-between">
+                <div class="field">Phone</div>
+                <div class="value"><%= user.phone %></div>
+              </div>
+              <div class="user-details d-flex flex-wrap justify-content-between">
+                <div class="field">Default Address</div>
+                <div class="address-profile">
+                  <% if(user.address === undefined){ %>
+                    <div class="address-profile-data">--Not set--</div>
+                  <% } else { %>
+                  <div class="address-profile-data"><%= user.address?.line1 %></div>
+                  <div class="address-profile-data"><%= user.address?.line2 %></div>
+                  <div class="address-profile-data"><%= user.address?.pin %></div>
+                  <div class="address-profile-data"><%= user.address?.phone %></div>
+                  <% } %>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button onclick="editProfile()" id="editButton">EDIT</button>
+                <!-- <button onclick="createWallet('<%= user._id %>')">create wallet</button> -->
+              </div>
+            </div>
+          </div>
+          <p class="section-title">SAVED ADDRESSES</p>
+          <div class="row d-flex justify-content-start">
+           <% if(addresses.length > 0){ %>
+            <% addresses.forEach((address)=>{ %>
+            <div class="address-container">
+              <div class="address-field"><span class="fw-bold">LINE 1: </span><%= address.line1 %></div>
+              <div class="address-field"><span class="fw-bold">LINE 2: </span><%= address.line2 %></div>
+              <div class="address-field"><span class="fw-bold">PIN: </span><%= address.pin %></div>
+              <div class="address-field"><span class="fw-bold">PHONE: </span><%= address.phone %></div>
+              <div class="address-actions">
+                <button onclick="deleteAddress('<%= address._id %>')"><i class='bx bx-trash'></i></button>
+                <button onclick="editAddress('<%= address._id %>')"><i class='bx bxs-edit'></i></button>
+                <% if(!address.default){ %>
+                <button onclick="makeDefaultAddress('<%= address._id %>')">Make default</button>
+                <% } %>
+              </div>
+            </div>
+            <% }) %>
+           <% } else { %>
+            <div class="emptyMessage"> No saved addresses...</div>
+           <% } %>
+            
+
+          </div>
+          <button onclick="addAddress()" id="addAddress">+ Add address</button>
+          <p class="section-title">MY ORDERS</p>
+          <div class="row d-flex justify-content-evenly">
+            <% if(orders.length > 0){ %>
+            <% orders.forEach((order)=>{ %>
+              <div class="order col-12">
+              <div class="order-details-row">
+                <img class="order-image" loading="lazy" src="<%= order.product.image %>" alt="">
+              <div class="order-details">
+                <div class="order-brand"><%= order.product.brand %></div>
+                <div class="order-name"><%= order.product.name %></div>
+                <div style="margin: 0.5rem 0;">Status: <span><%= order.status %></span></div>
+                <div class="extra-order-details">Payment method: <span class="fw-bold"><%= order.paymentMethod %></span></div>
+                
+                <div class="orderDate extra-order-details">Delivery by: <span class="fw-bold text-success"><%= order.delivery %></span></div>
+                <div class="extra-order-details">Deliver to: <br><span class="fw-bold"><%= order.address.line1 %> <br><%= order.address.line2 %> <br><%= order.address.pin %> <br><%= order.address.phone %></span></div>
+              </div>
+              <div class="order-details">
+                <div>Quantity: <span class="fw-bold"><%= order.quantity %></span></div>
+                <div>Size: <span class="fw-bold"><%= order.size %></span></div>
+                <div class="order-price">&#8377 <%= order.total %></div>
+              </div>
+              </div>
+              <div class="order-actions">
+                <% if(order.status === "Cancelled"){ %>
+                  <div class="fw-bold text-danger order-status" >Cancelled</div>
+                <%} else if(order.status === "Delivered"){ %>
+                  <div class="fw-bold text-success order-status" >Delivered</div>
+                  <% if (order.isReturnEligible) { %>
+                   <button onclick="openReturnConfirm('<%= order._id %>')">Return</button>
+                  <% } %>
+                <% } else if(order.status === "Returned"){ %>
+                  <div class="fw-bold text-primary order-status" >Returned</div>
+                <% }else { %> 
+                  <button onclick="openCancelConfirm('<%= order._id %>')" style="background-color: red;">Cancel</button>
+                <% } %>
+                <button onclick="downloadInvoice('<%= order.orderId %>')" class="invoice-button d-flex align-items-center justify-content-center gap-1"><i style="font-size: 1.3rem" class='bx bx-download'></i>Invoice</button>
+              </div>
+            </div>
+            <% }) %> 
+           <% } else { %>
+            <div class="emptyMessage">No orders yet...</div>
+           <% } %>     
+          </div>
+      </div>
+    </main>
+        <%- include('../partials/userFooter.ejs') %>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
+            <script src="/scripts/user/profile.js"></script>
+
+  </body>
+</html>

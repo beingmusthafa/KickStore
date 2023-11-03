@@ -1,0 +1,139 @@
+.banner-form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.edit-banner-preview {
+  height: 5rem;
+}
+label {
+  margin-top: 0.5rem;
+}
+.gender-block {
+  display: flex;
+  white-space: nowrap;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+.gender {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.3rem;
+  padding: 1rem;
+  box-shadow: var(--light-shadow);
+}
+.gender-image {
+  height: 7rem;
+}
+
+.add-slide {
+  margin-left: auto;
+}
+.slides-table {
+  width: 80%;
+  margin-bottom: 2rem;
+}
+.slide-preview {
+  margin: 0.5rem;
+  height: 3rem;
+}
+.poster-preview {
+  margin: 0.5rem;
+  height: 3rem;
+}
+.status-icon {
+  font-size: 2rem;
+  font-weight: bold;
+}
+th {
+  text-align: center;
+}
+td {
+  text-align: center;
+}
+tr {
+  border-bottom: 1px solid grey;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.3rem;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 0.7rem;
+  width: 0.7rem;
+  left: 0.3rem;
+  bottom: 0.3rem;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #0fd863;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+@media only screen and (max-width: 980px) {
+  .gender {
+    height: fit-content;
+  }
+  .gender-image {
+    height: 4rem;
+  }
+  .slide-preview {
+    height: 2rem;
+  }
+  table {
+    font-size: 0.9rem;
+  }
+  .url {
+    font-size: 0.7rem;
+    max-width: 6rem;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/view-product.css" />
+        <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+        <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <!-- sidebar -->
+
+    <%- include('../partials/adminSidebar.ejs') %>
+
+        <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+        <div class="popup d-none">
+          <div>Delete this product?</div>
+          <div>
+            <button onclick="closeConfirm()" class="confirm-button">Cancel</button>
+          <button onclick="deleteProduct('<%= product._id %>')" class="confirm-button">Delete</button>
+          </div>
+        </div>
+        
+          <div class="row">
+            <div class="userImageCon col-12 col-md-6">
+            <img loading="lazy"  class="userImage" src="<%= product.image %>" alt="">
+            <% product.subImages.forEach(function(image){ %>
+            <img loading="lazy"  class="userImage" src="<%= image %>" alt="">
+            <% }) %>
+
+            </div>
+          <div class="info-table col-12 col-md-6">
+            <div class="brandName"><%= product.brand %></div>
+            <div class="productName"><%= product.name %></div>
+            <div class="price">&#8377 <%= product.price %></div>
+            <div class="description"><%= product.description %>
+            </div>
+            <!-- <div class="sizesCon">
+              <button class="size">8</button>
+              <button class="size">9</button>
+              <button class="size">10</button>
+              <button class="size">11</button>
+            </div> -->
+            <div class="actions">
+             <% if(product.deleted) { %>
+              <button onclick="restoreProduct('<%= product._id %>')" class="actionButton">Restore</button>
+
+              <% } else { %>
+                <button onclick="editProduct('<%= product._id %>')" class="actionButton">Edit</button>
+              <button onclick="openConfirm()" class="actionButton">Delete</button>
+              <button onclick="manageStock('<%= product._id %>')" class="actionButton">Manage stock</button>
+              <% } %>
+            </div>
+            
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/admin/view-product.js"></script>
+
+  </body>
+</html>

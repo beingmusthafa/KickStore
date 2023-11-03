@@ -1,0 +1,90 @@
+.userImageCon {
+  width: 50vw;
+  height: 24vw;
+  margin-top: 1rem;
+  overflow: auto;
+  white-space: nowrap;
+}
+.userImage {
+  width: 20vw;
+  height: 20vw;
+  margin: 0.5rem;
+}
+
+.info-table {
+  width: 60vw;
+  margin-top: 3rem;
+}
+.brandName {
+  font-size: 1.5rem;
+  color: grey;
+  font-weight: bold;
+}
+.productName {
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: rgb(47, 47, 47);
+}
+.sizesCon {
+  margin: 1rem 0;
+}
+
+.size {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-right: 3rem;
+}
+.description {
+  margin-top: 1rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+.list {
+  margin: 0.5rem 0;
+}
+.quantityField {
+  width: 4rem;
+}
+.quantitySubmit {
+  margin-left: 3rem;
+}
+
+@media only screen and (max-width: 980px) {
+  .userImageCon {
+    width: 90vw;
+    height: 50vw;
+    overflow: auto;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .userImage {
+    width: 45vw;
+    height: 45vw;
+    margin: 0.5rem;
+  }
+  .info-table {
+    margin: 0 auto;
+    padding: 1rem;
+    width: 100%;
+  }
+  .actions {
+    justify-content: center;
+  }
+  .actionButton {
+    height: 4rem;
+    margin: 0 2rem;
+    width: auto;
+    white-space: nowrap;
+  }
+}

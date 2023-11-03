@@ -1,0 +1,7 @@
+*.env
+node_modules/
+uploads/
+test.css
+test.html
+test.js
+reports/

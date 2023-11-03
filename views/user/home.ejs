@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/home.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css" />
+    <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>KickStore - home</title>
+  </head>
+  <body>
+    <%- include('../partials/userHeader.ejs') %>
+    <main>
+      <form action="/search" method="get" class="search">        
+        <input required name="search" class="searchField" type="text" placeholder="Search" />
+        <button type="submit" class="searchButton"><i class="bx bx-search"></i></button>
+      </form>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="gender col-12 col-md-6">
+            <% genders.forEach(gender => { %>
+             <div class="genderOption" onclick="genderRedirect('<%= gender.gender %>')">
+              <img loading="lazy" class="genderImage" src="<%= gender.image %>" alt="" />
+              <div class="genderText">
+                <div>SHOP</div>
+                <div style="font-weight: bold; text-transform: uppercase;"><%= gender.gender %></div>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <div class="category col-12 col-md-6">
+            <% categories.forEach((category)=>{ %>
+            <div
+              onclick="category('<%= category.name %>')"
+              class="categoryOption"
+            >
+              <img class="categoryImage" loading="lazy" src="<%= category.image %>" alt="" />
+              <div class="categoryText"><%= category.name %></div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="slider">
+            <% slides.forEach((slide)=>{ %>
+            <img
+              class="slide"
+              onclick="route('<%= slide.url  %>')"
+              loading="lazy"
+              src="<%= slide.image %>"
+              alt=""
+            />
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- BRANDS -->
+
+        <div class="row">
+          <div class="posters">
+            <% posters.forEach((poster)=>{ %>
+            <img
+              onclick="route('<%= poster.url %>')"
+              class="poster"
+              loading="lazy"
+              src="<%= poster.image %>"
+              alt=""
+            />
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="row">
+          <p class="section-title">TALK OF THE TOWN: BESTSELLERS</p>
+          <div class="section-row">
+            <% products.forEach((product)=>{ %>
+            <div onclick="viewProductDetails('<%= product._id %>')" class="section">
+              <img class="product-image" loading="lazy" src="<%= product.image %>" alt="" />
+              <div class="product-text"><%= product.brand %></div>
+              <div class="product-name"><%= product.name %></div>
+              <% if(product.price === product.finalPrice){ %>
+                  <div class="d-flex justify-content-center"> 
+                  <div class="price fw-bold" style=" font-size: 1.2rem;">&#8377 <%= product.price %></div>
+                  </div>
+                  <% } else { %>
+                <div class="d-flex justify-content-start gap-2 w-100 align-items-start">
+                    <div class="price fw-bold text-success" style="font-size: 1.2rem;">&#8377 <%= product.finalPrice %></div>
+                  <div class="price fw-bold" style="text-decoration: line-through; color: grey; font-size: 0.9rem;">&#8377 <%= product.price %></div>
+                </div>
+                   <% } %>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('../partials/userFooter.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/user/home.js"></script>
+
+  </body>
+</html>

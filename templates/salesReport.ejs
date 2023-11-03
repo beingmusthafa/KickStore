@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      header {
+        height: fit-content;
+        padding: 1rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid black;
+      }
+      .title {
+        font-size: 2rem;
+        text-transform: capitalize;
+      }
+      #logo {
+        height: 5rem;
+      }
+      .header-details {
+        display: flex;
+        flex-direction: column;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      th {
+        width: fit-content;
+      }
+      th,
+      td {
+        padding: 0.5rem 1rem;
+        text-align: center;
+        min-width: 7rem;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+      table {
+        margin: 0 auto;
+        margin-top: 5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <img
+        src="https://res.cloudinary.com/dfezowkdc/image/upload/v1697033482/letter-k-dark_tkldpa.png"
+        id="logo"
+        alt=""
+      />
+      <div class="title"><%= report.type %> Sales Report <br /></div>
+      <div class="header-details">
+        <div id="company-name"><%= report.date %></div>
+      </div>
+    </header>
+    <main>
+      <h2>Overview</h2>
+      <table>
+        <tr>
+          <td class="fw-bold">Total orders</td>
+          <td><%= report.totalOrders %></td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Total sales</td>
+          <td><%= report.totalSales %></td>
+        </tr>
+        <tr>
+          <td class="fw-bold">Total revenue</td>
+          <td><%= report.totalRevenue %></td>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <th>Payment</th>
+          <th>No. of orders</th>
+        </tr>
+        <% report.paymentMethods.forEach((method) => { %>
+        <tr>
+          <td><%= method._id %></td>
+          <td><%= method.count %></td>
+        </tr>
+        <% }); %>
+      </table>
+
+      <h2>Category sales</h2>
+      <table>
+        <tr>
+          <th>No.</th>
+          <th>Category</th>
+          <th>No. of orders</th>
+          <th>Sales</th>
+          <th>Revenue</th>
+        </tr>
+        <% for( let i = 0; i < report.categories.length; i++ ) { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= report.categories[i]._id %></td>
+          <td><%= report.categories[i].count %></td>
+          <td><%= report.categories[i].count %></td>
+          <td><%= report.categories[i].revenue %></td>
+        </tr>
+        <% } %>
+      </table>
+
+      <h2>Brand sales</h2>
+      <table>
+        <tr>
+          <th>No.</th>
+          <th>Brand</th>
+          <th>No. of orders</th>
+          <th>Sales</th>
+          <th>Revenue</th>
+        </tr>
+
+        <% for( let i = 0; i < report.brands.length; i++ ) { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= report.brands[i]._id %></td>
+          <td><%= report.brands[i].count %></td>
+          <td><%= report.brands[i].count %></td>
+          <td><%= report.brands[i].revenue %></td>
+        </tr>
+        <% } %>
+      </table>
+
+      <h2>Product sales</h2>
+      <table>
+        <tr>
+          <th>No.</th>
+          <th>Product</th>
+          <th>No. of orders</th>
+          <th>Sales</th>
+          <th>Revenue</th>
+        </tr>
+
+        <% for( let i = 0; i < report.products.length; i++ ) { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= report.products[i]._id %></td>
+          <td><%= report.products[i].count %></td>
+          <td><%= report.products[i].count %></td>
+          <td><%= report.products[i].revenue %></td>
+        </tr>
+        <% } %>
+      </table>
+
+      <h2>Orders</h2>
+      <table>
+        <tr>
+          <th>No.</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Payment method</th>
+        </tr>
+
+        <% for( let i = 0; i < report.orders.length; i++ ) { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td>
+            <%= report.orders[i].product.brand %> <%=
+            report.orders[i].product.name %>
+          </td>
+          <td><%= report.orders[i].quantity %></td>
+          <td><%= report.orders[i].total %></td>
+          <td><%= report.orders[i].paymentMethod %></td>
+        </tr>
+        <% } %>
+      </table>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

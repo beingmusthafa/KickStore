@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/manage-stock.css" />
+        <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+        <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <!-- sidebar -->
+
+    <%- include('../partials/adminSidebar.ejs') %>
+
+        <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+        <div id="add-size" class=" popup d-none">
+          <label for="">Size value</label>
+          <input type="text" name="size" placeholder="Size value">
+          <label for="">Stock quantity</label>
+          <input type="number" min="0" name="quantity">
+          <div>
+            <button onclick="closeAddSize()" class="confirm-button">Cancel</button>
+            <button onclick="addSize('<%= product._id %>')" class="confirm-button">Add</button>
+          </div>
+        </div>
+          <div class="info-table">
+            <div class="brandName"><%= product.brand %></div>
+            <div class="productName"><%= product.name %></div>
+            
+            <div class="sizesCon d-flex flex-column align-items-center">
+              <% if(stocks.length > 0){ %>
+                <% stocks.forEach(function (stock) { %>
+                <div class="d-flex" style="margin: 0.5rem;">
+                  <div class="size">SIZE <%= stock.size %></div>
+                <input type="number" min="0" name="<%= stock._id %>" class="quantityField" value="<%= stock.stock %>">
+                <button onclick="updateStock('<%= stock._id %>')" class="quantitySubmit">Update</button>
+                </div>
+             <% }) %>
+                <% }else{ %>
+                  <div style="color: red;font-weight: bold; font-size: 2rem;">OUT OF STOCK</div>
+                <% } %>
+            </div>
+            <div class="actions">
+              <button onclick="back()" class="actionButton">Back</button>
+              <button onclick="openAddSize()" class="actionButton">Add a size</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/admin/manage-stock.js"></script>
+
+  </body>
+</html>

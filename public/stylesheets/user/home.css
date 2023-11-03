@@ -1,0 +1,247 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+
+:root {
+  --light: rgb(225, 242, 255);
+  --dark: rgb(0, 44, 75);
+  --white: rgb(255, 255, 255);
+}
+
+body {
+  font-family: "Poppins";
+  padding-top: 12vh;
+}
+button {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: var(--dark);
+  color: white;
+  border: 2px solid var(--dark);
+  border-radius: 1.5rem;
+  transition: 0.6s;
+}
+button:hover {
+  background-color: white;
+  color: var(--dark);
+}
+button:active {
+  background-color: var(--dark);
+  color: white;
+  transform: scale(0.95);
+}
+::-webkit-scrollbar {
+  width: 4px;
+  background-color: white;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark);
+}
+.search {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.searchField {
+  margin: 0 1rem;
+  border-radius: 0.5rem;
+  width: 30vw;
+  padding: 0.3rem 2rem;
+  font-size: 1rem;
+}
+.searchButton {
+  margin: 0 1rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 1.2rem;
+}
+.gender {
+  padding: 1rem 0;
+  display: flex;
+  font-size: 2rem;
+  align-items: center;
+  justify-content: end;
+  gap: 2rem;
+  padding-right: 2rem;
+  border-right: 2px solid grey;
+}
+.genderOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.genderOption:hover {
+  text-decoration: underline;
+}
+.genderImage {
+  height: 6rem;
+  margin-right: 2rem;
+  border-radius: 3rem;
+}
+.genderText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+.category {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 4rem;
+  padding-left: 2rem;
+}
+.categoryOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.categoryImage {
+  height: 6rem;
+  width: 6rem;
+  border-radius: 0.5rem;
+}
+.categoryText {
+  font-size: 1.2rem;
+}
+.slider {
+  overflow: auto;
+  white-space: nowrap;
+  width: 100vw;
+  background-size: cover;
+}
+.slider::-webkit-scrollbar {
+  height: 4px;
+}
+.slide {
+  width: 100vw;
+}
+.section-title {
+  padding: 1rem 2rem;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: rgb(25, 25, 25);
+}
+.section-row {
+  display: flex;
+  overflow: auto;
+  white-space: nowrap;
+}
+.section-row::-webkit-scrollbar {
+  height: 4px;
+}
+.section {
+  padding: 0.5rem 1rem;
+}
+.section-image {
+  height: 11rem;
+}
+.section-text {
+  color: rgb(45, 45, 45);
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.product-image {
+  height: 10rem;
+  cursor: pointer;
+}
+.product-text {
+  color: rgb(55, 55, 55);
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.product-name {
+  font-size: 1rem;
+  width: 10rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.posters {
+  padding: 2.5rem 0;
+  border-top: 2px solid white;
+  background-color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.poster {
+  height: 20rem;
+  border: 3px solid var(--dark);
+  transition: 0.5s;
+  cursor: pointer;
+}
+.poster:hover {
+  border: 3px solid white;
+  transform: scale(1.02);
+}
+.poster:active {
+  transform: scale(1);
+}
+
+@media only screen and (max-width: 980px) {
+  .search {
+    margin: 0.5rem 0;
+  }
+  .icons {
+    margin: 0 0.5rem;
+  }
+  .searchField {
+    width: 60vw;
+  }
+  .gender {
+    border: 0;
+  }
+  .genderOption {
+    flex-direction: column;
+  }
+  .genderImage {
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+  .genderText {
+    font-size: 1rem;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  .category {
+    border-top: 1px solid grey;
+    padding: 0.5rem 0;
+    gap: 0rem;
+    justify-content: space-evenly;
+  }
+  .section-title {
+    color: rgb(84, 84, 84);
+    font-size: 1rem;
+  }
+  .categoryImage {
+    height: 4rem;
+    width: 4rem;
+  }
+  .section-image {
+    height: 8rem;
+    width: 8rem;
+  }
+  .product-image {
+    height: 7rem;
+    width: 7rem;
+  }
+  .product-name {
+    width: 7rem;
+  }
+
+  .poster {
+    margin: 0.5rem;
+    height: 6rem;
+    width: 6rem;
+  }
+  #footer {
+    height: 40vh;
+  }
+}

@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap");
+@import url(https://db.onlinewebfonts.com/c/0210e8c7a07c76189f47127049f61dd5?family=Pixeloid+Sans+Bold);
+@import url(https://db.onlinewebfonts.com/c/c8228ed3cb941c3587fdfb6ffc7f0b2a?family=Bulky+Pixels+V2);
+:root {
+  --light: rgb(225, 242, 255);
+  --dark: rgb(0, 44, 75);
+  --white: rgb(255, 255, 255);
+  --grey: rgb(239, 243, 246);
+  --light-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2),
+    0 1px 2px 0 rgba(0, 0, 0, 0.19);
+  --dark-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.19);
+}
+
+body {
+  font-family: "Rubik";
+  padding-top: 10vh;
+}
+#overlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--dark);
+  opacity: 0.3;
+  z-index: 11;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+#loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--dark);
+  opacity: 0.7;
+  z-index: 15;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+#loading-gif {
+  width: 50px;
+  height: 50px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 1;
+}
+button {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background-color: var(--dark);
+  color: white;
+  border-radius: 0.5rem;
+  transition: 0.6s;
+}
+button:hover {
+  background-color: black;
+}
+button:active {
+  transform: scale(0.95);
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: white;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark);
+}
+#header {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 8vh;
+  background-color: var(--dark);
+  padding: 0 2rem;
+}
+.brand-logo {
+  height: 3rem;
+  cursor: pointer;
+}
+.brand {
+  color: white;
+  font-size: 1.1rem;
+  font-family: "Pixeloid Sans Bold";
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.icons {
+  font-size: 1.8rem;
+  margin: 0 1rem;
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.icons:hover {
+  transform: scale(1.1);
+}
+.icons:active {
+  transform: scale(1);
+}
+
+#footer {
+  background-color: black;
+  height: 70vh;
+  color: white;
+  width: 100%;
+  position: relative;
+  padding: 1rem;
+  font-weight: 500;
+}
+#footer-brand {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  bottom: 1rem;
+  width: 100%;
+}
+#footer-brand-name {
+  font-family: "Pixeloid Sans Bold";
+  font-size: 1.5rem;
+}
+#footer-copyright {
+  font-size: 0.7rem;
+}
+.footer-address {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: fit-content;
+}
+.actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.popup {
+  z-index: 12;
+  padding: 2rem 1rem;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+  width: 25rem;
+  border: 3px solid var(--dark);
+  border-radius: 0.5rem;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.dialog {
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+.confirm-button {
+  margin: 1rem 1.5rem;
+}
+.warning {
+  margin-bottom: 0.5rem;
+  color: rgb(255, 61, 61);
+}
+.title-without-button {
+  margin: 0rem 0 2rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border-top: 2px solid var(--light);
+  border-bottom: 2px solid var(--light);
+}
+
+@media only screen and (max-width: 980px) {
+  #header {
+    width: 100vw;
+    height: 7vh;
+  }
+  .brand-logo {
+    height: 2.5rem;
+  }
+  .brand {
+    font-size: 1rem;
+  }
+  .icons {
+    margin: 0 0.5rem;
+    font-size: 1.5rem;
+  }
+
+  .gender {
+    border: 0;
+  }
+  .genderImage {
+    height: 5rem;
+    margin-right: 0.5rem;
+  }
+  .genderText {
+    font-size: 1.5rem;
+  }
+  .category {
+    border-top: 1px solid grey;
+    padding: 0.5rem 0;
+  }
+  .section-title {
+    color: rgb(84, 84, 84);
+    font-size: 1rem;
+  }
+  .section-image {
+    height: 8rem;
+    width: 8rem;
+  }
+  .product-image {
+    height: 7rem;
+    width: 7rem;
+  }
+  .product-name {
+    width: 7rem;
+  }
+  #footer {
+    height: 40vh;
+    margin-top: 10rem;
+    font-size: 0.8rem;
+  }
+  #footer-brand-name {
+    font-size: 1.2rem;
+  }
+}

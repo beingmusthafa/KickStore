@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/user/categories.css" />
+    <link rel="stylesheet" href="/stylesheets/user/headerFooter.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('../partials/userHeader.ejs') %>
+
+        <div
+          class="container-fluid d-flex flex-column align-items-center"
+        >
+          <div class="row d-flex justify-content-evenly">
+            
+            <% if(categories.length > 0){ %>
+              <div
+              style="
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-top: 2rem;
+                margin-left: 1rem;
+              "
+            >
+            </div>
+              <% categories.forEach(function(category){ %>
+            <div class="card-container col-6 col-sm-4 col-md-4">
+              <div
+                onclick="viewSubCategory('<%= category.name %>')"
+                class="categoryCard flex-wrap d-flex flex-column align-items-center"
+              >
+                <img class="categoryImage" loading="lazy" src="<%= category.image %>" />
+
+                <div class="categoryName fw-bold"><%= category.name %></div>
+              </div>
+            </div>
+            <% }) %>
+           <% } %>
+            
+          </div>
+
+          <div class="row productRow d-flex justify-content-evenly gap-1">
+            
+            <% if(products.length > 0){ %>
+  
+              <div class="title-without-button">Products</div>
+              <% products.forEach(function(product){ %>
+              <div
+                onclick="viewProductDetails('<%= product._id %>')"
+                class="productCard flex-wrap d-flex flex-column align-items-center"
+              >
+                <img class="productImage" loading="lazy" src="<%= product.image %>" />
+
+                <div class="productName fw-bold"><%= product.brand %></div>
+                <div class="productName flex-wrap"><%= product.name %></div>
+                <% if(product.price === product.finalPrice){ %>
+                  <div class="d-flex justify-content-center"> 
+                  <div class="price fw-bold" style=" font-size: 1.2rem;">&#8377 <%= product.price %></div>
+                  </div>
+                  <% } else { %>
+                <div class="d-flex justify-content-start gap-2 w-100 align-items-start">
+                    <div class="price fw-bold text-success" style="font-size: 1.2rem;">&#8377 <%= product.finalPrice %></div>
+                  <div class="price fw-bold" style="text-decoration: line-through; color: grey; font-size: 0.9rem;">&#8377 <%= product.price %></div>
+                </div>
+                   <% } %>
+              </div>
+            <% }) %>
+           <% } else { %>
+            <div class="emptyMessage">No products in this category</div>
+           <% } %>
+            
+          </div>
+
+          <div class="space"></div>
+        </div>
+      </div>
+    </main>
+    <%- include('../partials/userFooter.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/scripts/user/categories.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for Bootstrap 5 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin/banners.css" />
+    <link rel="stylesheet" href="/stylesheets/admin/navbar.css" />
+    <link rel="icon" href="https://res.cloudinary.com/dfezowkdc/image/upload/v1697096319/kickstore_logo_dbympn.png">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <%- include('../partials/adminSidebar.ejs') %>
+        <!-- content body -->
+        <div
+          class="content container-fluid d-flex flex-column align-items-center"
+        >
+        <!-- popups -->
+
+        <!-- delete confirmation -->
+        <div id="confirm-delete" class="popup d-none">
+          <div class="dialog">Delete this <span id="delete-type"></span>image?</div>
+          <div>
+            <button onclick="closeDeleteConfirm()" class="confirm-button">Cancel</button>
+          <button onclick="deleteBanner()" class="confirm-button">Delete</button>
+          </div>
+        </div>
+
+        <!-- change gender image  -->
+        <div id="upload-gender" class="popup d-none">
+          <div class="dialog">Choose an image</div>
+          <form id="gender-form" action="" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <input hidden type="text" name="gender" id="selected-gender">
+          </form>
+          <div>
+            <button onclick="closeGenderUpload()" class="confirm-button">Cancel</button>
+          <button onclick="changeGender()" class="confirm-button">Apply</button>
+          </div>
+        </div>
+
+        <!-- upload banner -->
+        <div id="upload-banner" class="popup d-none">
+          <div class="dialog">Upload a <span id="upload-banner-type"></span></div>
+          <form id="upload-banner-form" class="banner-form" action="" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <label for="order">Order</label>
+            <input type="number" name="order" style="width: 5rem;">
+            <label for="order">URL</label>
+            <input type="text" name="url">
+            <input hidden type="text" name="type">
+          </form>
+          <div>
+            <button onclick="closeUploadBanner()" class="confirm-button">Cancel</button>
+          <button onclick="uploadBanner()" class="confirm-button">Apply</button>
+          </div>
+        </div>
+
+        <!-- edit banner -->
+        <div id="edit-banner" class="popup d-none">
+          
+        </div>
+        
+        <!-- popup end -->
+
+        <!-- gender images -->
+        <div class="title-without-button">
+          <div class="">GENDERS</div>
+        </div>
+        <div class="gender-block">
+          <% genders.forEach(gender => { %>
+           <div class="gender">
+            <img loading="lazy" class="gender-image" src="<%= gender.image %>" alt="">
+            <div class="gender-name"><%= gender.gender %></div>
+            <button onclick="openGenderUpload('<%= gender.gender %>')" class="bx bxs-edit"></button>
+          </div>
+          <% }) %>
+        </div>
+
+        <!-- slides -->
+        <div class="title-with-button">
+          <div class="">SLIDES</div>
+          <button onclick="openUploadBanner('Slide')" class="add-slide">+ New slide</button>
+        </div>
+        <table class="slides-table">
+          <tr>
+            <th>Slide</th>
+            <th>Active</th>
+            <th>Order</th>
+            <th>URL</th>
+          </tr>
+          <% slides.forEach((slide)=>{ %>
+            <tr>
+              <td><img loading="lazy" class="slide-preview" src="<%= slide.image %>" alt=""></td>
+              <td>
+                <% if (slide.isActive === true) { %>
+                 <label class="switch">
+                  <input onchange="disableBanner('<%= slide._id %>')" type="checkbox" checked>
+                  <span class="slider round"></span>
+                </label>
+                <% } else { %>
+                <label class="switch">
+                  <input onchange="enableBanner('<%= slide._id %>')" type="checkbox">
+                  <span class="slider round"></span>
+                </label>
+                <% } %>
+              </td>
+              <td><%= slide.order %></td>
+              <td class="url"><%= slide.url %></td>
+              <td>
+                <button onclick="openEditBanner('<%= slide._id %>')" class="edit-button"><i class='bx bxs-edit'></i></button>
+                <button onclick="openDeleteConfirm('<%= slide._id %>')" class="delete-button" style="background-color: red;"><i class='bx bxs-trash'></i></button>
+              </td>
+          </tr>
+          <% }) %>
+        </table>
+
+        <!-- posters -->
+        <div class="title-with-button">
+          <div class="">POSTERS</div>
+          <button onclick="openUploadBanner('Poster')" class="add-slide">+ New poster</button>
+        </div>
+          <table class="slides-table">
+          <tr>
+            <th>Poster</th>
+            <th>Active</th>
+            <th>Order</th>
+            <th>URL</th>
+          </tr>
+          <% posters.forEach((poster)=>{ %>
+            <tr>
+              <td><img loading="lazy" class="poster-preview" src="<%= poster.image %>" alt=""></td>
+              <td>
+                <% if (poster.isActive === true) { %>
+                 <label class="switch">
+                  <input  onchange="disableBanner('<%= poster._id %>')" type="checkbox" checked>
+                  <span class="slider round"></span>
+                </label>
+                <% } else { %>
+                <label class="switch">
+                  <input onchange="enableBanner('<%= poster._id %>')" type="checkbox">
+                  <span class="slider round"></span>
+                </label>
+                <% } %>
+              </td>
+              <td><%= poster.order %></td>
+              <td class="url"><%= poster.url %></td>
+              <td>
+                <button onclick="openEditBanner('<%= poster._id %>')" class="edit-button"><i class='bx bxs-edit'></i></button>
+                <button onclick="openDeleteConfirm('<%= poster._id %>')" class="delete-button" style="background-color: red;"><i class='bx bxs-trash'></i></button>
+              </td>
+          </tr>
+          <% }) %>
+        </table>
+
+      </div>
+    </main>
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script src="/scripts/admin/banners.js"></script>
+
+  </body>
+</html>
