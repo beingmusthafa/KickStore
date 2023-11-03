@@ -98,7 +98,6 @@ const showCategoryOffers = async (req, res) => {
         i--;
       }
     }
-    console.log({ categoryOffers });
     res.render("admin/category-offers", {
       page: "Offers",
       admin: req.user,
