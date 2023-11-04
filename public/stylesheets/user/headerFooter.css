@@ -16,7 +16,7 @@
 
 body {
   font-family: "Rubik";
-  padding-top: 10vh;
+  padding-top: 12vh;
 }
 #overlay {
   top: 0;
@@ -83,7 +83,7 @@ button:active {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-height: 8vh;
+  min-height: 10vh;
   background-color: var(--dark);
   padding: 0 2rem;
 }
@@ -196,6 +196,9 @@ button:active {
 }
 
 @media only screen and (max-width: 980px) {
+  body {
+    padding-top: 9vh;
+  }
   #header {
     width: 100vw;
     height: 7vh;
