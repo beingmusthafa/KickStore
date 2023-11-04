@@ -48,11 +48,11 @@
 }
 .dropdown {
   max-width: fit-content;
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
   background-color: var(--dark);
-  padding: 0.7rem;
+  padding: 0.3rem;
   border-radius: 2rem;
 }
 .dropdown-row {

@@ -220,6 +220,7 @@ button:active {
   top: 0;
   width: 80vw;
   min-height: 8vh;
+  max-height: fit-content;
   background-color: white;
   padding: 0 1.5rem;
   display: flex;
@@ -269,7 +270,7 @@ button:active {
   border-bottom: 2px solid var(--light);
 }
 .empty-message {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: grey;
   margin-top: 7rem;
@@ -299,9 +300,10 @@ button:active {
   }
   body {
     padding: 0;
+    padding-top: 10vh;
   }
   button {
-    padding: 0 1rem;
+    padding: 0.2rem 1rem;
   }
   .main-body {
     margin-left: 0;
@@ -323,13 +325,12 @@ button:active {
   }
 
   .logout {
-    font-size: 1rem;
+    font-size: 0.8rem;
     height: 2.5rem;
     margin: 0 0.5rem;
   }
 
   .content {
-    margin-top: 8vh;
     padding: 0;
   }
   #sidebar {

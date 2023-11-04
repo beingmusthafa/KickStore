@@ -1,28 +1,19 @@
-.userImageCon {
-  width: 50vw;
-  height: 24vw;
-  margin-top: 1rem;
-  overflow: auto;
-  white-space: nowrap;
-}
-.userImage {
-  width: 20vw;
-  height: 20vw;
-  margin: 0.5rem;
-}
-
 .info-table {
   width: 60vw;
   margin-top: 3rem;
 }
+table {
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
 .brandName {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: grey;
   font-weight: bold;
 }
 .productName {
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: black;
 }
@@ -37,8 +28,7 @@
 }
 
 .size {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 1.2rem;
   margin-right: 3rem;
 }
 .description {
@@ -61,18 +51,6 @@
 }
 
 @media only screen and (max-width: 980px) {
-  .userImageCon {
-    width: 90vw;
-    height: 50vw;
-    overflow: auto;
-    white-space: nowrap;
-    margin: 0;
-  }
-  .userImage {
-    width: 45vw;
-    height: 45vw;
-    margin: 0.5rem;
-  }
   .info-table {
     margin: 0 auto;
     padding: 1rem;
@@ -82,7 +60,6 @@
     justify-content: center;
   }
   .actionButton {
-    height: 4rem;
     margin: 0 2rem;
     width: auto;
     white-space: nowrap;

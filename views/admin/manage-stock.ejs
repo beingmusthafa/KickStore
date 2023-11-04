@@ -42,17 +42,26 @@
             <div class="productName"><%= product.name %></div>
             
             <div class="sizesCon d-flex flex-column align-items-center">
-              <% if(stocks.length > 0){ %>
+              <table>
+                <% if(stocks.length > 0){ %>
                 <% stocks.forEach(function (stock) { %>
-                <div class="d-flex" style="margin: 0.5rem;">
-                  <div class="size">SIZE <%= stock.size %></div>
-                <input type="number" min="0" name="<%= stock._id %>" class="quantityField" value="<%= stock.stock %>">
-                <button onclick="updateStock('<%= stock._id %>')" class="quantitySubmit">Update</button>
-                </div>
-             <% }) %>
+                <tr>
+                  <td>
+                    <div class="size">SIZE <span style="font-weight: 500;"><%= stock.size %></span></div>
+                  </td>
+                  <td>
+                    <input type="number" min="0" name="<%= stock._id %>" class="quantityField" value="<%= stock.stock %>">
+                  </td>
+                  <td>
+                    <button onclick="updateStock('<%= stock._id %>')" class="quantitySubmit">Update</button>
+                  </td>
+                </tr>
+                <% }) %>
                 <% }else{ %>
                   <div style="color: red;font-weight: bold; font-size: 2rem;">OUT OF STOCK</div>
                 <% } %>
+              </table>
+             
             </div>
             <div class="actions">
               <button onclick="back()" class="actionButton">Back</button>
