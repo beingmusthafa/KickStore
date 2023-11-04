@@ -32,9 +32,7 @@
         <p class="section-title">DELIVERY ADDRESS</p>
 
         <div class="delivery-address-container ">
-          <% if(selectedAddress === "none" ){ %>
-          <div class="emptyMessage" style=" margin:0 5rem; font-size: 1.5rem;">No address <br> selected</div>
-        <% } else { %>
+          <% if(selectedAddress){ %>
             <div class="address-container ">
             <div class="address-field">
               <span class="fw-bold">LINE 1: </span><%= selectedAddress?.line1 %>
@@ -49,6 +47,8 @@
               <span class="fw-bold">PHONE: </span><%= selectedAddress?.phone %>
             </div>   
           </div>
+        <% } else { %>
+          <div class="emptyMessage" style=" margin:0 5rem;">No address <br> selected</div>
         <% } %>
         
         <button onclick="addAddress()" id="addAddress">ADD ADDRESS</button>
@@ -147,10 +147,10 @@
                 <div class="detail-field">&#8377 <%= total %></div>
               </div>
 
-          <% if(selectedAddress === "none" || selectedAddress === ""){ %>
+          <% if(!selectedAddress){ %>
             <div class="d-flex flex-column align-items-center">
-              <div style="font-weight: bold; color: red">Select an address or add one to proceed!</div>
-            <button class="checkoutButton" disabled type="submit">Go to payment</button>
+              <div style="font-weight: 500; color: red">Select an address to proceed!</div>
+            <button id="checkoutButton" style="background-color: grey;" disabled >Place order</button>
             </div>
           <% } else { %>
             <% if(total > 0){ %>

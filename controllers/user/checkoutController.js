@@ -22,7 +22,7 @@ const showCheckout = async (req, res) => {
     let selectedAddress;
     if (!req.session.address) {
       if (req.user.default_address === "none") {
-        selectedAddress = "none";
+        selectedAddress = "";
       } else {
         selectedAddress = await Addresses.findById(req.user.default_address);
       }
@@ -98,7 +98,7 @@ const showCheckout = async (req, res) => {
     req.session.order = order;
     req.session.orderId = order?.id ?? `order_${randomUUID().split("-")[0]}`;
     res.render("user/checkout", {
-      selectedAddress: selectedAddress,
+      selectedAddress,
       addresses: addresses,
       lists: lists,
       totalMrp,
