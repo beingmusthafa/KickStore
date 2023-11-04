@@ -1,23 +1,14 @@
-const Users = require("../models/usersModel");
-const Addresses = require("../models/addressesModel");
-const Banners = require("../models/bannersModel");
 const Orders = require("../models/ordersModel");
-const Products = require("../models/productsModel");
-const Reviews = require("../models/reviewsModel");
-const Carts = require("../models/cartsModel");
-const Categories = require("../models/categoriesModel");
 const Stocks = require("../models/stocksModel");
-const Coupons = require("../models/couponsModel");
 const Wallets = require("../models/walletsModel");
-const Transactions = require("../models/transactionsModel");
+const transactionHelper = require("./transactionHelper");
 
-const deductWalletForOrder = async () => {
-  await new Transactions({
-    userId: req.user._id,
-    type: "debit",
-    amount: req.session.walletDiscount,
-    note: `Payment for order: '${req.session.orderId}'`,
-  }).save();
+const deductWalletForOrder = async (req) => {
+  await transactionHelper.createPayment(
+    req.user._id,
+    req.session.walletDiscount,
+    req.session.orderId
+  );
   await Wallets.updateOne(
     { userId: req.user._id },
     { $inc: { balance: -req.session.walletDiscount } }
