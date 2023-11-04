@@ -8,6 +8,7 @@ const excel = require("../../utils/excel");
 const pdf = require("../../utils/pdf");
 const categoryHelper = require("../../helpers/categoryHelper");
 const errorHandler = require("../../utils/errorHandler");
+const fs = require("fs");
 
 const showStats = async (req, res) => {
   try {
@@ -156,12 +157,22 @@ const downloadReportExcel = async (req, res) => {
     const report = req.query.report;
     const id = req.query.id;
     let path;
+
     if (report === "sales") {
       path = await excel.createSalesExcel(id);
     } else if (report === "stocks") {
       path = await excel.createStocksExcel(id);
     }
-    res.download(path);
+    res.download(path, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        fs.unlink(path, (err) => {
+          if (err) console.log(err);
+          else console.log(`Delete file : ${path}`);
+        });
+      }
+    });
   } catch (error) {
     const statusCode = errorHandler.getStatusCode(error);
     res.status(statusCode).render("error", { error: error });
@@ -179,7 +190,16 @@ const downloadReportPDF = async (req, res) => {
     } else if (report === "stocks") {
       path = await pdf.generateStocksPDF(id);
     }
-    res.download(path);
+    res.download(path, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        fs.unlink(path, (err) => {
+          if (err) console.log(err);
+          else console.log(`Delete file : ${path}`);
+        });
+      }
+    });
   } catch (error) {
     const statusCode = errorHandler.getStatusCode(error);
     res.status(statusCode).render("error", { error: error });

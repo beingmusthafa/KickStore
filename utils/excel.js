@@ -4,11 +4,21 @@ const Products = require("../models/productsModel");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const StocksReports = require("../models/stocksReportsModel");
+const fs = require("fs");
+const util = require("util");
+const path = require("path");
 mongoose.connect(process.env.DB_LINK);
 
 const createSalesExcel = async (id) => {
   const doc = await SalesReports.findById(id);
   const workbook = new excel.Workbook();
+  const writeFile = util.promisify(fs.writeFile);
+  const newFilePath = path.join(
+    __dirname,
+    `../reports/${doc.type}-sales-${doc.date}.xlsx`
+  );
+  await writeFile(newFilePath, "");
+
   const options = {
     "sheetProtection": {
       // same as "Protect Sheet" in Review tab of Excel
@@ -152,6 +162,13 @@ const createSalesExcel = async (id) => {
 const createStocksExcel = async (id) => {
   const doc = await StocksReports.findById(id);
   const workbook = new excel.Workbook();
+  const writeFile = util.promisify(fs.writeFile);
+  const newFilePath = path.join(
+    __dirname,
+    `../reports/${doc.type}-stocks-${doc.date}.xlsx`
+  );
+  await writeFile(newFilePath, "");
+
   const options = {
     "sheetProtection": {
       // same as "Protect Sheet" in Review tab of Excel
@@ -205,7 +222,7 @@ const createStocksExcel = async (id) => {
     worksheet.cell(cellRow, 5).number(product.balance).style(style);
     cellRow++;
   }
-  await workbook.write(`reports/${doc.type}-stocks-${doc.date}.xlsx`);
+  workbook.write(`reports/${doc.type}-stocks-${doc.date}.xlsx`);
   return `reports/${doc.type}-stocks-${doc.date}.xlsx`;
 };
 
