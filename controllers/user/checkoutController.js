@@ -13,6 +13,7 @@ const cryptoJs = require("crypto-js");
 const razorpay = require("../../utils/razorpay");
 const errorHandler = require("../../utils/errorHandler");
 const productHelper = require("../../helpers/productHelper");
+const transactionHelper = require("../../helpers/transactionHelper");
 const { randomUUID, Hmac } = require("crypto");
 const categoryHelper = require("../../helpers/categoryHelper");
 const orderHelper = require("../../helpers/orderHelper");
@@ -32,7 +33,7 @@ const showCheckout = async (req, res) => {
     const addresses = await Addresses.find({ userId: req.user._id });
     const lists = await Carts.find({ userId: req.user._id });
     let totalMrp = 0;
-    let totalDiscountedPrice = 0;
+    let totalFinalPrice = 0;
     let cartTotal = 0;
     for (const list of lists) {
       list.product = await Products.findById(list.productId).lean();
@@ -41,9 +42,9 @@ const showCheckout = async (req, res) => {
       list.total = list.product.finalPrice * list.quantity;
       cartTotal += list.total;
       totalMrp += list.product.price * list.quantity;
-      totalDiscountedPrice += list.product.finalPrice * list.quantity;
+      totalFinalPrice += list.product.finalPrice * list.quantity;
     }
-    let discount = totalMrp - totalDiscountedPrice;
+    let discount = totalMrp - totalFinalPrice;
     let coupon;
     let couponDiscount = 0;
     if (req.session.coupon) {
@@ -90,6 +91,7 @@ const showCheckout = async (req, res) => {
       })
       .lean();
     if (req.session.wallet) {
+      wallet.isApplied = true;
       wallet.discount = cartTotal > wallet.balance ? wallet.balance : cartTotal;
       cartTotal = cartTotal > wallet.balance ? cartTotal - wallet.balance : 0;
       req.session.walletDiscount = wallet.discount;
@@ -117,31 +119,61 @@ const showCheckout = async (req, res) => {
 };
 
 const sendOrderToFrontEnd = async (req, res) => {
-  res.status(200).json(req.session.order);
+  try {
+    res.status(200).json(req.session.order);
+  } catch (error) {
+    const statusCode = errorHandler.getStatusCode(error);
+    res.status(statusCode).render("error", { error: error });
+    console.log(error);
+  }
 };
 
 const useWallet = async (req, res) => {
-  req.session.wallet = true;
-  res.status(200).json({ message: "success" });
+  try {
+    req.session.wallet = true;
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    const statusCode = errorHandler.getStatusCode(error);
+    res.status(statusCode).render("error", { error: error });
+    console.log(error);
+  }
 };
 
 const applyCoupon = async (req, res) => {
-  const coupon = await Coupons.findOne({ code: req.body.coupon });
-  if (!coupon || coupon.isActive === false) {
-    return res.status(200).json({ warning: "Invalid coupon code" });
+  try {
+    const coupon = await Coupons.findOne({ code: req.body.coupon });
+    if (!coupon || coupon.isActive === false) {
+      return res.status(200).json({ warning: "Invalid coupon code" });
+    }
+    req.session.coupon = coupon._id;
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    const statusCode = errorHandler.getStatusCode(error);
+    res.status(statusCode).render("error", { error: error });
+    console.log(error);
   }
-  req.session.coupon = coupon._id;
-  res.status(200).json({ message: "success" });
 };
 
 const removeCoupon = async (req, res) => {
-  delete req.session.coupon;
-  res.status(200).json({ message: "success" });
+  try {
+    delete req.session.coupon;
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    const statusCode = errorHandler.getStatusCode(error);
+    res.status(statusCode).render("error", { error: error });
+    console.log(error);
+  }
 };
 
 const selectAddress = async (req, res) => {
-  req.session.address = req.body.address;
-  res.status(200).json({ message: "success" });
+  try {
+    req.session.address = req.body.address;
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    const statusCode = errorHandler.getStatusCode(error);
+    res.status(statusCode).render("error", { error: error });
+    console.log(error);
+  }
 };
 
 const placeOrder = async (req, res) => {
@@ -150,7 +182,7 @@ const placeOrder = async (req, res) => {
       return res.redirect("back");
     }
     if (req.session.wallet) {
-      await orderHelper.deductWalletForOrder();
+      await orderHelper.deductWalletForOrder(req);
     }
     const address = await Addresses.findById(
       req.session.address || req.user.default_address
@@ -181,7 +213,7 @@ const placeOrder = async (req, res) => {
 const verifyAndPlaceOrder = async (req, res) => {
   try {
     if (req.session.wallet) {
-      await orderHelper.deductWalletForOrder();
+      await orderHelper.deductWalletForOrder(req);
     }
     const paymentId = req.body.razorpay_payment_id;
     const signature = req.body.razorpay_signature;
@@ -243,12 +275,7 @@ const cancelOrder = async (req, res) => {
         { $inc: { balance: order.total } }
       );
       //creating new transaction log
-      await new Transactions({
-        userId: order.userId,
-        amount: order.total,
-        type: "credit",
-        note: `Cancellation of product: ${order.product.brand} ${order.product.name} (Quantity: ${order.quantity})`,
-      }).save();
+      await transactionHelper.createCancel(order);
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
@@ -281,12 +308,7 @@ const returnOrder = async (req, res) => {
       { $inc: { balance: order.total } }
     );
     //creating new transaction log
-    await new Transactions({
-      userId: order.userId,
-      amount: order.total,
-      type: "credit",
-      note: `Return of product: ${order.product.brand} ${order.product.name} (Quantity: ${order.quantity})`,
-    }).save();
+    await transactionHelper.createReturn(order);
     res.status(200).json({ message: "success" });
   } catch (error) {
     const statusCode = errorHandler.getStatusCode(error);
