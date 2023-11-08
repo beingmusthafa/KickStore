@@ -201,7 +201,7 @@ button:active {
   }
   #header {
     width: 100vw;
-    height: 7vh;
+    min-height: 8vh;
   }
   .brand-logo {
     height: 2.5rem;
