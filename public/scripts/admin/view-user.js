@@ -9,13 +9,7 @@ function blockAndChange(id) {
       data: { id: id },
       dataType: "json",
       success: function (res) {
-        console.log(res);
-        button.innerText = "Unblock";
-        dialog.innerText = "Unblock this user?";
-        button.style.backgroundColor = "green";
-        document.querySelector(".confirm-popup").classList.add("d-none");
-        $("#loading").addClass("d-none");
-        $("#overlay").addClass("d-none");
+        location.reload();
       },
     });
   } else {
@@ -26,22 +20,16 @@ function blockAndChange(id) {
       data: { id: id },
       dataType: "json",
       success: function (res) {
-        console.log(res);
-        button.innerText = "Block";
-        dialog.innerText = "Block this user?";
-        button.style.backgroundColor = "red";
-        document.querySelector(".confirm-popup").classList.add("d-none");
-        $("#loading").addClass("d-none");
-        $("#overlay").addClass("d-none");
+        location.reload();
       },
     });
   }
 }
 function openConfirm() {
   $("#overlay").removeClass("d-none");
-  document.querySelector(".confirm-popup").classList.remove("d-none");
+  $(".popup").removeClass("d-none");
 }
 function closeConfirm() {
   $("#overlay").addClass("d-none");
-  document.querySelector(".confirm-popup").classList.add("d-none");
+  $(".popup").addClass("d-none");
 }

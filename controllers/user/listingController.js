@@ -89,6 +89,7 @@ const search = async (req, res) => {
 const filterProducts = async (req, res) => {
   try {
     let { page, search, category, sort, min, max, gender } = req.query;
+    search = search || "";
     min = min ? Number(min) : 0;
     max = max ? Number(max) : Infinity;
     const pipeline = [

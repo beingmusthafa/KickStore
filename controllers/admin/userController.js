@@ -41,7 +41,7 @@ const showDetails = async (req, res) => {
       image: 1,
       email: 1,
       phone: 1,
-      ban: 1,
+      isBlocked: 1,
     });
     if (user.default_address !== "none") {
       user.address = await Addresses.findById(user.default_address);
@@ -74,7 +74,9 @@ const block = async (req, res) => {
 
 const unblock = async (req, res) => {
   try {
-    await Users.findByIdAndUpdate(req.body.id, { ban: false }).then(() => {
+    await Users.findByIdAndUpdate(req.body.id, {
+      $set: { isBlocked: false },
+    }).then(() => {
       res.status(200).json({ message: "success" });
     });
   } catch (error) {

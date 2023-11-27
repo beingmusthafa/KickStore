@@ -2,7 +2,7 @@ let params = new URL(document.location).searchParams;
 const min = Number(params.get("min")) !== 0 ? Number(params.get("min")) : "";
 const max = Number(params.get("max")) !== 0 ? Number(params.get("max")) : "";
 const page = Number(params.get("page") ?? 1);
-const search = params.get("search");
+const search = params.get("search") || "";
 $("input[name='search']").val(search);
 $("input[name='minPrice']").val(min);
 $("input[name='maxPrice']").val(max);
