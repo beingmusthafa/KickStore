@@ -10,7 +10,7 @@ const sendVerificationSMS = async (phone, code) => {
     .create({
       body: `Your KickStore verification code is ${code}`,
       from: "+15177605393",
-      to: "+919656453836",
+      to: `+91${phone}`,
     })
     .then((message) => console.log(message.sid));
 };

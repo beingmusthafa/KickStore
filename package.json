@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+    "start": "pm2 start app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "author": "beingmusthafa",
   "license": "ISC",
@@ -39,6 +40,7 @@
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "pm2": "^5.3.1",
     "puppeteer": "^21.5.0",
     "razorpay": "^2.9.2",
     "session": "^0.1.0",
