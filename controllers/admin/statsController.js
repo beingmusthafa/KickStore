@@ -10,7 +10,7 @@ const categoryHelper = require("../../helpers/categoryHelper");
 const errorHandler = require("../../utils/errorHandler");
 const fs = require("fs");
 
-const showStats = async (req, res) => {
+const showStats = async (req, res, next) => {
   try {
     const now = new Date();
     const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
@@ -70,13 +70,12 @@ const showStats = async (req, res) => {
       products: products,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const sendCategoryGraph = async (req, res) => {
+const sendCategoryGraph = async (req, res, next) => {
   try {
     let mainCategories = await Categories.find({ parent_category: "" })
       .select({ _id: 0, name: 1 })
@@ -94,51 +93,47 @@ const sendCategoryGraph = async (req, res) => {
     }
     res.status(200).json({ categories: mainCategories });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showSalesReports = async (req, res) => {
+const showSalesReports = async (req, res, next) => {
   try {
     res.render("admin/sales-reports", {
       page: "Sales & stats",
       admin: req.user,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showStocksReports = async (req, res) => {
+const showStocksReports = async (req, res, next) => {
   try {
     res.render("admin/stocks-reports", {
       page: "Sales & stats",
       admin: req.user,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const sendSalesReports = async (req, res) => {
+const sendSalesReports = async (req, res, next) => {
   try {
     const type = req.query.type;
     const reports = await SalesReports.find({ type: type }).select({ date: 1 });
     res.status(200).json({ reports });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const sendStocksReports = async (req, res) => {
+const sendStocksReports = async (req, res, next) => {
   try {
     const type = req.query.type;
     const reports = await StocksReports.find({ type: type }).select({
@@ -146,13 +141,12 @@ const sendStocksReports = async (req, res) => {
     });
     res.status(200).json({ reports });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const downloadReportExcel = async (req, res) => {
+const downloadReportExcel = async (req, res, next) => {
   try {
     const report = req.query.report;
     const id = req.query.id;
@@ -174,13 +168,12 @@ const downloadReportExcel = async (req, res) => {
       }
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const downloadReportPDF = async (req, res) => {
+const downloadReportPDF = async (req, res, next) => {
   try {
     const report = req.query.report;
     const id = req.query.id;
@@ -201,13 +194,12 @@ const downloadReportPDF = async (req, res) => {
       }
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-// const searchSalesReports = async (req, res) => {
+// const searchSalesReports = async (req, res, next) => {
 //   const data = req.query;
 //   if (data.type === "Weekly") {
 //     const search = data.date.split("-");

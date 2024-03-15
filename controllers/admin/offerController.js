@@ -7,7 +7,7 @@ const categoryHelper = require("../../helpers/categoryHelper");
 const productHelper = require("../../helpers/productHelper");
 const errorHandler = require("../../utils/errorHandler");
 
-const showOffers = async (req, res) => {
+const showOffers = async (req, res, next) => {
   try {
     const coupons = await Coupons.find();
     const categories = await Categories.find().select({ name: 1 });
@@ -18,13 +18,12 @@ const showOffers = async (req, res) => {
       categories: categories,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addCoupon = async (req, res) => {
+const addCoupon = async (req, res, next) => {
   try {
     const data = req.body;
     if (data.minPrice === "") {
@@ -39,50 +38,46 @@ const addCoupon = async (req, res) => {
     await new Coupons(data).save();
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const disableCoupon = async (req, res) => {
+const disableCoupon = async (req, res, next) => {
   try {
     await Coupons.findByIdAndUpdate(req.body.coupon, {
       $set: { active: false },
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const enableCoupon = async (req, res) => {
+const enableCoupon = async (req, res, next) => {
   try {
     await Coupons.findByIdAndUpdate(req.body.coupon, {
       $set: { active: true },
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteCoupon = async (req, res) => {
+const deleteCoupon = async (req, res, next) => {
   try {
     await Coupons.findByIdAndDelete(req.body.coupon);
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showCategoryOffers = async (req, res) => {
+const showCategoryOffers = async (req, res, next) => {
   try {
     const categories = await Categories.find()
       .select({ name: 1, image: 1 })
@@ -105,13 +100,12 @@ const showCategoryOffers = async (req, res) => {
       categoryOffers,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addCategoryOffer = async (req, res) => {
+const addCategoryOffer = async (req, res, next) => {
   try {
     const offer = req.body;
     offer.type = "Category";
@@ -144,13 +138,12 @@ const addCategoryOffer = async (req, res) => {
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteCategoryOffer = async (req, res) => {
+const deleteCategoryOffer = async (req, res, next) => {
   try {
     const offer = await Offers.findById(req.body.offer).lean();
     const categoryArray = await categoryHelper.subCategoriesIntoArray(
@@ -176,13 +169,12 @@ const deleteCategoryOffer = async (req, res) => {
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showProductOffers = async (req, res) => {
+const showProductOffers = async (req, res, next) => {
   try {
     const products = await Products.find({}).lean().select({
       name: 1,
@@ -205,13 +197,12 @@ const showProductOffers = async (req, res) => {
       products: products,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addProductOffer = async (req, res) => {
+const addProductOffer = async (req, res, next) => {
   try {
     const offer = req.body;
     if (offer.discount) await new ProductOffers(offer).save();
@@ -226,13 +217,12 @@ const addProductOffer = async (req, res) => {
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteProductOffer = async (req, res) => {
+const deleteProductOffer = async (req, res, next) => {
   res.status(200).json({ message: "success" });
   try {
     const productId = req.body.productId;
@@ -248,9 +238,8 @@ const deleteProductOffer = async (req, res) => {
       });
     }
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

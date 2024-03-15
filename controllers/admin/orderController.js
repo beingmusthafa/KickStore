@@ -4,7 +4,7 @@ const Returns = require("../../models/returnsModel");
 
 const errorHandler = require("../../utils/errorHandler");
 
-const showOrders = async (req, res) => {
+const showOrders = async (req, res, next) => {
   try {
     const orders = await Orders.find().lean().sort({
       createdAt: -1,
@@ -24,22 +24,20 @@ const showOrders = async (req, res) => {
       orders: orders,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const updateStatus = async (req, res) => {
+const updateStatus = async (req, res, next) => {
   try {
     await Orders.findByIdAndUpdate(req.body.order, {
       $set: { status: req.body.status },
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

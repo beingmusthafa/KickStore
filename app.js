@@ -5,6 +5,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("./middlewares/passport");
 const cron = require("./utils/cron");
+const { errorHandler } = require("./utils/errorHandler");
 require("dotenv").config();
 
 const app = express();
@@ -116,6 +117,7 @@ app.post(
 );
 
 app.use("/", userRouter);
+app.use(errorHandler);
 
 app.use((req, res) => {
   res.render("error", {

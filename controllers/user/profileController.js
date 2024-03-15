@@ -12,7 +12,7 @@ require("dotenv").config();
 const cloudinary = require("../../utils/cloudinary");
 const errorHandler = require("../../utils/errorHandler");
 
-const showProfile = async (req, res) => {
+const showProfile = async (req, res, next) => {
   try {
     const user = req.user;
     if (user.default_address !== "none") {
@@ -45,13 +45,12 @@ const showProfile = async (req, res) => {
       orders,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const updateImage = async (req, res) => {
+const updateImage = async (req, res, next) => {
   if (req.file) {
     const uploadedImage = req.file.path;
     const croppedImage = path.join(
@@ -85,7 +84,7 @@ const updateImage = async (req, res) => {
   }
 };
 
-const editProfile = async (req, res) => {
+const editProfile = async (req, res, next) => {
   const newDetails = req.body;
   if (req.file) {
     const file = req.file.path;
@@ -104,7 +103,7 @@ const editProfile = async (req, res) => {
   return res.status(200).redirect("/home/profile");
 };
 
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
   try {
     const oldPassword = req.body.oldPassword;
     const password = req.body.password;
@@ -122,26 +121,24 @@ const changePassword = async (req, res) => {
       return res.status(200).json({ valid: false });
     }
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addAddress = async (req, res) => {
+const addAddress = async (req, res, next) => {
   try {
     const address = req.body;
     address.userId = req.user._id;
     await new Addresses(address).save();
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showEditAddress = async (req, res) => {
+const showEditAddress = async (req, res, next) => {
   const address = await Addresses.findOne({
     userId: req.user._id,
     _id: req.query.address,
@@ -149,7 +146,7 @@ const showEditAddress = async (req, res) => {
   res.render("user/edit-address", { address: address });
 };
 
-const editAddress = async (req, res) => {
+const editAddress = async (req, res, next) => {
   try {
     const updatedAddress = req.body.data;
     await Addresses.findByIdAndUpdate(req.body.address, {
@@ -157,13 +154,12 @@ const editAddress = async (req, res) => {
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteAddress = async (req, res) => {
+const deleteAddress = async (req, res, next) => {
   try {
     const addressId = req.body.address;
     const address = await Addresses.findById(addressId);
@@ -176,13 +172,12 @@ const deleteAddress = async (req, res) => {
     await Addresses.findByIdAndDelete(addressId);
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const makeDefaultAddress = async (req, res) => {
+const makeDefaultAddress = async (req, res, next) => {
   try {
     const addressId = req.body.address;
     await Users.findOneAndUpdate(
@@ -196,9 +191,8 @@ const makeDefaultAddress = async (req, res) => {
     await Addresses.findByIdAndUpdate(addressId, { $set: { isDefault: true } });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

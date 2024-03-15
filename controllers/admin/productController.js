@@ -6,7 +6,7 @@ const productHelper = require("../../helpers/productHelper");
 const errorHandler = require("../../utils/errorHandler");
 
 // Showing all products
-const showAll = async (req, res) => {
+const showAll = async (req, res, next) => {
   try {
     const categories = await Categories.find({}).select({ name: 1 });
     const products = await Products.find({}).lean().select({
@@ -29,13 +29,12 @@ const showAll = async (req, res) => {
       categories: categories,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showInCategory = async (req, res) => {
+const showInCategory = async (req, res, next) => {
   try {
     if (req.query.category === "all") {
       res.redirect("/admin//products");
@@ -67,14 +66,13 @@ const showInCategory = async (req, res) => {
       });
     }
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Showing search results
-const search = async (req, res) => {
+const search = async (req, res, next) => {
   try {
     search = req.query.search;
     const products = await Products.find({
@@ -113,14 +111,13 @@ const search = async (req, res) => {
       categories: categories,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Showing details of an individual product
-const showDetails = async (req, res) => {
+const showDetails = async (req, res, next) => {
   try {
     const product = await Products.findById(req.query.id).lean();
     product.finalPrice = productHelper.returnFinalPrice(product);
@@ -130,14 +127,13 @@ const showDetails = async (req, res) => {
       product: product,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Showing stock information
-const showStock = async (req, res) => {
+const showStock = async (req, res, next) => {
   try {
     const product = await Products.findById(req.query.id).lean().select({
       _id: 1,
@@ -152,39 +148,36 @@ const showStock = async (req, res) => {
       stocks: stocks,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Adding new size and stock
-const addStock = async (req, res) => {
+const addStock = async (req, res, next) => {
   try {
     await new Stocks(req.body).save();
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Updating stock with new quantities
-const updateStock = async (req, res) => {
+const updateStock = async (req, res, next) => {
   try {
     await Stocks.findByIdAndUpdate(req.body.stockId, {
       $set: { stock: req.body.stock },
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const edit = async (req, res) => {
+const edit = async (req, res, next) => {
   try {
     if (req.query.id) {
       const product = await Products.findById(req.query.id);
@@ -199,13 +192,12 @@ const edit = async (req, res) => {
       res.redirect("/admin/products");
     }
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const saveEdit = async (req, res) => {
+const saveEdit = async (req, res, next) => {
   try {
     const name = req.body.name;
     const brand = req.body.brand;
@@ -342,13 +334,12 @@ const saveEdit = async (req, res) => {
     }
     res.redirect("/admin//products/product-details?id=" + req.query.id);
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const softDelete = async (req, res) => {
+const softDelete = async (req, res, next) => {
   try {
     await Products.findByIdAndUpdate(req.query.id, { deleted: true });
     res.redirect("/admin/products");
@@ -357,7 +348,7 @@ const softDelete = async (req, res) => {
   }
 };
 
-const restore = async (req, res) => {
+const restore = async (req, res, next) => {
   try {
     await Products.findByIdAndUpdate(req.query.id, { deleted: false });
     res.redirect("/admin/products");
@@ -366,7 +357,7 @@ const restore = async (req, res) => {
   }
 };
 
-const add = async (req, res) => {
+const add = async (req, res, next) => {
   try {
     const categories = await Categories.find().select({ name: 1 });
     res.render("admin/add-product", {
@@ -379,7 +370,7 @@ const add = async (req, res) => {
   }
 };
 
-const saveAdd = async (req, res) => {
+const saveAdd = async (req, res, next) => {
   try {
     const name = req.body.name;
     const brand = req.body.brand;
@@ -502,9 +493,8 @@ const saveAdd = async (req, res) => {
       });
     }
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

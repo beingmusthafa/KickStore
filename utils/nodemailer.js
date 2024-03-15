@@ -12,35 +12,43 @@ const config = {
 };
 const transporter = nodemailer.createTransport(config);
 const sendRecoveryMail = async (email, code) => {
-  const mail = {
-    from: process.env.GMAIL,
-    to: email,
-    subject: "Password recovery of KickStore Account",
-    text: `Hello,\nYou have requested a password recovery for your account with the email '${email}'. Your recovery code is ${code}.THIS CODE IS ONLY VALID FOR 1 MINUTE! Dont worry, kindly ignore this mail if you didnt initiate this request. Happy shopping.\n Team KickStore`,
-  };
-  await transporter.sendMail(mail, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      return info.response;
-    }
-  });
+  try {
+    const mail = {
+      from: process.env.GMAIL,
+      to: email,
+      subject: "Password recovery of KickStore Account",
+      text: `Hello,\nYou have requested a password recovery for your account with the email '${email}'. Your recovery code is ${code}.THIS CODE IS ONLY VALID FOR 1 MINUTE! Dont worry, kindly ignore this mail if you didnt initiate this request. Happy shopping.\n Team KickStore`,
+    };
+    await transporter.sendMail(mail, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        return info.response;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const sendVerificationMail = async (email, code) => {
-  const mail = {
-    from: process.env.GMAIL,
-    to: email,
-    subject: "Signup verification for KickStore Account",
-    text: `Hello,\nYour verification code to register the email '${email}' is ${code}. Dont worry, kindly ignore this mail if you didnt initiate this request. Happy shopping.\n Team KickStore`,
-  };
-  await transporter.sendMail(mail, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      return info.response;
-    }
-  });
+  try {
+    const mail = {
+      from: process.env.GMAIL,
+      to: email,
+      subject: "Signup verification for KickStore Account",
+      text: `Hello,\nYour verification code to register the email '${email}' is ${code}. Dont worry, kindly ignore this mail if you didnt initiate this request. Happy shopping.\n Team KickStore`,
+    };
+    await transporter.sendMail(mail, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        return info.response;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { sendRecoveryMail, sendVerificationMail };

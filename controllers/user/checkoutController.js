@@ -18,7 +18,7 @@ const { randomUUID, Hmac } = require("crypto");
 const categoryHelper = require("../../helpers/categoryHelper");
 const orderHelper = require("../../helpers/orderHelper");
 
-const showCheckout = async (req, res) => {
+const showCheckout = async (req, res, next) => {
   try {
     let selectedAddress;
     if (!req.session.address) {
@@ -112,34 +112,31 @@ const showCheckout = async (req, res) => {
       total: cartTotal,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const sendOrderToFrontEnd = async (req, res) => {
+const sendOrderToFrontEnd = async (req, res, next) => {
   try {
     res.status(200).json(req.session.order);
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const useWallet = async (req, res) => {
+const useWallet = async (req, res, next) => {
   try {
     req.session.wallet = true;
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const applyCoupon = async (req, res) => {
+const applyCoupon = async (req, res, next) => {
   try {
     const coupon = await Coupons.findOne({ code: req.body.coupon });
     if (!coupon || coupon.isActive === false) {
@@ -148,35 +145,32 @@ const applyCoupon = async (req, res) => {
     req.session.coupon = coupon._id;
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const removeCoupon = async (req, res) => {
+const removeCoupon = async (req, res, next) => {
   try {
     delete req.session.coupon;
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const selectAddress = async (req, res) => {
+const selectAddress = async (req, res, next) => {
   try {
     req.session.address = req.body.address;
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const placeOrder = async (req, res) => {
+const placeOrder = async (req, res, next) => {
   try {
     if (!req.session.orderId) {
       return res.redirect("back");
@@ -204,13 +198,12 @@ const placeOrder = async (req, res) => {
     await Carts.deleteMany({ userId: req.user._id });
     res.render("user/payment-success");
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const verifyAndPlaceOrder = async (req, res) => {
+const verifyAndPlaceOrder = async (req, res, next) => {
   try {
     if (req.session.wallet) {
       await orderHelper.deductWalletForOrder(req);
@@ -250,13 +243,12 @@ const verifyAndPlaceOrder = async (req, res) => {
       res.render("user/payment-success");
     }
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const cancelOrder = async (req, res) => {
+const cancelOrder = async (req, res, next) => {
   try {
     //changing order status
     const order = await Orders.findByIdAndUpdate(req.body.order, {
@@ -279,13 +271,12 @@ const cancelOrder = async (req, res) => {
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const returnOrder = async (req, res) => {
+const returnOrder = async (req, res, next) => {
   try {
     const order = await Orders.findById(req.body.order);
     if (order.createdAt.getTime() + 604800000 < Date.now()) {
@@ -311,14 +302,13 @@ const returnOrder = async (req, res) => {
     await transactionHelper.createReturn(order);
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 //sending order details to user
-const getInvoiceData = async (req, res) => {
+const getInvoiceData = async (req, res, next) => {
   const orders = await Orders.find({ orderId: req.query.order }).lean();
   res.status(200).json({ user: req.user, orders });
 };

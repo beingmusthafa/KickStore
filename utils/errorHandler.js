@@ -50,4 +50,9 @@ function getStatusCode(err) {
       return 500;
   }
 }
-module.exports = { getStatusCode };
+
+function errorHandler(err, req, res, next) {
+  const status = getStatusCode(err);
+  res.status(status).render("error", { error: err });
+}
+module.exports = { getStatusCode, errorHandler };

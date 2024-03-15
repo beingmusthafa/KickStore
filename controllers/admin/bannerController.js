@@ -6,7 +6,7 @@ const cloudinary = require("../../utils/cloudinary");
 const errorHandler = require("../../utils/errorHandler");
 const Genders = require("../../models/gendersModel");
 
-const showBanners = async (req, res) => {
+const showBanners = async (req, res, next) => {
   try {
     const genders = await Genders.find();
     const slides = await Banners.find({ type: "Slide" });
@@ -19,13 +19,12 @@ const showBanners = async (req, res) => {
       posters,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addBanner = async (req, res) => {
+const addBanner = async (req, res, next) => {
   try {
     const { type, order, url } = req.body;
     const uploadedBanner = req.file.path;
@@ -64,24 +63,22 @@ const addBanner = async (req, res) => {
       if (error) console.log(error);
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const sendBannerDetails = async (req, res) => {
+const sendBannerDetails = async (req, res, next) => {
   try {
     const banner = await Banners.findById(req.query.id);
     res.status(200).json(banner);
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const editBanner = async (req, res) => {
+const editBanner = async (req, res, next) => {
   try {
     console.log(req.body);
     const { id, order, url } = req.body;
@@ -90,13 +87,12 @@ const editBanner = async (req, res) => {
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const enableBanner = async (req, res) => {
+const enableBanner = async (req, res, next) => {
   try {
     const banner = req.body.banner;
     await Banners.findByIdAndUpdate(banner, {
@@ -104,13 +100,12 @@ const enableBanner = async (req, res) => {
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const disableBanner = async (req, res) => {
+const disableBanner = async (req, res, next) => {
   try {
     const banner = req.body.banner;
     await Banners.findByIdAndUpdate(banner, {
@@ -118,25 +113,23 @@ const disableBanner = async (req, res) => {
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteBanner = async (req, res) => {
+const deleteBanner = async (req, res, next) => {
   try {
     const banner = req.body.banner;
     await Banners.findByIdAndDelete(banner);
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const updateGenderImage = async (req, res) => {
+const updateGenderImage = async (req, res, next) => {
   try {
     const { gender } = req.body;
     const uploadedImage = req.file.path;
@@ -161,9 +154,8 @@ const updateGenderImage = async (req, res) => {
     });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

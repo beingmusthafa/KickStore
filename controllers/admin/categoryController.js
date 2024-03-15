@@ -8,7 +8,7 @@ const productHelper = require("../../helpers/productHelper");
 const errorHandler = require("../../utils/errorHandler");
 
 // Showing all categories
-const show = async (req, res) => {
+const show = async (req, res, next) => {
   try {
     const categories = await Categories.find({ parent_category: "" });
     const products = await Products.find({ deleted: false }).lean();
@@ -23,14 +23,13 @@ const show = async (req, res) => {
       products: products,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Showing sub categories
-const showSub = async (req, res) => {
+const showSub = async (req, res, next) => {
   try {
     const categories = await Categories.find({
       parent_category: req.query.category,
@@ -57,14 +56,13 @@ const showSub = async (req, res) => {
       products: products,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Showing edit form
-const provideDetails = async (req, res) => {
+const provideDetails = async (req, res, next) => {
   try {
     let category;
     if (req.query.category !== "") {
@@ -79,14 +77,13 @@ const provideDetails = async (req, res) => {
     }).select({ name: 1 });
     res.status(200).json({ currentCategory: category, categories: categories });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Saving edits
-const saveEdit = async (req, res) => {
+const saveEdit = async (req, res, next) => {
   try {
     if (await Categories.exists({ name: req.body.name })) {
       return res.json({ message: "Category already exists!" });
@@ -126,14 +123,13 @@ const saveEdit = async (req, res) => {
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Saving new category
-const saveAdd = async (req, res) => {
+const saveAdd = async (req, res, next) => {
   try {
     if (await Categories.exists({ name: req.body.name })) {
       return res.json({ message: "Category already exists!" });
@@ -157,14 +153,13 @@ const saveAdd = async (req, res) => {
     }).save();
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
 // Deleting category
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req, res, next) => {
   try {
     const currentCategory = await Categories.findOne({
       name: req.body.category,
@@ -180,9 +175,8 @@ const deleteCategory = async (req, res) => {
     );
     return res.status(200).json({ success: "message" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

@@ -8,16 +8,20 @@ const instance = new Razorpay({
 });
 
 const createOrder = async (amount) => {
-  let options = {
-    amount: amount * 100, // amount in the smallest currency unit
-    currency: "INR",
-    receipt: `order_${randomUUID().split("-")[0]}`,
-  };
-  let order;
-  await instance.orders.create(options, function (err, response) {
-    order = response;
-  });
-  return order;
+  try {
+    let options = {
+      amount: amount * 100, // amount in the smallest currency unit
+      currency: "INR",
+      receipt: `order_${randomUUID().split("-")[0]}`,
+    };
+    let order;
+    await instance.orders.create(options, function (err, response) {
+      order = response;
+    });
+    return order;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { createOrder };

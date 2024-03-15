@@ -3,18 +3,17 @@ const Addresses = require("../../models/addressesModel");
 
 const errorHandler = require("../../utils/errorHandler");
 
-const showAll = async (req, res) => {
+const showAll = async (req, res, next) => {
   try {
     const users = await Users.find().select({ _id: 1, name: 1, image: 1 });
     res.render("admin/list-users", { admin: req.user, page: "Users", users });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const search = async (req, res) => {
+const search = async (req, res, next) => {
   try {
     const users = await Users.find({
       name: {
@@ -27,13 +26,12 @@ const search = async (req, res) => {
       users: users,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showDetails = async (req, res) => {
+const showDetails = async (req, res, next) => {
   try {
     const user = await Users.findById(req.query.id).select({
       _id: 1,
@@ -52,13 +50,12 @@ const showDetails = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const block = async (req, res) => {
+const block = async (req, res, next) => {
   try {
     await Users.findByIdAndUpdate(req.body.id, {
       $set: { isBlocked: true },
@@ -66,13 +63,12 @@ const block = async (req, res) => {
       res.status(200).json({ message: "success" });
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const unblock = async (req, res) => {
+const unblock = async (req, res, next) => {
   try {
     await Users.findByIdAndUpdate(req.body.id, {
       $set: { isBlocked: false },
@@ -80,9 +76,8 @@ const unblock = async (req, res) => {
       res.status(200).json({ message: "success" });
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

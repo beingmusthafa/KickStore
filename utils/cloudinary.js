@@ -7,22 +7,42 @@ cloudinary.config({
 });
 
 const uploadProduct = async (file) => {
-  const upload = await cloudinary.uploader.upload(file, { folder: "Products" });
-  return upload.url;
+  try {
+    const upload = await cloudinary.uploader.upload(file, {
+      folder: "Products",
+    });
+    return upload.url;
+  } catch (error) {
+    console.log(error);
+  }
 };
 const uploadUser = async (file) => {
-  const upload = await cloudinary.uploader.upload(file, { folder: "Users" });
-  return upload.url;
+  try {
+    const upload = await cloudinary.uploader.upload(file, { folder: "Users" });
+    return upload.url;
+  } catch (error) {
+    console.log(error);
+  }
 };
 const uploadCategory = async (file) => {
-  const upload = await cloudinary.uploader.upload(file, {
-    folder: "Categories",
-  });
-  return upload.url;
+  try {
+    const upload = await cloudinary.uploader.upload(file, {
+      folder: "Categories",
+    });
+    return upload.url;
+  } catch (error) {
+    console.log(error);
+  }
 };
 const uploadBanner = async (file) => {
-  const upload = await cloudinary.uploader.upload(file, { folder: "Banners" });
-  return upload.url;
+  try {
+    const upload = await cloudinary.uploader.upload(file, {
+      folder: "Banners",
+    });
+    return upload.url;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { uploadProduct, uploadUser, uploadCategory, uploadBanner };

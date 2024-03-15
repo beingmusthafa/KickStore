@@ -10,7 +10,7 @@ require("dotenv").config();
 const errorHandler = require("../../utils/errorHandler");
 const productHelper = require("../../helpers/productHelper");
 
-const showHome = async (req, res) => {
+const showHome = async (req, res, next) => {
   try {
     const genders = await GenderImages.find();
     const categories = await Categories.find({ parent_category: "" });
@@ -36,13 +36,12 @@ const showHome = async (req, res) => {
       // brands: brands,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const search = async (req, res) => {
+const search = async (req, res, next) => {
   try {
     const search = req.query.search;
     const page = req.query.page ?? 1;
@@ -80,13 +79,12 @@ const search = async (req, res) => {
       genders,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const filterProducts = async (req, res) => {
+const filterProducts = async (req, res, next) => {
   try {
     let { page, search, category, sort, min, max, gender } = req.query;
     search = search || "";
@@ -147,7 +145,7 @@ const filterProducts = async (req, res) => {
   }
 };
 
-const viewProduct = async (req, res) => {
+const viewProduct = async (req, res, next) => {
   try {
     const productId = req.query.product;
     const product = await Products.findOne({ _id: productId }).lean();
@@ -178,13 +176,12 @@ const viewProduct = async (req, res) => {
       wishlist: false,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showCategory = async (req, res) => {
+const showCategory = async (req, res, next) => {
   try {
     const categories = await Categories.find({
       parent_category: req.query.category,
@@ -209,9 +206,8 @@ const showCategory = async (req, res) => {
       products: products,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

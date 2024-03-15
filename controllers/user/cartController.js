@@ -7,7 +7,7 @@ require("dotenv").config();
 const errorHandler = require("../../utils/errorHandler");
 const productHelper = require("../../helpers/productHelper");
 
-const showCart = async (req, res) => {
+const showCart = async (req, res, next) => {
   try {
     let lists = await Carts.find({ userId: req.user._id }).lean();
     let totalMrp = 0;
@@ -30,13 +30,12 @@ const showCart = async (req, res) => {
       total: cartTotal,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addToCart = async (req, res) => {
+const addToCart = async (req, res, next) => {
   try {
     const user = req.user;
     const productId = req.body.product;
@@ -76,13 +75,12 @@ const addToCart = async (req, res) => {
 
     return res.json({ message: "Added to cart!" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const incCartCount = async (req, res) => {
+const incCartCount = async (req, res, next) => {
   try {
     const cart = req.body.cart;
     const existing = await Carts.findById(cart).lean();
@@ -119,13 +117,12 @@ const incCartCount = async (req, res) => {
     }
     res.status(200).json({ quantity: updated.quantity });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const decCartCount = async (req, res) => {
+const decCartCount = async (req, res, next) => {
   try {
     const cart = req.body.cart;
     const existing = await Carts.findById(cart);
@@ -143,25 +140,23 @@ const decCartCount = async (req, res) => {
     );
     res.status(200).json({ quantity: updated.quantity });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteFromCart = async (req, res) => {
+const deleteFromCart = async (req, res, next) => {
   try {
     const cart = req.body.cart;
     await Carts.findByIdAndDelete(cart);
     return res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const showWishlist = async (req, res) => {
+const showWishlist = async (req, res, next) => {
   try {
     async function getProductsByIds(productIds) {
       const products = [];
@@ -177,13 +172,12 @@ const showWishlist = async (req, res) => {
     }
     res.render("user/wishlist", { products: products });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const addToWishlist = async (req, res) => {
+const addToWishlist = async (req, res, next) => {
   try {
     const product = req.body.product;
     await Users.findOneAndUpdate(
@@ -192,13 +186,12 @@ const addToWishlist = async (req, res) => {
     );
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 
-const deleteFromWishlist = async (req, res) => {
+const deleteFromWishlist = async (req, res, next) => {
   try {
     const product = req.body.product;
     await Users.findOneAndUpdate(
@@ -207,9 +200,8 @@ const deleteFromWishlist = async (req, res) => {
     );
     res.status(200).json({ message: "success" });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error: error });
     console.log(error);
+    next(error);
   }
 };
 

@@ -43,7 +43,7 @@ const checkAuth = (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
   }
 };
 
@@ -58,7 +58,7 @@ const returnToPage = (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
   }
 };
 
@@ -86,11 +86,11 @@ const checkAuthAdmin = (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
   }
 };
 
-const sendVerificationCode = async (req, res) => {
+const sendVerificationCode = async (req, res, next) => {
   const { name, email, phone, password, passwordConfirm } = req.body;
 
   const nameValidate = () => {
@@ -209,7 +209,7 @@ const sendVerificationCode = async (req, res) => {
   res.status(200).json(response);
 };
 
-const sendEditVerificationCode = async (req, res) => {
+const sendEditVerificationCode = async (req, res, next) => {
   const { email, phone, oldEmail, oldPhone } = req.body;
   const phoneExists = await Users.exists({
     phone,
@@ -239,7 +239,7 @@ const sendEditVerificationCode = async (req, res) => {
   await verification.createPhone(phone, phoneCode);
 };
 
-const checkVerificationCode = async (req, res) => {
+const checkVerificationCode = async (req, res, next) => {
   const { email, phone, emailVerify, phoneVerify } = req.body;
   const phoneExists = await VerificationSessions.findOne({
     phone: phone,
@@ -252,7 +252,7 @@ const checkVerificationCode = async (req, res) => {
   res.json({ phone: Boolean(phoneExists), email: Boolean(emailExists) });
 };
 
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
   try {
     const { name, email, phone, password } = req.body;
     await VerificationSessions.deleteOne({
@@ -275,7 +275,7 @@ const signup = async (req, res) => {
     res.redirect("/login");
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
     console.log(error);
   }
 };
@@ -286,13 +286,13 @@ const logout = (req, res) => {
       res.redirect("/login");
     } catch (error) {
       console.log(error);
-      res.render("error", { error: error });
+      next(error);
       console.log(error);
     }
   });
 };
 
-const sendRecoveryCode = async (req, res) => {
+const sendRecoveryCode = async (req, res, next) => {
   try {
     const email = req.body.email;
     const emailExists = await Users.exists({ email });
@@ -308,11 +308,11 @@ const sendRecoveryCode = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
   }
 };
 
-const checkRecoveryCode = async (req, res) => {
+const checkRecoveryCode = async (req, res, next) => {
   try {
     const email = req.query.email;
     const code = req.body.code;
@@ -330,11 +330,11 @@ const checkRecoveryCode = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
   }
 };
 
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
   try {
     const email = req.query.email;
     const password = req.body.password;
@@ -346,7 +346,7 @@ const changePassword = async (req, res) => {
     res.redirect("/login");
   } catch (error) {
     console.log(error);
-    res.render("error", { error: error });
+    next(error);
   }
 };
 

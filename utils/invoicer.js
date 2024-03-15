@@ -81,37 +81,41 @@ var easyinvoice = require("easyinvoice");
 // };
 
 async function generateInvoice(user, orders) {
-  // Create a new invoice object.
-  const invoice = new easyinvoice();
+  try {
+    // Create a new invoice object.
+    const invoice = new easyinvoice();
 
-  // Set the invoice sender and recipient data.
-  invoice.sender = {
-    company: "Your Company Name",
-    address: "Your Company Address",
-    city: "Your Company City",
-    state: "Your Company State",
-    zip: "Your Company Zip Code",
-  };
+    // Set the invoice sender and recipient data.
+    invoice.sender = {
+      company: "Your Company Name",
+      address: "Your Company Address",
+      city: "Your Company City",
+      state: "Your Company State",
+      zip: "Your Company Zip Code",
+    };
 
-  invoice.recipient = {
-    name: user.name,
-    email: user.email,
-  };
+    invoice.recipient = {
+      name: user.name,
+      email: user.email,
+    };
 
-  // Add the order items to the invoice.
-  for (const order of orders) {
-    invoice.addItem({
-      description: order.product.name,
-      quantity: order.quantity,
-      price: order.product.finalPrice,
-    });
+    // Add the order items to the invoice.
+    for (const order of orders) {
+      invoice.addItem({
+        description: order.product.name,
+        quantity: order.quantity,
+        price: order.product.finalPrice,
+      });
+    }
+
+    // Generate the invoice PDF data.
+    const invoiceData = await invoice.createInvoice();
+
+    // Return the invoice PDF data.
+    return invoiceData.pdf;
+  } catch (error) {
+    console.log(error);
   }
-
-  // Generate the invoice PDF data.
-  const invoiceData = await invoice.createInvoice();
-
-  // Return the invoice PDF data.
-  return invoiceData.pdf;
 }
 
 module.exports = { generateInvoice };
