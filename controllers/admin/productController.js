@@ -23,7 +23,7 @@ const showAll = async (req, res, next) => {
       product.finalPrice = productHelper.returnFinalPrice(product);
     }
     res.render("admin/list-products", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Products",
       products: products,
       categories: categories,
@@ -58,7 +58,7 @@ const showInCategory = async (req, res, next) => {
       }
       const categories = await Categories.find().select({ name: 1 });
       res.render("admin/productsInCategory", {
-        admin: req.user,
+        admin: req.session.user,
         page: "Products",
         products: products,
         categories: categories,
@@ -105,7 +105,7 @@ const search = async (req, res, next) => {
     }
     const categories = await Categories.find({}).select({ name: 1 });
     res.render("admin/list-products", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Products",
       products: products,
       categories: categories,
@@ -122,7 +122,7 @@ const showDetails = async (req, res, next) => {
     const product = await Products.findById(req.query.id).lean();
     product.finalPrice = productHelper.returnFinalPrice(product);
     res.render("admin/view-product", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Products",
       product: product,
     });
@@ -142,7 +142,7 @@ const showStock = async (req, res, next) => {
     });
     const stocks = await Stocks.find({ productId: req.query.id });
     res.render("admin/manage-stock", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Products",
       product: product,
       stocks: stocks,
@@ -183,7 +183,7 @@ const edit = async (req, res, next) => {
       const product = await Products.findById(req.query.id);
       const categories = await Categories.find().select({ name: 1 });
       res.render("admin/edit-product", {
-        admin: req.user,
+        admin: req.session.user,
         page: "Products",
         product: product,
         categories: categories,
@@ -361,7 +361,7 @@ const add = async (req, res, next) => {
   try {
     const categories = await Categories.find().select({ name: 1 });
     res.render("admin/add-product", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Products",
       categories: categories,
     });

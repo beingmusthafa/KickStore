@@ -20,7 +20,7 @@ const showOrders = async (req, res, next) => {
     }
     res.render("admin/orders", {
       page: "Orders",
-      admin: req.user,
+      admin: req.session.user,
       orders: orders,
     });
   } catch (error) {

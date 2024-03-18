@@ -16,7 +16,7 @@ const show = async (req, res, next) => {
       product.finalPrice = productHelper.returnFinalPrice(product);
     }
     res.render("admin/categories", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Products",
       category: "",
       categories: categories,
@@ -49,7 +49,7 @@ const showSub = async (req, res, next) => {
       product.finalPrice = productHelper.returnFinalPrice(product);
     }
     res.render("admin/categories", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Categories",
       category: req.query.category,
       categories: categories,

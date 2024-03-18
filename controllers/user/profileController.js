@@ -14,7 +14,7 @@ const errorHandler = require("../../utils/errorHandler");
 
 const showProfile = async (req, res, next) => {
   try {
-    const user = req.user;
+    const user = req.session.user;
     if (user.default_address !== "none") {
       user.address = await Addresses.findById(user.default_address);
     }
@@ -55,7 +55,7 @@ const updateImage = async (req, res, next) => {
     const uploadedImage = req.file.path;
     const croppedImage = path.join(
       req.file.destination,
-      `image_${req.user._id}.jpg`
+      `image_${req.session.user._id}.jpg`
     );
     sharp(uploadedImage)
       .resize({
@@ -90,10 +90,10 @@ const editProfile = async (req, res, next) => {
     const file = req.file.path;
     const imageUrl = await cloudinary.uploadUser(file);
     newDetails.image = imageUrl;
-    await Users.findByIdAndUpdate(req.user._id, { $set: newDetails });
+    await Users.findByIdAndUpdate(req.session.user._id, { $set: newDetails });
     return res.status(200).redirect("/home/profile");
   }
-  await Users.findByIdAndUpdate(req.user._id, {
+  await Users.findByIdAndUpdate(req.session.user._id, {
     $set: {
       name: newDetails.name,
       email: newDetails.email,
@@ -109,11 +109,11 @@ const changePassword = async (req, res, next) => {
     const password = req.body.password;
     const correctPassword = await bcrypt.compare(
       oldPassword,
-      req.user.password
+      req.session.user.password
     );
     if (correctPassword) {
       const passwordHash = bcrypt.hashSync(password, process.env.BCRYPT_SALT);
-      await Users.findByIdAndUpdate(req.user._id, {
+      await Users.findByIdAndUpdate(req.session.user._id, {
         $set: { password: passwordHash },
       });
       return res.status(200).json({ valid: true });
@@ -129,7 +129,7 @@ const changePassword = async (req, res, next) => {
 const addAddress = async (req, res, next) => {
   try {
     const address = req.body;
-    address.userId = req.user._id;
+    address.userId = req.session.user._id;
     await new Addresses(address).save();
     res.status(200).json({ message: "success" });
   } catch (error) {
@@ -140,7 +140,7 @@ const addAddress = async (req, res, next) => {
 
 const showEditAddress = async (req, res, next) => {
   const address = await Addresses.findOne({
-    userId: req.user._id,
+    userId: req.session.user._id,
     _id: req.query.address,
   });
   res.render("user/edit-address", { address: address });
@@ -165,7 +165,7 @@ const deleteAddress = async (req, res, next) => {
     const address = await Addresses.findById(addressId);
     if (address.default) {
       await Users.findOneAndUpdate(
-        { _id: req.user._id },
+        { _id: req.session.user._id },
         { $set: { default_address: "none" } }
       );
     }
@@ -181,11 +181,11 @@ const makeDefaultAddress = async (req, res, next) => {
   try {
     const addressId = req.body.address;
     await Users.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.session.user._id },
       { $set: { default_address: addressId } }
     );
     await Addresses.findOneAndUpdate(
-      { userId: req.user._id, isDefault: true },
+      { userId: req.session.user._id, isDefault: true },
       { $set: { isDefault: false } }
     );
     await Addresses.findByIdAndUpdate(addressId, { $set: { isDefault: true } });

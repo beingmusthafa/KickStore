@@ -6,7 +6,11 @@ const errorHandler = require("../../utils/errorHandler");
 const showAll = async (req, res, next) => {
   try {
     const users = await Users.find().select({ _id: 1, name: 1, image: 1 });
-    res.render("admin/list-users", { admin: req.user, page: "Users", users });
+    res.render("admin/list-users", {
+      admin: req.session.user,
+      page: "Users",
+      users,
+    });
   } catch (error) {
     console.log(error);
     next(error);
@@ -22,7 +26,7 @@ const search = async (req, res, next) => {
     }).select({ _id: 1, name: 1, image: 1 });
     res.render("admin/list-users", {
       page: "Users",
-      admin: req.user,
+      admin: req.session.user,
       users: users,
     });
   } catch (error) {
@@ -45,7 +49,7 @@ const showDetails = async (req, res, next) => {
       user.address = await Addresses.findById(user.default_address);
     }
     res.render("admin/view-user", {
-      admin: req.user,
+      admin: req.session.user,
       page: "Users",
       user: user,
     });

@@ -9,7 +9,7 @@ const productHelper = require("../../helpers/productHelper");
 
 const showCart = async (req, res, next) => {
   try {
-    let lists = await Carts.find({ userId: req.user._id }).lean();
+    let lists = await Carts.find({ userId: req.session.user._id }).lean();
     let totalMrp = 0;
     let totalDiscountedPrice = 0;
     let cartTotal = 0;
@@ -37,7 +37,7 @@ const showCart = async (req, res, next) => {
 
 const addToCart = async (req, res, next) => {
   try {
-    const user = req.user;
+    const user = req.session.user;
     const productId = req.body.product;
     const size = req.body.size;
     const product = await Products.findOne({ _id: productId }).lean().select({
@@ -166,7 +166,7 @@ const showWishlist = async (req, res, next) => {
       }
       return products;
     }
-    const products = await getProductsByIds(req.user.wishlist);
+    const products = await getProductsByIds(req.session.user.wishlist);
     for (const product of products) {
       product.finalPrice = productHelper.returnFinalPrice(product);
     }
@@ -181,7 +181,7 @@ const addToWishlist = async (req, res, next) => {
   try {
     const product = req.body.product;
     await Users.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.session.user._id },
       { $push: { wishlist: product } }
     );
     res.status(200).json({ message: "success" });
@@ -195,7 +195,7 @@ const deleteFromWishlist = async (req, res, next) => {
   try {
     const product = req.body.product;
     await Users.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.session.user._id },
       { $pull: { wishlist: product } }
     );
     res.status(200).json({ message: "success" });

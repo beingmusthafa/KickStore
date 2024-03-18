@@ -22,16 +22,18 @@ const showCheckout = async (req, res, next) => {
   try {
     let selectedAddress;
     if (!req.session.address) {
-      if (req.user.default_address === "none") {
+      if (req.session.user.default_address === "none") {
         selectedAddress = "";
       } else {
-        selectedAddress = await Addresses.findById(req.user.default_address);
+        selectedAddress = await Addresses.findById(
+          req.session.user.default_address
+        );
       }
     } else {
       selectedAddress = await Addresses.findById(req.session.address);
     }
-    const addresses = await Addresses.find({ userId: req.user._id });
-    const lists = await Carts.find({ userId: req.user._id });
+    const addresses = await Addresses.find({ userId: req.session.user._id });
+    const lists = await Carts.find({ userId: req.session.user._id });
     let totalMrp = 0;
     let totalFinalPrice = 0;
     let cartTotal = 0;
@@ -85,7 +87,7 @@ const showCheckout = async (req, res, next) => {
     } else {
       coupon = false;
     }
-    const wallet = await Wallets.findOne({ userId: req.user._id })
+    const wallet = await Wallets.findOne({ userId: req.session.user._id })
       .select({
         balance: 1,
       })
@@ -179,9 +181,9 @@ const placeOrder = async (req, res, next) => {
       await orderHelper.deductWalletForOrder(req);
     }
     const address = await Addresses.findById(
-      req.session.address || req.user.default_address
+      req.session.address || req.session.user.default_address
     );
-    const carts = await Carts.find({ userId: req.user._id }).lean();
+    const carts = await Carts.find({ userId: req.session.user._id }).lean();
     for (const cart of carts) {
       cart.product = await Products.findById(cart.productId)
         .lean()
@@ -195,7 +197,7 @@ const placeOrder = async (req, res, next) => {
     delete req.session.address;
     delete req.session.coupon;
     delete req.session.orderId;
-    await Carts.deleteMany({ userId: req.user._id });
+    await Carts.deleteMany({ userId: req.session.user._id });
     res.render("user/payment-success");
   } catch (error) {
     console.log(error);
@@ -218,9 +220,9 @@ const verifyAndPlaceOrder = async (req, res, next) => {
       .toString();
     if (generated_signature == signature) {
       const address = await Addresses.findById(
-        req.session.address || req.user.default_address
+        req.session.address || req.session.user.default_address
       );
-      const carts = await Carts.find({ userId: req.user._id }).lean();
+      const carts = await Carts.find({ userId: req.session.user._id }).lean();
       for (const cart of carts) {
         cart.product = await Products.findById(cart.productId)
           .lean()
@@ -239,7 +241,7 @@ const verifyAndPlaceOrder = async (req, res, next) => {
       delete req.session.address;
       delete req.session.coupon;
       delete req.session.orderId;
-      await Carts.deleteMany({ userId: req.user._id });
+      await Carts.deleteMany({ userId: req.session.user._id });
       res.render("user/payment-success");
     }
   } catch (error) {
@@ -310,7 +312,7 @@ const returnOrder = async (req, res, next) => {
 //sending order details to user
 const getInvoiceData = async (req, res, next) => {
   const orders = await Orders.find({ orderId: req.query.order }).lean();
-  res.status(200).json({ user: req.user, orders });
+  res.status(200).json({ user: req.session.user, orders });
 };
 
 module.exports = {

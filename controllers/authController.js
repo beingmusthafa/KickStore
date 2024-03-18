@@ -28,7 +28,7 @@ const sendLoginStatus = (req, res, next) => {
 const checkAuth = (req, res, next) => {
   try {
     if (req.isAuthenticated()) {
-      if (req.user.isBlocked) {
+      if (req.session.user.isBlocked) {
         req.logout(() => {
           res
             .status(403)
@@ -65,7 +65,7 @@ const returnToPage = (req, res, next) => {
 const checkAuthAdmin = (req, res, next) => {
   try {
     if (req.isAuthenticated()) {
-      if (!req.user.isAdmin) {
+      if (!req.session.user.isAdmin) {
         req.logout(() => {
           res.status(403).render("error", {
             error: "You are not authorized to access this page!",
@@ -213,11 +213,11 @@ const sendEditVerificationCode = async (req, res, next) => {
   const { email, phone, oldEmail, oldPhone } = req.body;
   const phoneExists = await Users.exists({
     phone,
-    _id: { $ne: new ObjectId(req.user._id) },
+    _id: { $ne: new ObjectId(req.session.user._id) },
   });
   const emailExists = await Users.exists({
     email,
-    _id: { $ne: new ObjectId(req.user._id) },
+    _id: { $ne: new ObjectId(req.session.user._id) },
   });
   if (phoneExists && emailExists && phone !== oldPhone && email !== oldEmail) {
     res.json({ email: false, phone: false });

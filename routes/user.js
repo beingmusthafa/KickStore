@@ -37,7 +37,7 @@ router.post(
 );
 router.get("/profile/edit-profile", (req, res) => {
   res.render("user/edit-profile", {
-    user: req.user,
+    user: req.session.user,
     emailWarning: "",
     phoneWarning: "",
   });
