@@ -13,7 +13,7 @@ const showOffers = async (req, res, next) => {
     const categories = await Categories.find().select({ name: 1 });
     res.render("admin/offers", {
       page: "Offers",
-      admin: req.session.user,
+      admin: req.user,
       coupons: coupons,
       categories: categories,
     });
@@ -95,7 +95,7 @@ const showCategoryOffers = async (req, res, next) => {
     }
     res.render("admin/category-offers", {
       page: "Offers",
-      admin: req.session.user,
+      admin: req.user,
       categories,
       categoryOffers,
     });
@@ -193,7 +193,7 @@ const showProductOffers = async (req, res, next) => {
 
     res.render("admin/product-offers", {
       page: "Offers",
-      admin: req.session.user,
+      admin: req.user,
       products: products,
     });
   } catch (error) {

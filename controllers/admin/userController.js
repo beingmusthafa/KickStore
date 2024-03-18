@@ -7,7 +7,7 @@ const showAll = async (req, res, next) => {
   try {
     const users = await Users.find().select({ _id: 1, name: 1, image: 1 });
     res.render("admin/list-users", {
-      admin: req.session.user,
+      admin: req.user,
       page: "Users",
       users,
     });
@@ -26,7 +26,7 @@ const search = async (req, res, next) => {
     }).select({ _id: 1, name: 1, image: 1 });
     res.render("admin/list-users", {
       page: "Users",
-      admin: req.session.user,
+      admin: req.user,
       users: users,
     });
   } catch (error) {
@@ -49,7 +49,7 @@ const showDetails = async (req, res, next) => {
       user.address = await Addresses.findById(user.default_address);
     }
     res.render("admin/view-user", {
-      admin: req.session.user,
+      admin: req.user,
       page: "Users",
       user: user,
     });

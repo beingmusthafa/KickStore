@@ -63,7 +63,7 @@ const showStats = async (req, res, next) => {
 
     res.render("admin/stats", {
       page: "Sales & stats",
-      admin: req.session.user,
+      admin: req.user,
       totalRevenue: totalRevenue ?? 0,
       orderCount: orderCount ?? 0,
       userCount: userCount ?? 0,
@@ -102,7 +102,7 @@ const showSalesReports = async (req, res, next) => {
   try {
     res.render("admin/sales-reports", {
       page: "Sales & stats",
-      admin: req.session.user,
+      admin: req.user,
     });
   } catch (error) {
     console.log(error);
@@ -114,7 +114,7 @@ const showStocksReports = async (req, res, next) => {
   try {
     res.render("admin/stocks-reports", {
       page: "Sales & stats",
-      admin: req.session.user,
+      admin: req.user,
     });
   } catch (error) {
     console.log(error);

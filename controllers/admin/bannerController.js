@@ -12,7 +12,7 @@ const showBanners = async (req, res, next) => {
     const slides = await Banners.find({ type: "Slide" });
     const posters = await Banners.find({ type: "Poster" });
     res.render("admin/banners", {
-      admin: req.session.user,
+      admin: req.user,
       page: "Banners",
       genders,
       slides,

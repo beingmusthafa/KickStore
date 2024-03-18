@@ -5,12 +5,12 @@ const transactionHelper = require("./transactionHelper");
 
 const deductWalletForOrder = async (req) => {
   await transactionHelper.createPayment(
-    req.session.user._id,
+    req.user._id,
     req.session.walletDiscount,
     req.session.orderId
   );
   await Wallets.updateOne(
-    { userId: req.session.user._id },
+    { userId: req.user._id },
     { $inc: { balance: -req.session.walletDiscount } }
   );
 };
@@ -23,7 +23,7 @@ const createOrderAndUpdateStock = async (
 ) => {
   for (const cart of carts) {
     await new Orders({
-      userId: req.session.user._id,
+      userId: req.user._id,
       orderId: req.body.razorpay_order_id,
       product: cart.product,
       size: cart.size,

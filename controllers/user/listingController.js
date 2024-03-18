@@ -156,9 +156,9 @@ const viewProduct = async (req, res, next) => {
     });
     const offers = await Offers.find({});
     const coupons = await Coupons.find({});
-    if (req.session.user) {
-      for (let i = 0; i < req.session.user.wishlist.length; i++) {
-        if (req.session.user.wishlist[i] === productId) {
+    if (req.user) {
+      for (let i = 0; i < req.user.wishlist.length; i++) {
+        if (req.user.wishlist[i] === productId) {
           res.render("user/view-product", {
             product: product,
             stocks: stocks,
