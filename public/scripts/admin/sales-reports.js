@@ -67,6 +67,21 @@ function downloadExcel(id) {
   location.href = "/admin/stats/download-excel?report=sales&id=" + id;
 }
 
-function downloadPDF(id) {
-  location.href = "/admin/stats/download-pdf?report=sales&id=" + id;
+async function downloadPDF(id) {
+  try {
+    const res = await fetch(
+      "/admin/stats/download-pdf?report=sales&id=" + id
+    ).then((res) => res.json());
+    const pdfBinary = Uint8Array.from(atob(res.buffer), (c) => c.charCodeAt(0));
+    const blob = new Blob([pdfBinary], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    document.body.appendChild(link);
+    link.href = url;
+    link.download = "sales-report.pdf";
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.log(error);
+  }
 }

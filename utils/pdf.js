@@ -32,14 +32,12 @@ const generateSalesPDF = async (id) => {
       waitUntil: "domcontentloaded",
     });
 
-    const fullpath = path.resolve(__dirname, "../reports");
-    await page.pdf({
+    const pdfBuffer = await page.pdf({
       format: "A3",
-      path: `${fullpath}/${report.type}-sales-${report.date}.pdf`,
     });
 
     await browser.close();
-    return `reports/${report.type}-sales-${report.date}.pdf`;
+    return pdfBuffer;
   } catch (error) {
     console.log(error);
   }
@@ -60,14 +58,12 @@ const generateStocksPDF = async (id) => {
     await page.setContent(html, {
       waitUntil: "domcontentloaded",
     });
-    const fullpath = path.resolve(__dirname, "../reports");
-    await page.pdf({
+    const pdfBuffer = await page.pdf({
       format: "A3",
-      path: `${fullpath}/${report.type}-stocks-${report.date}.pdf`,
     });
 
     await browser.close();
-    return `reports/${report.type}-stocks-${report.date}.pdf`;
+    return pdfBuffer;
   } catch (error) {
     console.log(error);
   }

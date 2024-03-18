@@ -177,22 +177,14 @@ const downloadReportPDF = async (req, res, next) => {
   try {
     const report = req.query.report;
     const id = req.query.id;
-    let path;
+    let buffer;
     if (report === "sales") {
-      path = await pdf.generateSalesPDF(id);
+      buffer = await pdf.generateSalesPDF(id);
     } else if (report === "stocks") {
-      path = await pdf.generateStocksPDF(id);
+      buffer = await pdf.generateStocksPDF(id);
     }
-    res.download(path, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        fs.unlink(path, (err) => {
-          if (err) console.log(err);
-          else console.log(`Delete file : ${path}`);
-        });
-      }
-    });
+    const bufferString = buffer.toString("base64");
+    res.status(200).json({ buffer: bufferString });
   } catch (error) {
     console.log(error);
     next(error);
