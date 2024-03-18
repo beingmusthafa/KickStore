@@ -183,7 +183,8 @@ const downloadReportPDF = async (req, res, next) => {
     } else if (report === "stocks") {
       buffer = await pdf.generateStocksPDF(id);
     }
-    if (!buffer) res.status(500).json({ message: "Something went wrong" });
+    if (!buffer)
+      return res.status(500).json({ message: "Something went wrong" });
     const bufferString = buffer.toString("base64");
     res.status(200).json({ buffer: bufferString });
   } catch (error) {
