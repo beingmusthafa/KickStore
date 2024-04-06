@@ -79,6 +79,7 @@ app.get("/login", (req, res) => {
   }
   res.render("user-login", { message: "" });
 });
+
 app.get("/admin-login", (req, res) => {
   if (req.isAuthenticated()) {
     return res.redirect("/admin");
@@ -89,17 +90,25 @@ app.get("/admin-login", (req, res) => {
   }
   res.render("admin-login", { message: "" });
 });
+
 app.get("/signup", (req, res) => {
   res.render("user-signup", { emailWarning: "", phoneWarning: "" });
 });
+
 app.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true,
-  })
+  }),
+  (req, res) => {
+    console.log(req.session);
+    const { redirect } = req.session;
+    req.session.redirect = null;
+    res.redirect(redirect ?? "/");
+  }
 );
+
 app.post(
   "/admin-login",
   passport.authenticate("local", {
@@ -108,16 +117,23 @@ app.post(
     failureFlash: true,
   })
 );
+
 app.post("/verification", authController.sendVerificationCode);
+
 app.post("/verification/verify", authController.checkVerificationCode);
+
 app.post("/signup", authController.signup);
+
 app.get("/logout", authController.logout);
 
 app.get("/forgot-password", (req, res) => {
   res.render("recovery-email", { emailWarning: "" });
 });
+
 app.post("/forgot-password", authController.sendRecoveryCode);
+
 app.post("/forgot-password/recovery-code", authController.checkRecoveryCode);
+
 app.post(
   "/forgot-password/recovery-code/new-password",
   authController.changePassword

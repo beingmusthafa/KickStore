@@ -16,7 +16,6 @@ const router = express();
 const upload = require("../middlewares/multer");
 router.use(express.urlencoded({ extended: true }));
 router.use(nocache);
-router.use(authController.returnToPage);
 
 //Listing routes
 router.get("/", listingController.showHome);

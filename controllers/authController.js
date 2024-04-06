@@ -7,13 +7,19 @@ const mailer = require("../utils/nodemailer");
 const twilio = require("../utils/twilio");
 const verification = require("../utils/verification");
 const ObjectId = require("mongodb").ObjectId;
+const {
+  nameValidate,
+  emailValidate,
+  passwordConfirmValidate,
+  passwordValidate,
+  phoneValidate,
+} = require("../helpers/validation");
 
 require("dotenv").config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const BCRYPT_SALT = process.env.BCRYPT_SALT;
 
-var RETURN_TO;
 const sendLoginStatus = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -35,7 +41,7 @@ const checkAuth = (req, res, next) => {
         next();
       }
     } else {
-      RETURN_TO = req.originalUrl;
+      req.session.redirect = req.originalUrl;
       res.redirect("/login");
     }
   } catch (error) {
@@ -44,20 +50,20 @@ const checkAuth = (req, res, next) => {
   }
 };
 
-const returnToPage = (req, res, next) => {
-  try {
-    if (RETURN_TO) {
-      const returnPage = RETURN_TO;
-      RETURN_TO = null;
-      res.redirect(returnPage);
-    } else {
-      next();
-    }
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-};
+// const returnToPage = (req, res, next) => {
+//   try {
+//     return next();
+//     if (req.session.redirect) {
+//       const returnPage = req.session.redirect;
+//       req.session.redirect = null;
+//       res.redirect(returnPage);
+//     } else {
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// };
 
 const checkAuthAdmin = (req, res, next) => {
   try {
@@ -69,8 +75,8 @@ const checkAuthAdmin = (req, res, next) => {
           });
         });
       } else {
-        const returnPage = RETURN_TO ? RETURN_TO : null;
-        RETURN_TO = null;
+        const returnPage = req.session.redirect ? req.session.redirect : null;
+        req.session.redirect = null;
         if (returnPage) {
           res.redirect(returnPage);
         } else {
@@ -78,7 +84,7 @@ const checkAuthAdmin = (req, res, next) => {
         }
       }
     } else {
-      RETURN_TO = req.originalUrl;
+      req.session.redirect = req.originalUrl;
       res.redirect("/admin-login");
     }
   } catch (error) {
@@ -88,106 +94,63 @@ const checkAuthAdmin = (req, res, next) => {
 };
 
 const sendVerificationCode = async (req, res, next) => {
-  const { name, email, phone, password, passwordConfirm } = req.body;
-
-  const nameValidate = () => {
-    if (name === (null || "")) {
-      return "Enter your full name";
-    } else {
-      const isValidName = (name) => {
-        const regex =
-          /^[a-zA-Z-ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïòóôõöùúûüýÿ ']{2,75}( [a-zA-Z-ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïòóôõöùúûüýÿ ']{2,75})*$/;
-
-        return regex.test(name);
-      };
-      if (name.length > 20) {
-        return "Input too long!";
-      }
-      if (!isValidName(name)) {
-        return "Only alphabets, space & '-' allowed";
-      } else {
-        return "";
-      }
+  try {
+    const { name, email, phone, password, passwordConfirm } = req.body;
+    if (
+      nameValidate(name) === "" &&
+      (await emailValidate(email)) === "" &&
+      (await phoneValidate(phone)) === "" &&
+      passwordValidate(password) === "" &&
+      passwordConfirmValidate(passwordConfirm, password) === ""
+    ) {
+      const emailCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
+      const phoneCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
+      await mailer.sendVerificationMail(email, emailCode);
+      await verification.createEmail(email, emailCode);
+      await twilio.sendVerificationSMS(phone, phoneCode);
+      await verification.createPhone(phone, phoneCode);
     }
-  };
+    const response = {
+      name: nameValidate(),
+      email: await emailValidate(),
+      phone: await phoneValidate(),
+      password: passwordValidate(),
+      passwordConfirm: passwordConfirmValidate(),
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
 
-  const emailValidate = async () => {
-    if (email === (null || "")) {
-      return "Enter your email";
-    } else {
-      const emailExists = await Users.findOne({ email }).select({ _id: 1 });
-      if (emailExists) {
-        return "Email already registered!";
-      }
-      const isValidEmail = (email) => {
-        const regex = /^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-.]+\.[a-zA-Z]{2,6}$/;
-
-        return regex.test(email);
-      };
-      if (!isValidEmail(email)) {
-        return "Enter a valid email";
-      } else {
-        return "";
-      }
+const sendEditVerificationCode = async (req, res, next) => {
+  try {
+    const { email, phone, oldEmail, oldPhone } = req.body;
+    const phoneExists = await Users.exists({
+      phone,
+      _id: { $ne: new ObjectId(req.user._id) },
+    });
+    const emailExists = await Users.exists({
+      email,
+      _id: { $ne: new ObjectId(req.user._id) },
+    });
+    if (
+      phoneExists &&
+      emailExists &&
+      phone !== oldPhone &&
+      email !== oldEmail
+    ) {
+      res.json({ email: false, phone: false });
+      return;
+    } else if (!phoneExists && emailExists && email !== oldEmail) {
+      res.json({ email: false, phone: true });
+      return;
+    } else if (phoneExists && phone !== oldPhone && !emailExists) {
+      res.json({ email: true, phone: false });
+      return;
     }
-  };
-
-  const phoneValidate = async () => {
-    if (phone === (null || "")) {
-      return "Enter your phone number";
-    } else {
-      const phoneExists = await Users.findOne({ phone }).select({ _id: 1 });
-      if (phoneExists) {
-        return "Phone number already registered!";
-      }
-      const isValidPhone = (phone) => {
-        const regex = /^\d{10}$/;
-        return regex.test(phone.toString());
-      };
-      if (!isValidPhone(phone)) {
-        return "Enter a valid number";
-      } else {
-        return "";
-      }
-    }
-  };
-
-  const passwordValidate = () => {
-    if (password === (null || "")) {
-      return "Enter your password";
-    } else {
-      const isValidPassword = (password) => {
-        const regex = /^.{7,}\d$/;
-
-        return regex.test(password);
-      };
-      if (!isValidPassword(password)) {
-        return "Needs 7 characters & atleast 1 digit";
-      } else {
-        return "";
-      }
-    }
-  };
-
-  const passwordConfirmValidate = () => {
-    if (passwordConfirm === (null || "")) {
-      return "Confirm your password";
-    } else {
-      if (passwordConfirm === password) {
-        return "";
-      } else {
-        return "Passwords dont match";
-      }
-    }
-  };
-
-  if (
-    nameValidate() === "" &&
-    (await emailValidate()) === "" &&
-    (await phoneValidate()) === "" &&
-    passwordValidate() === "" &&
-    passwordConfirmValidate() === ""
-  ) {
+    res.json({ email: true, phone: true });
     const emailCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
     const phoneCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
     await mailer.sendVerificationMail(email, emailCode);
@@ -195,45 +158,10 @@ const sendVerificationCode = async (req, res, next) => {
 
     await twilio.sendVerificationSMS(phone, phoneCode);
     await verification.createPhone(phone, phoneCode);
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
-  const response = {
-    name: nameValidate(),
-    email: await emailValidate(),
-    phone: await phoneValidate(),
-    password: passwordValidate(),
-    passwordConfirm: passwordConfirmValidate(),
-  };
-  res.status(200).json(response);
-};
-
-const sendEditVerificationCode = async (req, res, next) => {
-  const { email, phone, oldEmail, oldPhone } = req.body;
-  const phoneExists = await Users.exists({
-    phone,
-    _id: { $ne: new ObjectId(req.user._id) },
-  });
-  const emailExists = await Users.exists({
-    email,
-    _id: { $ne: new ObjectId(req.user._id) },
-  });
-  if (phoneExists && emailExists && phone !== oldPhone && email !== oldEmail) {
-    res.json({ email: false, phone: false });
-    return;
-  } else if (!phoneExists && emailExists && email !== oldEmail) {
-    res.json({ email: false, phone: true });
-    return;
-  } else if (phoneExists && phone !== oldPhone && !emailExists) {
-    res.json({ email: true, phone: false });
-    return;
-  }
-  res.json({ email: true, phone: true });
-  const emailCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
-  const phoneCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
-  await mailer.sendVerificationMail(email, emailCode);
-  await verification.createEmail(email, emailCode);
-
-  await twilio.sendVerificationSMS(phone, phoneCode);
-  await verification.createPhone(phone, phoneCode);
 };
 
 const checkVerificationCode = async (req, res, next) => {
@@ -273,7 +201,6 @@ const signup = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
-    console.log(error);
   }
 };
 
@@ -284,7 +211,6 @@ const logout = (req, res) => {
     } catch (error) {
       console.log(error);
       next(error);
-      console.log(error);
     }
   });
 };
@@ -349,7 +275,6 @@ const changePassword = async (req, res, next) => {
 
 module.exports = {
   sendLoginStatus,
-  returnToPage,
   checkAuth,
   checkAuthAdmin,
   sendVerificationCode,
@@ -360,5 +285,4 @@ module.exports = {
   sendRecoveryCode,
   checkRecoveryCode,
   changePassword,
-  RETURN_TO,
 };
