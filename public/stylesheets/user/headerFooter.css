@@ -128,7 +128,11 @@ button:active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 10rem auto;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 2rem;
 }
 #footer-brand-name {
   font-family: "Pixeloid Sans Bold";
