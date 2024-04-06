@@ -7,7 +7,6 @@ const StocksReports = require("../models/stocksReportsModel");
 const fs = require("fs");
 const util = require("util");
 const path = require("path");
-mongoose.connect(process.env.DB_LINK);
 
 const createSalesExcel = async (id) => {
   try {

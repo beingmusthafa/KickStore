@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
-mongoose.connect(process.env.DB_LINK);
 
 const userController = require("../controllers/admin/userController.js");
 const productController = require("../controllers/admin/productController.js");

@@ -1,5 +1,4 @@
 const express = require("express");
-const helmet = require("helmet");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
@@ -7,6 +6,7 @@ const passport = require("./middlewares/passport");
 const cron = require("./utils/cron");
 const { errorHandler } = require("./utils/errorHandler");
 require("dotenv").config();
+const MongoStore = require("connect-mongo");
 
 const app = express();
 
@@ -17,13 +17,19 @@ const nocache = (req, res, next) => {
 cron.scheduleTasks();
 // Authentication controller
 const authController = require("./controllers/authController");
-const cartController = require("./controllers/user/cartController");
 // Routers
 const adminRouter = require("./routes/admin");
 const userRouter = require("./routes/user");
+const mongoose = require("mongoose");
 
 // ENV
 const PORT = process.env.PORT || 3000;
+
+//Connect mongoDB
+mongoose
+  .connect(process.env.DB_LINK)
+  .then(() => console.log("Connected to Mongodb"))
+  .catch((error) => console.log(error));
 
 // Middleware
 app.use(
@@ -32,6 +38,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 24 * 60 * 60 * 1000, httpOnly: true },
+    store: new MongoStore({ mongoUrl: process.env.DB_LINK }),
   })
 );
 

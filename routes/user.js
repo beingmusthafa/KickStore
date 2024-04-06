@@ -11,7 +11,6 @@ const nocache = (req, res, next) => {
 };
 
 require("dotenv").config();
-mongoose.connect(process.env.DB_LINK);
 
 const router = express();
 const upload = require("../middlewares/multer");

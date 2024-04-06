@@ -13,7 +13,6 @@ require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET;
 const BCRYPT_SALT = process.env.BCRYPT_SALT;
 
-mongoose.connect(process.env.DB_LINK);
 var RETURN_TO;
 const sendLoginStatus = (req, res, next) => {
   if (req.isAuthenticated()) {

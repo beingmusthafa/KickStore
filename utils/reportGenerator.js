@@ -7,7 +7,6 @@ const excel = require("excel4node");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const StocksReports = require("../models/stocksReportsModel");
-mongoose.connect(process.env.DB_LINK);
 
 const generateSales = async (currentDate, startingDate, date, type) => {
   try {
