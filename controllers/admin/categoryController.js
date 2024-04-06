@@ -1,11 +1,8 @@
 const Categories = require("../../models/categoriesModel");
 const Products = require("../../models/productsModel");
-const Stocks = require("../../models/stocksModel");
 const cloudinary = require("../../utils/cloudinary");
 const multer = require("multer");
-const bodyParser = require("body-parser");
 const productHelper = require("../../helpers/productHelper");
-const errorHandler = require("../../utils/errorHandler");
 
 // Showing all categories
 const show = async (req, res, next) => {

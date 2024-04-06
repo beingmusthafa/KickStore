@@ -1,8 +1,6 @@
 const Users = require("../../models/usersModel");
 const Addresses = require("../../models/addressesModel");
 
-const errorHandler = require("../../utils/errorHandler");
-
 const showAll = async (req, res, next) => {
   try {
     const users = await Users.find().select({ _id: 1, name: 1, image: 1 });

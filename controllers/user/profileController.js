@@ -8,9 +8,7 @@ const path = require("path");
 const sharp = require("sharp");
 const fs = require("fs");
 require("dotenv").config();
-
 const cloudinary = require("../../utils/cloudinary");
-const errorHandler = require("../../utils/errorHandler");
 
 const showProfile = async (req, res, next) => {
   try {

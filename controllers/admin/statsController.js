@@ -7,7 +7,6 @@ const StocksReports = require("../../models/stocksReportsModel");
 const excel = require("../../utils/excel");
 const pdf = require("../../utils/pdf");
 const categoryHelper = require("../../helpers/categoryHelper");
-const errorHandler = require("../../utils/errorHandler");
 const fs = require("fs");
 
 const showStats = async (req, res, next) => {

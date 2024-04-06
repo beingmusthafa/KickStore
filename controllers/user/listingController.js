@@ -6,8 +6,6 @@ const Offers = require("../../models/offersModel");
 const Coupons = require("../../models/couponsModel");
 const GenderImages = require("../../models/gendersModel");
 require("dotenv").config();
-
-const errorHandler = require("../../utils/errorHandler");
 const productHelper = require("../../helpers/productHelper");
 
 const showHome = async (req, res, next) => {
@@ -139,9 +137,8 @@ const filterProducts = async (req, res, next) => {
       genders,
     });
   } catch (error) {
-    const statusCode = errorHandler.getStatusCode(error);
-    res.status(statusCode).render("error", { error });
     console.log(error);
+    next(error);
   }
 };
 

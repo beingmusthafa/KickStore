@@ -3,7 +3,6 @@ const Products = require("../../models/productsModel");
 const Stocks = require("../../models/stocksModel");
 const cloudinary = require("../../utils/cloudinary");
 const productHelper = require("../../helpers/productHelper");
-const errorHandler = require("../../utils/errorHandler");
 
 // Showing all products
 const showAll = async (req, res, next) => {

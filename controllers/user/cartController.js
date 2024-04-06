@@ -4,7 +4,6 @@ const Carts = require("../../models/cartsModel");
 const Stocks = require("../../models/stocksModel");
 
 require("dotenv").config();
-const errorHandler = require("../../utils/errorHandler");
 const productHelper = require("../../helpers/productHelper");
 
 const showCart = async (req, res, next) => {

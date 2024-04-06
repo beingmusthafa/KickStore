@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const Banners = require("../../models/bannersModel");
 const cloudinary = require("../../utils/cloudinary");
-const errorHandler = require("../../utils/errorHandler");
 const Genders = require("../../models/gendersModel");
 
 const showBanners = async (req, res, next) => {

@@ -2,8 +2,6 @@ const Orders = require("../../models/ordersModel");
 const Users = require("../../models/usersModel");
 const Returns = require("../../models/returnsModel");
 
-const errorHandler = require("../../utils/errorHandler");
-
 const showOrders = async (req, res, next) => {
   try {
     const orders = await Orders.find().lean().sort({

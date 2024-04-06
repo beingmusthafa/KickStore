@@ -5,7 +5,6 @@ const Offers = require("../../models/offersModel");
 const ProductOffers = require("../../models/productOffersModel");
 const categoryHelper = require("../../helpers/categoryHelper");
 const productHelper = require("../../helpers/productHelper");
-const errorHandler = require("../../utils/errorHandler");
 
 const showOffers = async (req, res, next) => {
   try {
