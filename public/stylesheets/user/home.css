@@ -110,14 +110,14 @@ button:active {
 .slider {
   overflow: auto;
   white-space: nowrap;
-  width: 100vw;
+  width: 100%;
   background-size: cover;
 }
 .slider::-webkit-scrollbar {
   height: 4px;
 }
 .slide {
-  width: 100vw;
+  width: 100%;
 }
 .section-title {
   padding: 1rem 2rem;

@@ -27,7 +27,7 @@ body {
   opacity: 0.3;
   z-index: 11;
   position: fixed;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 #loading {
@@ -42,7 +42,7 @@ body {
   opacity: 0.7;
   z-index: 15;
   position: fixed;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 #loading-gif {
@@ -119,17 +119,16 @@ button:active {
   color: white;
   width: 100%;
   position: relative;
-  padding: 1rem;
+  padding: 2rem;
   font-weight: 500;
+  margin-top: 5rem;
 }
 #footer-brand {
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  bottom: 1rem;
-  width: 100%;
+  margin: 10rem auto;
 }
 #footer-brand-name {
   font-family: "Pixeloid Sans Bold";
@@ -200,7 +199,7 @@ button:active {
     padding-top: 9vh;
   }
   #header {
-    width: 100vw;
+    width: 100%;
     min-height: 8vh;
   }
   .brand-logo {
@@ -245,7 +244,6 @@ button:active {
   }
   #footer {
     height: 40vh;
-    margin-top: 10rem;
     font-size: 0.8rem;
   }
   #footer-brand-name {
