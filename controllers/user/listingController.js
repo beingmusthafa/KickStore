@@ -90,6 +90,22 @@ const filterProducts = async (req, res, next) => {
     max = max ? Number(max) : Infinity;
     const pipeline = [
       {
+        $addFields: {
+          finalPrice: {
+            $ceil: {
+              $subtract: [
+                {
+                  $subtract: ["$price", "$discountAmount"],
+                },
+                {
+                  $multiply: [{ $divide: ["$price", 100] }, "$discountPcnt"],
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
         $match: {
           category: {
             $regex: new RegExp(category, "i"),
@@ -110,25 +126,23 @@ const filterProducts = async (req, res, next) => {
             },
           ],
           isDeleted: false,
-          price: { $gte: min, $lte: max },
+          finalPrice: { $gte: min, $lte: max },
         },
       },
+      {
+        $sort: {
+          finalPrice: sort === "high" ? -1 : 1,
+        },
+      },
+      // Add any other stages here
     ];
+
     const aggregate = Products.aggregate(pipeline);
     const result = await Products.aggregatePaginate(aggregate, {
-      page: 1,
+      page: Number(page),
       limit: 15,
     });
-    result.docs.forEach((product) => {
-      product.finalPrice = productHelper.returnFinalPrice(product);
-    });
-    if (sort) {
-      if (sort === "low") {
-        result.docs.sort((a, b) => a.finalPrice - b.finalPrice);
-      } else {
-        result.docs.sort((a, b) => b.finalPrice - a.finalPrice);
-      }
-    }
+    console.log(result.docs[0]);
     const categories = await Categories.find().select({ name: 1 });
     const genders = await GenderImages.find().select({ gender: 1 });
     res.render("user/list-products", {
