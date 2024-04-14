@@ -1,19 +1,20 @@
 const Users = require("../models/usersModel");
 
-const nameValidate = (name) => {
-  if (name === (null || "")) {
+const nameValidate = (_name) => {
+  if (!_name) {
     return "Enter your full name";
   } else {
-    const isValidName = (name) => {
+    const isValidName = (str) => {
       const regex =
         /^[a-zA-Z-ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïòóôõöùúûüýÿ ']{2,75}( [a-zA-Z-ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïòóôõöùúûüýÿ ']{2,75})*$/;
 
-      return regex.test(name);
+      return regex.test(str);
     };
-    if (name.length > 20) {
+    console.log("name :::", _name);
+    if (_name.length > 20) {
       return "Input too long!";
     }
-    if (!isValidName(name)) {
+    if (!isValidName(_name)) {
       return "Only alphabets, space & '-' allowed";
     } else {
       return "";

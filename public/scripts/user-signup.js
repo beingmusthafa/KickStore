@@ -14,10 +14,7 @@ const passwordConfirmWarning = document.getElementById(
 
 //verification
 const emailVerify = document.querySelector("input[name='emailVerify']");
-const phoneVerify = document.querySelector("input[name='phoneVerify']");
-
 const emailVerifyWarning = document.getElementById("emailVerify-warning");
-const phoneVerifyWarning = document.getElementById("phoneVerify-warning");
 
 async function sendCode() {
   $("#loading").removeClass("d-none");
@@ -75,28 +72,17 @@ const emailVerifyValidate = () => {
     return true;
   }
 };
-const phoneVerifyValidate = () => {
-  if (phoneVerify.value === (null || "")) {
-    phoneVerifyWarning.innerText = "Enter verification code!";
-    return false;
-  } else {
-    phoneVerifyWarning.innerText = "";
-    return true;
-  }
-};
 
 function checkCode() {
   $("#loading").removeClass("d-none");
-  let link = `/verification/verify?email=${email.value}&phone=${phone.value}`;
-  if (emailVerifyValidate() && phoneVerifyValidate()) {
+  let link = `/verification/verify`;
+  if (emailVerifyValidate()) {
     $.ajax({
       type: "POST",
       url: link,
       data: {
         email: email.value,
-        phone: phone.value,
         emailVerify: emailVerify.value,
-        phoneVerify: phoneVerify.value,
       },
       dataType: "json",
       success: function (data) {
@@ -106,11 +92,6 @@ function checkCode() {
             emailVerifyWarning.innerText = "Wrong code!";
           } else {
             emailVerifyWarning.innerText = "";
-          }
-          if (data.phone === false) {
-            phoneVerifyWarning.innerText = "Wrong code!";
-          } else {
-            phoneVerifyWarning.innerText = "";
           }
           return;
         }

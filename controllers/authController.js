@@ -4,7 +4,6 @@ const VerificationSessions = require("../models/verificationSessionsModel");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const mailer = require("../utils/nodemailer");
-const twilio = require("../utils/twilio");
 const verification = require("../utils/verification");
 const ObjectId = require("mongodb").ObjectId;
 const {
@@ -96,26 +95,31 @@ const checkAuthAdmin = (req, res, next) => {
 const sendVerificationCode = async (req, res, next) => {
   try {
     const { name, email, phone, password, passwordConfirm } = req.body;
+    const nameWarning = nameValidate(name),
+      emailWarning = await emailValidate(email),
+      phoneWarning = await phoneValidate(phone),
+      passwordWarning = passwordValidate(password),
+      passwordConfirmWarning = passwordConfirmValidate(
+        passwordConfirm,
+        password
+      );
     if (
-      nameValidate(name) === "" &&
-      (await emailValidate(email)) === "" &&
-      (await phoneValidate(phone)) === "" &&
-      passwordValidate(password) === "" &&
-      passwordConfirmValidate(passwordConfirm, password) === ""
+      nameWarning === "" &&
+      emailWarning === "" &&
+      phoneWarning === "" &&
+      passwordWarning === "" &&
+      passwordConfirmWarning === ""
     ) {
       const emailCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
-      const phoneCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
       await mailer.sendVerificationMail(email, emailCode);
       await verification.createEmail(email, emailCode);
-      await twilio.sendVerificationSMS(phone, phoneCode);
-      await verification.createPhone(phone, phoneCode);
     }
     const response = {
-      name: nameValidate(),
-      email: await emailValidate(),
-      phone: await phoneValidate(),
-      password: passwordValidate(),
-      passwordConfirm: passwordConfirmValidate(),
+      name: nameWarning,
+      email: emailWarning,
+      phone: phoneWarning,
+      password: passwordWarning,
+      passwordConfirm: passwordConfirmWarning,
     };
     res.status(200).json(response);
   } catch (error) {
@@ -152,12 +156,8 @@ const sendEditVerificationCode = async (req, res, next) => {
     }
     res.json({ email: true, phone: true });
     const emailCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
-    const phoneCode = Math.floor(Math.random() * (999999 - 100000) + 100000);
     await mailer.sendVerificationMail(email, emailCode);
     await verification.createEmail(email, emailCode);
-
-    await twilio.sendVerificationSMS(phone, phoneCode);
-    await verification.createPhone(phone, phoneCode);
   } catch (error) {
     console.log(error);
     next(error);
@@ -165,29 +165,21 @@ const sendEditVerificationCode = async (req, res, next) => {
 };
 
 const checkVerificationCode = async (req, res, next) => {
-  const { email, phone, emailVerify, phoneVerify } = req.body;
-  const phoneExists = await VerificationSessions.findOne({
-    phone: phone,
-    code: phoneVerify,
-  });
+  const { email, emailVerify } = req.body;
   const emailExists = await VerificationSessions.findOne({
     email: email,
     code: emailVerify,
   });
-  res.json({ phone: Boolean(phoneExists), email: Boolean(emailExists) });
+  res.json({ email: Boolean(emailExists) });
 };
 
 const signup = async (req, res, next) => {
   try {
     const { name, email, phone, password } = req.body;
     await VerificationSessions.deleteOne({
-      phone,
-    });
-    await VerificationSessions.deleteOne({
       email,
     });
     const passwordHash = bcrypt.hashSync(password, BCRYPT_SALT);
-
     const user = await new Users({
       name,
       email,
