@@ -42,7 +42,6 @@ function getAndShowReports(type) {
     url: "/admin/stats/stocks-reports/get-stocks-reports",
     data: { type: type },
     success: (res) => {
-      console.log(res);
       let reportHTML = "";
       if (res.reports.length > 0) {
         for (const report of res.reports) {

@@ -1,6 +1,5 @@
 function incCartCount(id) {
   $("#loading").removeClass("d-none");
-  console.log("sent!");
   $.ajax({
     type: "POST",
     url: "/cart/inc-cart",

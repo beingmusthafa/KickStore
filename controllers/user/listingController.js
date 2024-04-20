@@ -140,7 +140,6 @@ const filterProducts = async (req, res, next) => {
       page: !isNaN(page) ? Number(page) : 1,
       limit: 15,
     });
-    console.log(result.docs[0]);
     const categories = await Categories.find().select({ name: 1 });
     const genders = await GenderImages.find().select({ gender: 1 });
     res.render("user/list-products", {

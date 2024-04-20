@@ -62,7 +62,6 @@ function submit() {
     $("#loading").removeClass("d-none");
 
     var formData = $("#add-coupon").serialize();
-    console.log(formData);
     $.ajax({
       type: "POST",
       url: "/admin/offers/category-offers/add-offer",

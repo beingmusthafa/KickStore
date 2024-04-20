@@ -78,7 +78,6 @@ const pinValidate = () => {
 
 async function submit(id) {
   if (line1Validate() && line2Validate() && pinValidate() && phoneValidate()) {
-    console.log("sent");
     $.ajax({
       type: "POST",
       url: "/profile/edit-address",
@@ -93,7 +92,6 @@ async function submit(id) {
       },
       dataType: "json",
       success: function (data) {
-        console.log("success");
         window.location.href = "/profile";
       },
     });

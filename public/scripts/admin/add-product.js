@@ -25,7 +25,6 @@ function submit() {
       if (res.message === "success") {
         history.back();
       } else {
-        console.log(res);
         imagesWarning.innerText = res.image;
         nameWarning.innerText = res.name;
         brandWarning.innerText = res.brand;

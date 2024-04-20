@@ -160,7 +160,6 @@ function downloadInvoice(id) {
     data: { order: id },
     dataType: "json",
     success: (res) => {
-      console.log("success");
       let productsArray = [];
       for (const order of res.orders) {
         let list = {

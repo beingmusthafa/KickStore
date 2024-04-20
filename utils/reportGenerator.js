@@ -80,7 +80,6 @@ const generateSales = async (currentDate, startingDate, date, type) => {
       products: products,
       orders: orders,
     }).save();
-    console.log("success");
   } catch (error) {
     console.log(error);
   }
@@ -140,7 +139,6 @@ const generateStocks = async (currentDate, startingDate, date, type) => {
       type: type,
       products: products,
     }).save();
-    console.log("stock success");
   } catch (error) {
     console.log(error);
   }

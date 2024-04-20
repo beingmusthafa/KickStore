@@ -10,7 +10,6 @@ const nameValidate = (_name) => {
 
       return regex.test(str);
     };
-    console.log("name :::", _name);
     if (_name.length > 20) {
       return "Input too long!";
     }

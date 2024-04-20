@@ -9,7 +9,6 @@ function restoreProduct(id) {
 }
 function editProduct(id) {
   const link = "/admin/products/product-details/edit-product?id=" + id;
-  console.log(link);
   window.location.href = link;
 }
 function deleteProduct(id) {
@@ -18,7 +17,6 @@ function deleteProduct(id) {
 }
 function manageStock(id) {
   const link = "/admin/products/product-details/manage-stock?id=" + id;
-  console.log(link);
   window.location.href = link;
 }
 function openConfirm() {

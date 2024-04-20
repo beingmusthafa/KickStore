@@ -79,7 +79,6 @@ const sendBannerDetails = async (req, res, next) => {
 
 const editBanner = async (req, res, next) => {
   try {
-    console.log(req.body);
     const { id, order, url } = req.body;
     await Banners.findByIdAndUpdate(id, {
       $set: { order: order, url: url },

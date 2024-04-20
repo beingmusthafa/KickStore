@@ -21,7 +21,6 @@ function submit() {
     processData: false,
     contentType: false,
     success: (res) => {
-      console.log(res);
       if (res.message === "success") {
         history.back();
       } else {

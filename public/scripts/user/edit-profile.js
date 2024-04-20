@@ -1,6 +1,5 @@
 const oldEmail = document.querySelector("input[name='email']").value;
 const OldPhone = document.querySelector("input[name='phone']").value;
-console.log(OldPhone + oldEmail);
 
 const name = document.querySelector("input[name='name']");
 const email = document.querySelector("input[name='email']");
@@ -84,7 +83,6 @@ const phoneValidate = () => {
 async function sendCode() {
   if (nameValidate() && emailValidate() && phoneValidate()) {
     if (email.value === oldEmail && phone.value === OldPhone) {
-      console.log("same");
       document.getElementById("details-form").submit();
       return;
     }
@@ -100,7 +98,6 @@ async function sendCode() {
       },
       dataType: "json",
       success: function (data) {
-        console.log(data);
         if (data.email === false || data.phone === false) {
           if (data.email === false) {
             emailWarning.innerText = "Email already taken!";

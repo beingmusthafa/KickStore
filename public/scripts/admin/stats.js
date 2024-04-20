@@ -35,8 +35,6 @@ $("document").ready(() => {
     url: "/admin/stats/get-category-graph",
     success: (res) => {
       for (category of res.categories) {
-        console.log(category.name);
-        console.log(category.orderCount);
         xValues.push(category.name);
         yValues.push(category.orderCount);
       }

@@ -27,7 +27,6 @@ function addCategory(name) {
 
 function viewProductDetails(id) {
   const link = "/admin/products/product-details?id=" + id;
-  console.log(link);
   window.location.href = link;
 }
 

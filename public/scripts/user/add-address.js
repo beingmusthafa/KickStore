@@ -90,7 +90,6 @@ async function submit() {
       },
       dataType: "json",
       success: function (data) {
-        console.log("success");
         window.location.href = "/profile";
       },
       error: (error) => {
