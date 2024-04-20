@@ -109,9 +109,7 @@ const filterProducts = async (req, res, next) => {
           category: {
             $regex: new RegExp(category, "i"),
           },
-          gender: {
-            $regex: new RegExp(gender, "i"),
-          },
+          gender: gender,
           $or: [
             {
               name: {
