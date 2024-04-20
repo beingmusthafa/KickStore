@@ -31,7 +31,6 @@ const showHome = async (req, res, next) => {
       slides,
       posters,
       genders,
-      // brands: brands,
     });
   } catch (error) {
     console.log(error);
@@ -42,7 +41,7 @@ const showHome = async (req, res, next) => {
 const search = async (req, res, next) => {
   try {
     const search = req.query.search;
-    const page = req.query.page ?? 1;
+    const page = !isNaN(req.query.page) ? Number(req.query.page) : 1;
     const result = await Products.paginate(
       {
         $or: [
@@ -134,12 +133,11 @@ const filterProducts = async (req, res, next) => {
           finalPrice: sort === "high" ? -1 : 1,
         },
       },
-      // Add any other stages here
     ];
 
     const aggregate = Products.aggregate(pipeline);
     const result = await Products.aggregatePaginate(aggregate, {
-      page: Number(page),
+      page: !isNaN(page) ? Number(page) : 1,
       limit: 15,
     });
     console.log(result.docs[0]);
